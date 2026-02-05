@@ -190,7 +190,7 @@ void ImuData::OnIMU(const GZ_MSGS_NAMESPACE IMU & _msg)
   this->imu_sensor_data_[9] = _msg.linear_acceleration().z();
 }
 
-class gz_ros2_control::GazeboSimSystemPrivate  // [ПОД ЗАМЕНУ]
+class gz_ros2_control::GazeboSimSystemPrivate  // [ПОД ЗАМЕНУ] тип данных для dataPtr
 {
 public:
   GazeboSimSystemPrivate() = default;
@@ -689,45 +689,45 @@ hardware_interface::return_type GazeboSimSystem::read(
 {
   // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] read");
 
-  for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) {
-    if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) {
+  for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) { //[объяснение] для каждого шарнира
+    if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) { //[объяснение] если шарнира нет - скип
       continue;
     }
 
     // Get the joint velocity
     const auto * jointVelocity =
       this->dataPtr->ecm->Component<sim::components::JointVelocity>(
-      this->dataPtr->joints_[i].sim_joint);
+      this->dataPtr->joints_[i].sim_joint); //[объяснение] получение скорости от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
 
     // Get the joint force via joint transmitted wrench
     const auto * jointWrench =
       this->dataPtr->ecm->Component<sim::components::JointTransmittedWrench>(
-      this->dataPtr->joints_[i].sim_joint);
+      this->dataPtr->joints_[i].sim_joint); //[объяснение] получение усилий от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
 
     // Get the joint position
     const auto * jointPositions =
       this->dataPtr->ecm->Component<sim::components::JointPosition>(
-      this->dataPtr->joints_[i].sim_joint);
+      this->dataPtr->joints_[i].sim_joint); //[объяснение] получение позиции от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
 
-    this->dataPtr->joints_[i].joint_position = jointPositions->Data()[0];
-    this->dataPtr->joints_[i].joint_velocity = jointVelocity->Data()[0];
-    GZ_PHYSICS_NAMESPACE Vector3d force_or_torque;
-    if (this->dataPtr->joints_[i].joint_type == sdf::JointType::PRISMATIC) {
+    this->dataPtr->joints_[i].joint_position = jointPositions->Data()[0]; // ..//..
+    this->dataPtr->joints_[i].joint_velocity = jointVelocity->Data()[0]; // ..//..
+    GZ_PHYSICS_NAMESPACE Vector3d force_or_torque; //[объяснение] буффер
+    if (this->dataPtr->joints_[i].joint_type == sdf::JointType::PRISMATIC) {  //[объяснение] проверка типа соединения
       force_or_torque = {jointWrench->Data().force().x(),
-        jointWrench->Data().force().y(), jointWrench->Data().force().z()};
+        jointWrench->Data().force().y(), jointWrench->Data().force().z()}; //[объяснение] заполнение force(_or_torque) данными вектора от поступательного шарнира
     } else {  // REVOLUTE and CONTINUOUS
       force_or_torque = {jointWrench->Data().torque().x(),
-        jointWrench->Data().torque().y(), jointWrench->Data().torque().z()};
+        jointWrench->Data().torque().y(), jointWrench->Data().torque().z()}; //[объяснение] заполнение (force_or_)torque данными вектора от вращательного шарнира
     }
     // Calculate the scalar effort along the joint axis
     this->dataPtr->joints_[i].joint_effort = force_or_torque.GZ_VECTOR_DOT(
       GZ_PHYSICS_NAMESPACE Vector3d{this->dataPtr->joints_[i].joint_axis.Xyz()[0],
         this->dataPtr->joints_[i].joint_axis.Xyz()[1],
-        this->dataPtr->joints_[i].joint_axis.Xyz()[2]});
+        this->dataPtr->joints_[i].joint_axis.Xyz()[2]}); //[объяснение] расчёт общего усилия на шарнир
   }
 
-  for (unsigned int i = 0; i < this->dataPtr->imus_.size(); ++i) {
-    if (this->dataPtr->imus_[i]->topicName.empty()) {
+  for (unsigned int i = 0; i < this->dataPtr->imus_.size(); ++i) { //[объяснение] для каждого датчика
+    if (this->dataPtr->imus_[i]->topicName.empty()) { //[объяснение] при отсутствии топика публикации
       auto sensorTopicComp = this->dataPtr->ecm->Component<
         sim::components::SensorTopic>(this->dataPtr->imus_[i]->sim_imu_sensors_);
       if (sensorTopicComp) {
@@ -741,7 +741,7 @@ hardware_interface::return_type GazeboSimSystem::read(
           this->dataPtr->imus_[i].get());
       }
     }
-  }
+  } //[объяснение] установка топика для датчика
 
   for (unsigned int i = 0; i < this->dataPtr->ft_sensors_.size(); ++i) {
     if (this->dataPtr->ft_sensors_[i]->topicName.empty()) {
@@ -758,7 +758,7 @@ hardware_interface::return_type GazeboSimSystem::read(
           this->dataPtr->ft_sensors_[i].get());
       }
     }
-  }
+  } //[объяснение] установка топика для датчика (тоже самое но для tf)
   // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] read OUT");
 
   return hardware_interface::return_type::OK;
