@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 4.0)
 
 project(microros_ros2_control)
 
@@ -83,6 +83,7 @@ target_link_libraries(gz_hardware_plugins
   ${GZ_SIM}
 )
 
+
 ## Install
 install(TARGETS
   gz_hardware_plugins
@@ -134,7 +135,7 @@ install(TARGETS ign_ros2_control-system
   DESTINATION lib
 )
 
-pluginlib_export_plugin_description_file(gz_ros2_control gz_hardware_plugins.xml)
+pluginlib_export_plugin_description_file(microros_ros2_control gz_hardware_plugins.xml)
 
 # Setup the project
 ament_package()

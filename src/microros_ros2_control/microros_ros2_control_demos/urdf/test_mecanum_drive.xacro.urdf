@@ -220,7 +220,7 @@
   <!-- Define the vehicles hardware, command and state interfaces -->
   <ros2_control name="GazeboSimSystem" type="system">
     <hardware>
-      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      <plugin>microros_ros2_control/GazeboSimSystem</plugin>
     </hardware>
     <joint name="front_left_wheel_joint">
       <command_interface name="velocity">
@@ -258,7 +258,7 @@
 
   <!-- ROS2 Control plugin and topic re-mapping -->
   <gazebo>
-    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+    <plugin filename="microros_ros2_control-system" name="microros_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find microros_ros2_control_demos)/config/mecanum_drive_controller.yaml</parameters>
       <ros>
         <remapping>/mecanum_drive_controller/reference:=/cmd_vel</remapping>

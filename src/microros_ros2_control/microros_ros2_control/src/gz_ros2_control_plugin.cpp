@@ -51,13 +51,13 @@
 
 #include <rclcpp/rclcpp.hpp>
 
-#include "gz_ros2_control/gz_ros2_control_plugin.hpp"
-#include "gz_ros2_control/gz_system.hpp"
+#include "microros_ros2_control/gz_ros2_control_plugin.hpp"
+#include "microros_ros2_control/gz_system.hpp"
 
-namespace gz_ros2_control
+namespace microros_ros2_control
 {
 //////////////////////////////////////////////////
-class GazeboSimROS2ControlPluginPrivate
+class GazeboSimROS2ControlPluginPrivate // dataPtr [Описание]
 {
 public:
   /// \brief Get the URDF XML from the parameter server
@@ -91,7 +91,7 @@ public:
 
   /// \brief Interface loader
   std::shared_ptr<pluginlib::ClassLoader<
-      gz_ros2_control::GazeboSimSystemInterface>>
+      microros_ros2_control::GazeboSimSystemInterface>>
   robot_hw_sim_loader_{nullptr};
 
   /// \brief Controller manager
@@ -149,7 +149,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
         {
           RCLCPP_INFO(
             node_->get_logger(),
-            "[gz_ros2_control] Fixed joint [%s] (Entity=%lu)] is skipped",
+            "[microros_ros2_control] Fixed joint [%s] (Entity=%lu)] is skipped",
             jointName.c_str(), jointEntity);
           continue;
         }
@@ -160,7 +160,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
         {
           RCLCPP_WARN(
             node_->get_logger(),
-            "[gz_ros2_control] Joint [%s] (Entity=%lu)] is of unsupported type."
+            "[microros_ros2_control] Joint [%s] (Entity=%lu)] is of unsupported type."
             " Only joints with a single axis are supported.",
             jointName.c_str(), jointEntity);
           continue;
@@ -169,7 +169,7 @@ GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
         {
           RCLCPP_WARN(
             node_->get_logger(),
-            "[gz_ros2_control] Joint [%s] (Entity=%lu)] is of unknown type",
+            "[microros_ros2_control] Joint [%s] (Entity=%lu)] is of unknown type",
             jointName.c_str(), jointEntity);
           continue;
         }
@@ -224,7 +224,7 @@ std::string GazeboSimROS2ControlPluginPrivate::getURDF() const
       break;
     } else {
       RCLCPP_ERROR(
-        node_->get_logger(), "gz_ros2_control plugin is waiting for model"
+        node_->get_logger(), "microros_ros2_control plugin is waiting for model"
         " URDF in parameter [%s] on the ROS param server.",
         this->robot_description_.c_str());
     }
@@ -261,8 +261,8 @@ void GazeboSimROS2ControlPlugin::Configure(
   if (!model.Valid(_ecm)) {
     RCLCPP_ERROR(
       logger,
-      "[gz_ros2_control] Failed to initialize because [%s] (Entity=%lu)] is not a model."
-      "Please make sure that gz_ros2_control is attached to a valid model.",
+      "[microros_ros2_control] Failed to initialize because [%s] (Entity=%lu)] is not a model."
+      "Please make sure that microros_ros2_control is attached to a valid model.",
       model.Name(_ecm).c_str(), _entity);
     return;
   }
@@ -273,7 +273,7 @@ void GazeboSimROS2ControlPlugin::Configure(
   if (paramFileName.empty()) {
     RCLCPP_ERROR(
       logger,
-      "gz_ros2_control found an empty parameters file. Failed to initialize.");
+      "microros_ros2_control found an empty parameters file. Failed to initialize.");
     return;
   }
 
@@ -350,7 +350,7 @@ void GazeboSimROS2ControlPlugin::Configure(
     rclcpp::init(static_cast<int>(argv.size()), argv.data());
   }
 
-  std::string node_name = "gz_ros2_control";
+  std::string node_name = "microros_ros2_control";
   this->dataPtr->node_ = rclcpp::Node::make_shared(node_name, ns);
   this->dataPtr->executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
   this->dataPtr->executor_->add_node(this->dataPtr->node_);
@@ -403,7 +403,7 @@ void GazeboSimROS2ControlPlugin::Configure(
   }
 
   RCLCPP_DEBUG_STREAM(
-    this->dataPtr->node_->get_logger(), "[gz_ros2_control] Setting up controller for [" <<
+    this->dataPtr->node_->get_logger(), "[microros_ros2_control] Setting up controller for [" <<
       model.Name(_ecm) << "] (Entity=" << _entity << ")].");
 
   // Get list of enabled joints
@@ -414,7 +414,7 @@ void GazeboSimROS2ControlPlugin::Configure(
   if (enabledJoints.size() == 0) {
     RCLCPP_DEBUG_STREAM(
       this->dataPtr->node_->get_logger(),
-      "[gz_ros2_control] There are no available Joints.");
+      "[microros_ros2_control] There are no available Joints.");
     return;
   }
 
@@ -427,7 +427,7 @@ void GazeboSimROS2ControlPlugin::Configure(
   } catch (const std::runtime_error & ex) {
     RCLCPP_ERROR_STREAM(
       this->dataPtr->node_->get_logger(),
-      "Error parsing URDF in gz_ros2_control plugin, plugin not active : " << ex.what());
+      "Error parsing URDF in microros_ros2_control plugin, plugin not active : " << ex.what());
     return;
   }
 
@@ -442,9 +442,9 @@ void GazeboSimROS2ControlPlugin::Configure(
   }
   try {
     this->dataPtr->robot_hw_sim_loader_.reset(
-      new pluginlib::ClassLoader<gz_ros2_control::GazeboSimSystemInterface>(
-        "gz_ros2_control",
-        "gz_ros2_control::GazeboSimSystemInterface"));
+      new pluginlib::ClassLoader<microros_ros2_control::GazeboSimSystemInterface>(
+        "microros_ros2_control",
+        "microros_ros2_control::GazeboSimSystemInterface"));
   } catch (pluginlib::LibraryLoadException & ex) {
     RCLCPP_ERROR(
       this->dataPtr->node_->get_logger(), "Failed to create robot simulation interface loader: %s ",
@@ -454,13 +454,13 @@ void GazeboSimROS2ControlPlugin::Configure(
 
   for (unsigned int i = 0; i < control_hardware_info.size(); ++i) {
     std::string robot_hw_sim_type_str_ = control_hardware_info[i].hardware_class_type;
-    std::unique_ptr<gz_ros2_control::GazeboSimSystemInterface> gzSimSystem;
+    std::unique_ptr<microros_ros2_control::GazeboSimSystemInterface> gzSimSystem;
     RCLCPP_DEBUG(
       this->dataPtr->node_->get_logger(), "Load hardware interface %s ...",
       robot_hw_sim_type_str_.c_str());
 
     try {
-      gzSimSystem = std::unique_ptr<gz_ros2_control::GazeboSimSystemInterface>(
+      gzSimSystem = std::unique_ptr<microros_ros2_control::GazeboSimSystemInterface>(
         this->dataPtr->robot_hw_sim_loader_->createUnmanagedInstance(robot_hw_sim_type_str_));
     } catch (pluginlib::PluginlibException & ex) {
       RCLCPP_ERROR(
@@ -575,32 +575,32 @@ void GazeboSimROS2ControlPlugin::PostUpdate(
   if (sim_period >= this->dataPtr->control_period_) {
     this->dataPtr->last_update_sim_time_ros_ = sim_time_ros;
     auto gz_controller_manager =
-      std::dynamic_pointer_cast<gz_ros2_control::GazeboSimSystemInterface>(
+      std::dynamic_pointer_cast<microros_ros2_control::GazeboSimSystemInterface>(
       this->dataPtr->controller_manager_);
     this->dataPtr->controller_manager_->read(sim_time_ros, sim_period);
     this->dataPtr->controller_manager_->update(sim_time_ros, sim_period);
   }
 }
-}  // namespace gz_ros2_control
+}  // namespace microros_ros2_control
 
 #ifdef GZ_HEADERS
 GZ_ADD_PLUGIN(
-  gz_ros2_control::GazeboSimROS2ControlPlugin,
+  microros_ros2_control::GazeboSimROS2ControlPlugin,
   sim::System,
-  gz_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
-  gz_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
-  gz_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
+  microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
+  microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
+  microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
 GZ_ADD_PLUGIN_ALIAS(
-  gz_ros2_control::GazeboSimROS2ControlPlugin,
+  microros_ros2_control::GazeboSimROS2ControlPlugin,
   "ign_ros2_control::IgnitionROS2ControlPlugin")
 #else
 IGNITION_ADD_PLUGIN(
-  gz_ros2_control::GazeboSimROS2ControlPlugin,
+  microros_ros2_control::GazeboSimROS2ControlPlugin,
   sim::System,
-  gz_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
-  gz_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
-  gz_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
+  microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
+  microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
+  microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
 IGNITION_ADD_PLUGIN_ALIAS(
-  gz_ros2_control::GazeboSimROS2ControlPlugin,
+  microros_ros2_control::GazeboSimROS2ControlPlugin,
   "ign_ros2_control::IgnitionROS2ControlPlugin")
 #endif

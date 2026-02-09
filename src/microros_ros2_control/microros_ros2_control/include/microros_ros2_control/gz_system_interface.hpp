@@ -34,7 +34,7 @@ namespace sim = ignition::gazebo;
 
 #include <rclcpp/rclcpp.hpp>
 
-namespace gz_ros2_control
+namespace microros_ros2_control
 {
 
 /// \brief This class allows us to handle flags easily, instead of using strings
@@ -110,6 +110,6 @@ protected:
   rclcpp::Node::SharedPtr nh_;
 };
 
-}  // namespace gz_ros2_control
+}  // namespace microros_ros2_control
 
 #endif  // GZ_ROS2_CONTROL__GZ_SYSTEM_INTERFACE_HPP_

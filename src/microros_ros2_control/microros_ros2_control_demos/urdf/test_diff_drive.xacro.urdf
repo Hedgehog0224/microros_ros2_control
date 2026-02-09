@@ -148,7 +148,7 @@
 
   <ros2_control name="GazeboSimSystem" type="system">
     <hardware>
-      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      <plugin>microros_ros2_control/GazeboSimSystem</plugin>
     </hardware>
     
     <joint name="left_wheel_joint">
@@ -170,7 +170,7 @@
   </ros2_control>
 
   <gazebo>
-    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+    <plugin filename="microros_ros2_control-system" name="microros_ros2_control::GazeboSimROS2ControlPlugin">
       <ros>
         <namespace>$(arg namespace)</namespace>
       </ros>

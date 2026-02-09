@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 4.0)
 project(microros_ros2_control_demos)
 
 # Default to C11

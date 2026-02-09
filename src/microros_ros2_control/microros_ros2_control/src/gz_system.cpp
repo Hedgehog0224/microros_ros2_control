@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "gz_ros2_control/gz_system.hpp"
+#include "microros_ros2_control/gz_system.hpp"
 
 #include <array>
 #include <cstddef>
@@ -117,7 +117,7 @@ struct jointData
   sim::Entity sim_joint;
 
   /// \brief Control method defined in the URDF for each joint.
-  gz_ros2_control::GazeboSimSystemInterface::ControlMethod joint_control_method;
+  microros_ros2_control::GazeboSimSystemInterface::ControlMethod joint_control_method;
 };
 
 struct MimicJoint
@@ -190,7 +190,7 @@ void ImuData::OnIMU(const GZ_MSGS_NAMESPACE IMU & _msg)
   this->imu_sensor_data_[9] = _msg.linear_acceleration().z();
 }
 
-class gz_ros2_control::GazeboSimSystemPrivate  // [ПОД ЗАМЕНУ] тип данных для dataPtr
+class microros_ros2_control::GazeboSimSystemPrivate  // [ПОД ЗАМЕНУ] тип данных для dataPtr
 {
 public:
   GazeboSimSystemPrivate() = default;
@@ -234,7 +234,7 @@ public:
   double position_proportional_gain_;
 };
 
-namespace gz_ros2_control
+namespace microros_ros2_control
 {
 bool GazeboSimSystem::initSim(
   rclcpp::Node::SharedPtr & model_nh,
@@ -621,25 +621,25 @@ CallbackReturn GazeboSimSystem::on_init(const hardware_interface::HardwareInfo &
   if (hardware_interface::SystemInterface::on_init(system_info) != CallbackReturn::SUCCESS) {
     return CallbackReturn::ERROR;
   }
-  if (system_info.hardware_class_type.compare("gz_ros2_control/GazeboSimSystem") != 0) {
-  // if (system_info.hardware_class_type.compare("gz_ros2_control/ewefgw") != 0) {
+  if (system_info.hardware_class_type.compare("microros_ros2_control/GazeboSimSystem") != 0) {
+  // if (system_info.hardware_class_type.compare("microros_ros2_control/ewefgw") != 0) {
     RCLCPP_WARN(
       this->nh_->get_logger(),
-      "The ign_ros2_control plugin got renamed to gz_ros2_control.\n"
+      "The ign_ros2_control plugin got renamed to microros_ros2_control.\n"
       "Update the <ros2_control> tag and gazebo plugin to\n"
       "<hardware>\n"
-      "  <plugin>gz_ros2_control/GazeboSimSystem</plugin>\n"
+      "  <plugin>microros_ros2_control/GazeboSimSystem</plugin>\n"
       "</hardware>\n"
       "<gazebo>\n"
-      "  <plugin filename=\"gz_ros2_control-system\""
-      "name=\"gz_ros2_control::GazeboSimROS2ControlPlugin\">\n"
+      "  <plugin filename=\"microros_ros2_control-system\""
+      "name=\"microros_ros2_control::GazeboSimROS2ControlPlugin\">\n"
       "    ...\n"
       "  </plugin>\n"
       "</gazebo>"
     );
   }
-  if (system_info.hardware_class_type.compare("gz_ros2_control/GazeboSimSystem") != 0) {
-  // if (system_info.hardware_class_type.compare("gz_ros2_control/ewefgw") != 0) {
+  if (system_info.hardware_class_type.compare("microros_ros2_control/GazeboSimSystem") != 0) {
+  // if (system_info.hardware_class_type.compare("microros_ros2_control/ewefgw") != 0) {
     RCLCPP_WARN(
       this->nh_->get_logger(),
       "НОВЫЙ"
@@ -711,6 +711,11 @@ hardware_interface::return_type GazeboSimSystem::read(
 
     this->dataPtr->joints_[i].joint_position = jointPositions->Data()[0]; // ..//..
     this->dataPtr->joints_[i].joint_velocity = jointVelocity->Data()[0]; // ..//..
+    // RCLCPP_INFO(this->nh_->get_logger(), "> joint_position: %.3f; > joint_velocity: %.3f", this->dataPtr->joints_[i].joint_position, this->dataPtr->joints_[i].joint_velocity);
+    // this->dataPtr->joints_[i].joint_position = 1.26; // ..//..
+    this->dataPtr->joints_[i].joint_velocity = -1.26; // ..//..
+    // RCLCPP_INFO(this->nh_->get_logger(), "< joint_position: %.3f; < joint_velocity: %.3f", this->dataPtr->joints_[i].joint_position, this->dataPtr->joints_[i].joint_velocity);
+
     GZ_PHYSICS_NAMESPACE Vector3d force_or_torque; //[объяснение] буффер
     if (this->dataPtr->joints_[i].joint_type == sdf::JointType::PRISMATIC) {  //[объяснение] проверка типа соединения
       force_or_torque = {jointWrench->Data().force().x(),
@@ -818,54 +823,58 @@ hardware_interface::return_type GazeboSimSystem::write(
   const rclcpp::Duration & /*period*/)
 {
   // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] write");
-
-  for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) {
+  for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) { //[объяснение] для каждого шарнира
     if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) {
       continue;
     }
 
-    if (this->dataPtr->joints_[i].joint_control_method & VELOCITY) {
-      if (!this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
+    if (this->dataPtr->joints_[i].joint_control_method & VELOCITY) { //[объяснение] если установлен режим для контроллера скорости (x1x)
+      // RCLCPP_INFO(this->nh_->get_logger(), "[IF] 1");
+      if (!this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>( //[объяснение] если не найден компонент JointVelocityCmd, то он создаёться
           this->dataPtr->joints_[i].sim_joint))
       {
         this->dataPtr->ecm->CreateComponent(
           this->dataPtr->joints_[i].sim_joint,
           sim::components::JointVelocityCmd({0}));
-      } else {
+      } else { //[объяснение] если компонент JointVelocityCmd есть, то устанавливаем значение this->dataPtr->joints_[i].joint_velocity_cmd
         const auto jointVelCmd =
           this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
           this->dataPtr->joints_[i].sim_joint);
+        // *jointVelCmd = sim::components::JointVelocityCmd(
+        //   {this->dataPtr->joints_[i].joint_velocity_cmd});
         *jointVelCmd = sim::components::JointVelocityCmd(
-          {this->dataPtr->joints_[i].joint_velocity_cmd});
+          {1.126});
       }
-    } else if (this->dataPtr->joints_[i].joint_control_method & POSITION) {
+    } else if (this->dataPtr->joints_[i].joint_control_method & POSITION) { //[объяснение] если установлен режим для контроллера положения (xx1)
+      RCLCPP_INFO(this->nh_->get_logger(), "[IF] 2");
       // Get error in position
       double error;
       error = (this->dataPtr->joints_[i].joint_position -
-        this->dataPtr->joints_[i].joint_position_cmd) * *this->dataPtr->update_rate;
+        this->dataPtr->joints_[i].joint_position_cmd) * *this->dataPtr->update_rate; //[объяснение] ошибка положения в еденицах скорости (попугаи)
 
       // Calculate target velcity
-      double target_vel = -this->dataPtr->position_proportional_gain_ * error;
+      double target_vel = -this->dataPtr->position_proportional_gain_ * error; //[объяснение] вычисление целевой скорости
 
       auto vel =
-        this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
+        this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>( //[объяснение] получение компонента от Gazebo
         this->dataPtr->joints_[i].sim_joint);
 
-      if (vel == nullptr) {
+      if (vel == nullptr) { //[объяснение] если нет копонента
         this->dataPtr->ecm->CreateComponent(
           this->dataPtr->joints_[i].sim_joint,
-          sim::components::JointVelocityCmd({target_vel}));
-      } else if (!vel->Data().empty()) {
+          sim::components::JointVelocityCmd({target_vel})); //[объяснение] создаёться с целевой скоростью
+      } else if (!vel->Data().empty()) { //[объяснение] если скорость компонента не пустая, присваеваеться целевая
         vel->Data()[0] = target_vel;
       }
-    } else if (this->dataPtr->joints_[i].joint_control_method & EFFORT) {
-      if (!this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
+    } else if (this->dataPtr->joints_[i].joint_control_method & EFFORT) { //[объяснение] если установлен режим для контроллера усилиия (1xx)
+      RCLCPP_INFO(this->nh_->get_logger(), "[IF] 3");
+      if (!this->dataPtr->ecm->Component<sim::components::JointForceCmd>( //[объяснение] если компонент не существует, то он создаёться
           this->dataPtr->joints_[i].sim_joint))
       {
         this->dataPtr->ecm->CreateComponent(
           this->dataPtr->joints_[i].sim_joint,
           sim::components::JointForceCmd({0}));
-      } else {
+      } else { //[объяснение] если компонент jointEffortCmd есть, то устанавливаем значение this->dataPtr->joints_[i].joint_effort_cmd
         const auto jointEffortCmd =
           this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
           this->dataPtr->joints_[i].sim_joint);
@@ -874,23 +883,24 @@ hardware_interface::return_type GazeboSimSystem::write(
       }
     } else if (this->dataPtr->joints_[i].is_actuated) {
       // Fallback case is a velocity command of zero (only for actuated joints)
+      // Резервный вариант - нулевая скорость (только для приводимых в действие шарниров)
       double target_vel = 0.0;
       auto vel =
         this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
         this->dataPtr->joints_[i].sim_joint);
-
       if (vel == nullptr) {
         this->dataPtr->ecm->CreateComponent(
           this->dataPtr->joints_[i].sim_joint,
           sim::components::JointVelocityCmd({target_vel}));
       } else if (!vel->Data().empty()) {
         vel->Data()[0] = target_vel;
-      }
+      } //[объяснение] создаёться компонент JointVelocityCmd, с нулевой скоростью
     }
   }
 
-  // set values of all mimic joints with respect to mimicked joint
+  // set values of all mimic joints with respect to mimicked joint //[объяснение] Только для Gazebo, повторяет движение настоящих шарниров
   for (const auto & mimic_joint : this->dataPtr->mimic_joints_) {
+    
     for (const auto & mimic_interface : mimic_joint.interfaces_to_mimic) {
       if (mimic_interface == "position") {
         // Get the joint position
@@ -967,11 +977,11 @@ hardware_interface::return_type GazeboSimSystem::write(
 
   return hardware_interface::return_type::OK;
 }
-}  // namespace gz_ros2_control
+}  // namespace microros_ros2_control
 
 #include "pluginlib/class_list_macros.hpp"  // NOLINT
 PLUGINLIB_EXPORT_CLASS(
-  gz_ros2_control::GazeboSimSystem, gz_ros2_control::GazeboSimSystemInterface)
+  microros_ros2_control::GazeboSimSystem, microros_ros2_control::GazeboSimSystemInterface)
 // for backward compatibility with Ignition Gazebo
 PLUGINLIB_EXPORT_CLASS(
-  ign_ros2_control::IgnitionSystem, gz_ros2_control::GazeboSimSystemInterface)
+  ign_ros2_control::IgnitionSystem, microros_ros2_control::GazeboSimSystemInterface)

@@ -21,18 +21,18 @@
 #include <string>
 #include <vector>
 
-#include "gz_ros2_control/gz_system_interface.hpp"
+#include "microros_ros2_control/gz_system_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 
-namespace gz_ros2_control
+namespace microros_ros2_control
 {
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
 // Forward declaration
 class GazeboSimSystemPrivate;
 
-// These class must inherit `gz_ros2_control::GazeboSimSystemInterface` which implements a
+// These class must inherit `microros_ros2_control::GazeboSimSystemInterface` which implements a
 // simulated `ros2_control` `hardware_interface::SystemInterface`.
 
 class GazeboSimSystem : public GazeboSimSystemInterface
@@ -90,12 +90,12 @@ private:
   std::unique_ptr<GazeboSimSystemPrivate> dataPtr;
 };
 
-}  // namespace gz_ros2_control
+}  // namespace microros_ros2_control
 
 // for backward compatibility
 namespace ign_ros2_control
 {
-using IgnitionSystem = gz_ros2_control::GazeboSimSystem;
+using IgnitionSystem = microros_ros2_control::GazeboSimSystem;
 }  // namespace ign_ros2_control
 
 #endif  // GZ_ROS2_CONTROL__GZ_SYSTEM_HPP_

@@ -25,7 +25,7 @@ namespace sim = gz::sim;
 namespace sim = ignition::gazebo;
 #endif
 
-namespace gz_ros2_control
+namespace microros_ros2_control
 {
 // Forward declarations.
 class GazeboSimROS2ControlPluginPrivate;
@@ -63,6 +63,6 @@ private:
   /// \brief Private data pointer.
   std::unique_ptr<GazeboSimROS2ControlPluginPrivate> dataPtr;
 };
-}  // namespace gz_ros2_control
+}  // namespace microros_ros2_control
 
 #endif  // GZ_ROS2_CONTROL__GZ_ROS2_CONTROL_PLUGIN_HPP_
