@@ -236,27 +236,27 @@ public:
 
 namespace microros_ros2_control
 {
-bool GazeboSimSystem::initSim(
-  rclcpp::Node::SharedPtr & model_nh,
-  std::map<std::string, sim::Entity> & enableJoints,
-  const hardware_interface::HardwareInfo & hardware_info,
-  sim::EntityComponentManager & _ecm,
-  int & update_rate)
+bool GazeboSimSystem::initSim( //[объяснение] инициализация системного интерфейса //хард-нет
+  rclcpp::Node::SharedPtr & model_nh, //[объяснение] Указатель на ноду
+  std::map<std::string, sim::Entity> & enableJoints, //[объяснение] Карта с названием соединения в качестве ключа и значением, связанным с объектом в Gazebo
+  const hardware_interface::HardwareInfo & hardware_info, //[объяснение] поле с данными от URDF
+  sim::EntityComponentManager & _ecm, //[объяснение] Entity-component manager
+  int & update_rate) //[объяснение] частота контороллера
 {
-  this->dataPtr = std::make_unique<GazeboSimSystemPrivate>();
-  this->dataPtr->last_update_sim_time_ros_ = rclcpp::Time();
+  this->dataPtr = std::make_unique<GazeboSimSystemPrivate>(); //[объяснение] создание обекта с данными о системе <GazeboSimSystemPrivate>
+  this->dataPtr->last_update_sim_time_ros_ = rclcpp::Time(); //[объяснение] установка времени
 
-  this->nh_ = model_nh;
-  this->dataPtr->ecm = &_ecm;
-  this->dataPtr->n_dof_ = hardware_info.joints.size();
+  this->nh_ = model_nh; //[объяснение] установка ноды
+  this->dataPtr->ecm = &_ecm; //[объяснение] установка мэнеджера от газебо
+  this->dataPtr->n_dof_ = hardware_info.joints.size(); //[объяснение] установка степеней свободы
 
-  this->dataPtr->update_rate = &update_rate;
+  this->dataPtr->update_rate = &update_rate; //[объяснение] установка частоты контроллера
 
   RCLCPP_INFO(this->nh_->get_logger(), "n_dof_ %lu", this->dataPtr->n_dof_);
 
-  this->dataPtr->joints_.resize(this->dataPtr->n_dof_);
+  this->dataPtr->joints_.resize(this->dataPtr->n_dof_); //[объяснение] создаёт вектор с длинной = степеней свободы
 
-  constexpr double default_gain = 0.1;
+  constexpr double default_gain = 0.1; //[объяснение] коэф усиления
 
   try {
     this->dataPtr->position_proportional_gain_ = this->nh_->declare_parameter<double>(
@@ -276,48 +276,48 @@ bool GazeboSimSystem::initSim(
     return false;
   }
 
-  for (unsigned int j = 0; j < this->dataPtr->n_dof_; j++) {
-    auto & joint_info = hardware_info.joints[j];
+  for (unsigned int j = 0; j < this->dataPtr->n_dof_; j++) { //[объяснение] для каждого шарнира
+    auto & joint_info = hardware_info.joints[j]; //[объяснение] получения информации от контроллера
      
-    std::string joint_name = this->dataPtr->joints_[j].name = joint_info.name;
+    std::string joint_name = this->dataPtr->joints_[j].name = joint_info.name; //[объяснение] пол
 
-    auto it = enableJoints.find(joint_name);
-    if (it == enableJoints.end()) {
+    auto it = enableJoints.find(joint_name); //[объяснение]
+    if (it == enableJoints.end()) { //[объяснение]
       RCLCPP_WARN_STREAM(
         this->nh_->get_logger(), "Skipping joint in the URDF named '" << joint_name <<
           "' which is not in the gazebo model.");
       continue;
     }
 
-    sim::Entity simjoint = enableJoints[joint_name];
-    this->dataPtr->joints_[j].sim_joint = simjoint;
-    this->dataPtr->joints_[j].joint_type = _ecm.Component<sim::components::JointType>(
+    sim::Entity simjoint = enableJoints[joint_name]; //[объяснение]
+    this->dataPtr->joints_[j].sim_joint = simjoint; //[объяснение]
+    this->dataPtr->joints_[j].joint_type = _ecm.Component<sim::components::JointType>( //[объяснение]
       simjoint)->Data();
-    this->dataPtr->joints_[j].joint_axis = _ecm.Component<sim::components::JointAxis>(
+    this->dataPtr->joints_[j].joint_axis = _ecm.Component<sim::components::JointAxis>( //[объяснение]
       simjoint)->Data();
 
     // Create joint position component if one doesn't exist
-    if (!_ecm.EntityHasComponentType(
+    if (!_ecm.EntityHasComponentType( //[объяснение]
         simjoint,
         sim::components::JointPosition().TypeId()))
     {
-      _ecm.CreateComponent(simjoint, sim::components::JointPosition());
+      _ecm.CreateComponent(simjoint, sim::components::JointPosition()); //[объяснение]
     }
 
     // Create joint velocity component if one doesn't exist
-    if (!_ecm.EntityHasComponentType(
+    if (!_ecm.EntityHasComponentType( //[объяснение]
         simjoint,
         sim::components::JointVelocity().TypeId()))
     {
-      _ecm.CreateComponent(simjoint, sim::components::JointVelocity());
+      _ecm.CreateComponent(simjoint, sim::components::JointVelocity()); //[объяснение]
     }
 
     // Create joint transmitted wrench component if one doesn't exist
-    if (!_ecm.EntityHasComponentType(
+    if (!_ecm.EntityHasComponentType( //[объяснение]
         simjoint,
         sim::components::JointTransmittedWrench().TypeId()))
     {
-      _ecm.CreateComponent(simjoint, sim::components::JointTransmittedWrench());
+      _ecm.CreateComponent(simjoint, sim::components::JointTransmittedWrench()); //[объяснение]
     }
 
     // Accept this joint and continue configuration
@@ -494,7 +494,7 @@ bool GazeboSimSystem::initSim(
   return true;
 }
 
-void GazeboSimSystem::registerSensors(
+void GazeboSimSystem::registerSensors( //хард-нет
   const hardware_interface::HardwareInfo & hardware_info)
 {
   // Collect gazebo sensor handles
@@ -616,7 +616,7 @@ void GazeboSimSystem::registerSensors(
 
 }
 
-CallbackReturn GazeboSimSystem::on_init(const hardware_interface::HardwareInfo & system_info)
+CallbackReturn GazeboSimSystem::on_init(const hardware_interface::HardwareInfo & system_info) // Инициализация аппаратного интерфейса на основе данных, полученных из URDF-файла робота.
 {
   if (hardware_interface::SystemInterface::on_init(system_info) != CallbackReturn::SUCCESS) {
     return CallbackReturn::ERROR;
@@ -649,7 +649,7 @@ CallbackReturn GazeboSimSystem::on_init(const hardware_interface::HardwareInfo &
   return CallbackReturn::SUCCESS;
 }
 
-CallbackReturn GazeboSimSystem::on_configure(
+CallbackReturn GazeboSimSystem::on_configure( // состояние
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
   RCLCPP_INFO(
@@ -658,24 +658,24 @@ CallbackReturn GazeboSimSystem::on_configure(
 }
 
 std::vector<hardware_interface::StateInterface>
-GazeboSimSystem::export_state_interfaces()
+GazeboSimSystem::export_state_interfaces() // Экспортирует все интерфейсы состояния для данного аппаратного интерфейса.
 {
   return std::move(this->dataPtr->state_interfaces_);
 }
 
 std::vector<hardware_interface::CommandInterface>
-GazeboSimSystem::export_command_interfaces()
+GazeboSimSystem::export_command_interfaces() // Экспортирует все командные интерфейсы для данного аппаратного интерфейса.
 {
   return std::move(this->dataPtr->command_interfaces_);
 }
 
-CallbackReturn GazeboSimSystem::on_activate(const rclcpp_lifecycle::State & previous_state)
+CallbackReturn GazeboSimSystem::on_activate(const rclcpp_lifecycle::State & previous_state) // состояние
 {
   return CallbackReturn::SUCCESS;
   return hardware_interface::SystemInterface::on_activate(previous_state);
 }
 
-CallbackReturn GazeboSimSystem::on_deactivate(const rclcpp_lifecycle::State & previous_state)
+CallbackReturn GazeboSimSystem::on_deactivate(const rclcpp_lifecycle::State & previous_state) // состояние
 {
   RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] on_deactivate");
 
@@ -683,7 +683,7 @@ CallbackReturn GazeboSimSystem::on_deactivate(const rclcpp_lifecycle::State & pr
   return hardware_interface::SystemInterface::on_deactivate(previous_state);
 }
 
-hardware_interface::return_type GazeboSimSystem::read(
+hardware_interface::return_type GazeboSimSystem::read( // Считайте текущие значения состояния привода.
   const rclcpp::Time & /*time*/,
   const rclcpp::Duration & /*period*/)
 {
@@ -770,7 +770,7 @@ hardware_interface::return_type GazeboSimSystem::read(
 }
 
 hardware_interface::return_type
-GazeboSimSystem::perform_command_mode_switch(
+GazeboSimSystem::perform_command_mode_switch( // Выполните переключение режимов для новой комбинации командного интерфейса.
   const std::vector<std::string> & start_interfaces,
   const std::vector<std::string> & stop_interfaces)
 {
@@ -812,13 +812,10 @@ GazeboSimSystem::perform_command_mode_switch(
       }
     }
   }
-
-  RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] perform_command_mode_switch");
-
   return hardware_interface::return_type::OK;
 }
 
-hardware_interface::return_type GazeboSimSystem::write(
+hardware_interface::return_type GazeboSimSystem::write( // Запишите текущие значения команд в привод.
   const rclcpp::Time & /*time*/,
   const rclcpp::Duration & /*period*/)
 {
@@ -840,10 +837,10 @@ hardware_interface::return_type GazeboSimSystem::write(
         const auto jointVelCmd =
           this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
           this->dataPtr->joints_[i].sim_joint);
-        // *jointVelCmd = sim::components::JointVelocityCmd(
-        //   {this->dataPtr->joints_[i].joint_velocity_cmd});
         *jointVelCmd = sim::components::JointVelocityCmd(
-          {1.126});
+          {this->dataPtr->joints_[i].joint_velocity_cmd});
+        // *jointVelCmd = sim::components::JointVelocityCmd(
+        //   {1.126});
       }
     } else if (this->dataPtr->joints_[i].joint_control_method & POSITION) { //[объяснение] если установлен режим для контроллера положения (xx1)
       RCLCPP_INFO(this->nh_->get_logger(), "[IF] 2");
@@ -896,6 +893,10 @@ hardware_interface::return_type GazeboSimSystem::write(
         vel->Data()[0] = target_vel;
       } //[объяснение] создаёться компонент JointVelocityCmd, с нулевой скоростью
     }
+      // RCLCPP_INFO(this->nh_->get_logger(), "joint_effort_cmd: %.3f, joint_position_cmd: %.3f, joint_velocity_cmd: %.3f", 
+      //                                       this->dataPtr->joints_[i].joint_effort_cmd, 
+      //                                       this->dataPtr->joints_[i].joint_position_cmd, 
+      //                                       this->dataPtr->joints_[i].joint_velocity_cmd);
   }
 
   // set values of all mimic joints with respect to mimicked joint //[объяснение] Только для Gazebo, повторяет движение настоящих шарниров

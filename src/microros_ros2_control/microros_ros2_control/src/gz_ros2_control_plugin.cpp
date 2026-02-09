@@ -56,6 +56,7 @@
 
 namespace microros_ros2_control
 {
+  // ВСЁ ДЛЯ ГАЗЕБО
 //////////////////////////////////////////////////
 class GazeboSimROS2ControlPluginPrivate // dataPtr [Описание]
 {
@@ -230,7 +231,7 @@ std::string GazeboSimROS2ControlPluginPrivate::getURDF() const
     }
     std::this_thread::sleep_for(std::chrono::microseconds(100000));
   }
-  RCLCPP_INFO(node_->get_logger(), "Received URDF from param server");
+  RCLCPP_DEBUG(node_->get_logger(), "Received URDF from param server: %s", urdf_string.c_str()); // буквально urdf
 
   return urdf_string;
 }
@@ -255,7 +256,7 @@ void GazeboSimROS2ControlPlugin::Configure(
   sim::EntityComponentManager & _ecm,
   sim::EventManager &)
 {
-  rclcpp::Logger logger = rclcpp::get_logger("GazeboSimROS2ControlPlugin");
+  rclcpp::Logger logger = rclcpp::get_logger("(GazeboSim)MicroROS2ControlPlugin");
   // Make sure the controller is attached to a valid model
   const auto model = sim::Model(_entity);
   if (!model.Valid(_ecm)) {
