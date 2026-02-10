@@ -80,7 +80,6 @@
 #endif
 
 #include <hardware_interface/hardware_info.hpp>
-const float MAX_SPEED = 1000.0f; // 2900
 
 struct jointData
 {
@@ -688,12 +687,12 @@ CallbackReturn GazeboSimSystem::on_deactivate(const rclcpp_lifecycle::State & pr
 }
 
 const void GazeboSimSystem::micro_ros_callback(const std_msgs::msg::Int16MultiArray & msg) {
-  for (int i = 0; i < 2; i++){
-    this->velocity_from_micro_ros_[i] = int(msg.data[i+1]/MAX_SPEED); // max 2900
-    if (abs(this->velocity_from_micro_ros_[i]) > 1) { 
-      this->velocity_from_micro_ros_[i] = 1 * (this->velocity_from_micro_ros_[i]/abs(this->velocity_from_micro_ros_[i])); 
+    for (int i = 0; i < 2; i++){
+      this->velocity_from_micro_ros_[i] = float(msg.data[i+1]/2900.0f); // max 2900
+      if (abs(this->velocity_from_micro_ros_[i]) > 1) { 
+        this->velocity_from_micro_ros_[i] = 1 * (this->velocity_from_micro_ros_[i]/abs(this->velocity_from_micro_ros_[i])); 
+      }
     }
-  }
 }
 
 hardware_interface::return_type GazeboSimSystem::read( // Считайте текущие значения состояния привода.
@@ -707,7 +706,7 @@ hardware_interface::return_type GazeboSimSystem::read( // Считайте те�
     //   continue;
     // }
 
-    // // Get the joint velocity
+    // Get the joint velocity
     // const auto * jointVelocity =
     //   this->dataPtr->ecm->Component<sim::components::JointVelocity>(
     //   this->dataPtr->joints_[i].sim_joint); //[объяснение] получение скорости от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
@@ -719,16 +718,13 @@ hardware_interface::return_type GazeboSimSystem::read( // Считайте те�
 
     // // Get the joint position
     // const auto * jointPositions =
-    //  this->dataPtr->ecm->Component<sim::components::JointPosition>(
-    //  this->dataPtr->joints_[i].sim_joint); //[объяснение] получение позиции от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
+    //   this->dataPtr->ecm->Component<sim::components::JointPosition>(
+    //   this->dataPtr->joints_[i].sim_joint); //[объяснение] получение позиции от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
 
     // this->dataPtr->joints_[i].joint_position = jointPositions->Data()[0];
+
     // this->dataPtr->joints_[i].joint_velocity = jointVelocity->Data()[0];
-    // this->dataPtr->joints_[i].joint_position = 0;
     this->dataPtr->joints_[i].joint_velocity = this->velocity_from_micro_ros_[i];
-    
-    
-    // RCLCPP_INFO(this->nh_->get_logger(), "> joint_position: %.3f; > joint_velocity: %.3f", this->dataPtr->joints_[i].joint_position, this->dataPtr->joints_[i].joint_velocity);
     // RCLCPP_INFO(this->nh_->get_logger(), "< joint_position: %.3f; < joint_velocity: %.3f", this->dataPtr->joints_[i].joint_position, this->dataPtr->joints_[i].joint_velocity);
 
     // GZ_PHYSICS_NAMESPACE Vector3d force_or_torque; //[объяснение] буффер
@@ -739,11 +735,11 @@ hardware_interface::return_type GazeboSimSystem::read( // Считайте те�
     //   force_or_torque = {jointWrench->Data().torque().x(),
     //     jointWrench->Data().torque().y(), jointWrench->Data().torque().z()}; //[объяснение] заполнение (force_or_)torque данными вектора от вращательного шарнира
     // }
-    // Calculate the scalar effort along the joint axis
-    this->dataPtr->joints_[i].joint_effort = force_or_torque.GZ_VECTOR_DOT(
-      GZ_PHYSICS_NAMESPACE Vector3d{this->dataPtr->joints_[i].joint_axis.Xyz()[0],
-        this->dataPtr->joints_[i].joint_axis.Xyz()[1],
-        this->dataPtr->joints_[i].joint_axis.Xyz()[2]}); //[объяснение] расчёт общего усилия на шарнир
+    // // Calculate the scalar effort along the joint axis
+    // this->dataPtr->joints_[i].joint_effort = force_or_torque.GZ_VECTOR_DOT(
+    //   GZ_PHYSICS_NAMESPACE Vector3d{this->dataPtr->joints_[i].joint_axis.Xyz()[0],
+    //     this->dataPtr->joints_[i].joint_axis.Xyz()[1],
+    //     this->dataPtr->joints_[i].joint_axis.Xyz()[2]}); //[объяснение] расчёт общего усилия на шарнир
   }
 
   for (unsigned int i = 0; i < this->dataPtr->imus_.size(); ++i) { //[объяснение] для каждого датчика
