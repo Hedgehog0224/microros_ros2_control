@@ -24,6 +24,7 @@
 #include "microros_ros2_control/gz_system_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
+#include "std_msgs/msg/int16_multi_array.hpp"
 
 namespace microros_ros2_control
 {
@@ -56,6 +57,9 @@ public:
   // Documentation Inherited
   CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
 
+  // Колбэк для данных с стмки
+  const void micro_ros_callback(const std_msgs::msg::Int16MultiArray & msg);
+
   // Documentation Inherited
   hardware_interface::return_type perform_command_mode_switch(
     const std::vector<std::string> & start_interfaces,
@@ -80,14 +84,19 @@ public:
     int & update_rate) override;
 
 private:
-  // Register a sensor (for now just IMUs)
-  // \param[in] hardware_info hardware information where the data of
-  // the sensors is extract.
+  /// Register a sensor (for now just IMUs)
+  /// \param[in] hardware_info hardware information where the data of
+  /// the sensors is extract.
   void registerSensors(
     const hardware_interface::HardwareInfo & hardware_info);
 
   /// \brief Private data class
   std::unique_ptr<GazeboSimSystemPrivate> dataPtr;
+
+  /// \brief Подписчик на данные от micro_ros
+  rclcpp::Subscription<std_msgs::msg::Int16MultiArray>::SharedPtr subscription_micro_ros_;
+  /// \brief данные с micro_ros
+  float velocity_from_micro_ros_[2];
 };
 
 }  // namespace microros_ros2_control

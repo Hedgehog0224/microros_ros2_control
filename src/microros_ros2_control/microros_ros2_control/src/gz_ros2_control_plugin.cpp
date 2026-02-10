@@ -56,7 +56,7 @@
 
 namespace microros_ros2_control
 {
-  // ВСЁ ДЛЯ ГАЗЕБО
+  // плагин запускаемый рос2'ом
 //////////////////////////////////////////////////
 class GazeboSimROS2ControlPluginPrivate // dataPtr [Описание]
 {

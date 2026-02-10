@@ -80,6 +80,7 @@
 #endif
 
 #include <hardware_interface/hardware_info.hpp>
+const float MAX_SPEED = 1000.0f; // 2900
 
 struct jointData
 {
@@ -645,7 +646,10 @@ CallbackReturn GazeboSimSystem::on_init(const hardware_interface::HardwareInfo &
       "НОВЫЙ"
     );
   } else { RCLCPP_WARN(this->nh_->get_logger(),"ГАЗЕБО..."); }
-
+  auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(1));
+  qos_profile.best_effort();
+  subscription_micro_ros_ = this->nh_->create_subscription<std_msgs::msg::Int16MultiArray>(
+        "/robot/robot_state", qos_profile, std::bind(&GazeboSimSystem::micro_ros_callback, this, std::placeholders::_1));
   return CallbackReturn::SUCCESS;
 }
 
@@ -683,6 +687,15 @@ CallbackReturn GazeboSimSystem::on_deactivate(const rclcpp_lifecycle::State & pr
   return hardware_interface::SystemInterface::on_deactivate(previous_state);
 }
 
+const void GazeboSimSystem::micro_ros_callback(const std_msgs::msg::Int16MultiArray & msg) {
+  for (int i = 0; i < 2; i++){
+    this->velocity_from_micro_ros_[i] = int(msg.data[i+1]/MAX_SPEED); // max 2900
+    if (abs(this->velocity_from_micro_ros_[i]) > 1) { 
+      this->velocity_from_micro_ros_[i] = 1 * (this->velocity_from_micro_ros_[i]/abs(this->velocity_from_micro_ros_[i])); 
+    }
+  }
+}
+
 hardware_interface::return_type GazeboSimSystem::read( // Считайте текущие значения состояния привода.
   const rclcpp::Time & /*time*/,
   const rclcpp::Duration & /*period*/)
@@ -690,40 +703,42 @@ hardware_interface::return_type GazeboSimSystem::read( // Считайте те�
   // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] read");
 
   for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) { //[объяснение] для каждого шарнира
-    if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) { //[объяснение] если шарнира нет - скип
-      continue;
-    }
+    // if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) { //[объяснение] если шарнира нет - скип
+    //   continue;
+    // }
 
-    // Get the joint velocity
-    const auto * jointVelocity =
-      this->dataPtr->ecm->Component<sim::components::JointVelocity>(
-      this->dataPtr->joints_[i].sim_joint); //[объяснение] получение скорости от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
+    // // Get the joint velocity
+    // const auto * jointVelocity =
+    //   this->dataPtr->ecm->Component<sim::components::JointVelocity>(
+    //   this->dataPtr->joints_[i].sim_joint); //[объяснение] получение скорости от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
 
-    // Get the joint force via joint transmitted wrench
-    const auto * jointWrench =
-      this->dataPtr->ecm->Component<sim::components::JointTransmittedWrench>(
-      this->dataPtr->joints_[i].sim_joint); //[объяснение] получение усилий от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
+    // // Get the joint force via joint transmitted wrench
+    // const auto * jointWrench =
+    //   this->dataPtr->ecm->Component<sim::components::JointTransmittedWrench>(
+    //   this->dataPtr->joints_[i].sim_joint); //[объяснение] получение усилий от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
 
-    // Get the joint position
-    const auto * jointPositions =
-      this->dataPtr->ecm->Component<sim::components::JointPosition>(
-      this->dataPtr->joints_[i].sim_joint); //[объяснение] получение позиции от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
+    // // Get the joint position
+    // const auto * jointPositions =
+    //  this->dataPtr->ecm->Component<sim::components::JointPosition>(
+    //  this->dataPtr->joints_[i].sim_joint); //[объяснение] получение позиции от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
 
-    this->dataPtr->joints_[i].joint_position = jointPositions->Data()[0]; // ..//..
-    this->dataPtr->joints_[i].joint_velocity = jointVelocity->Data()[0]; // ..//..
+    // this->dataPtr->joints_[i].joint_position = jointPositions->Data()[0];
+    // this->dataPtr->joints_[i].joint_velocity = jointVelocity->Data()[0];
+    // this->dataPtr->joints_[i].joint_position = 0;
+    this->dataPtr->joints_[i].joint_velocity = this->velocity_from_micro_ros_[i];
+    
+    
     // RCLCPP_INFO(this->nh_->get_logger(), "> joint_position: %.3f; > joint_velocity: %.3f", this->dataPtr->joints_[i].joint_position, this->dataPtr->joints_[i].joint_velocity);
-    // this->dataPtr->joints_[i].joint_position = 1.26; // ..//..
-    this->dataPtr->joints_[i].joint_velocity = -1.26; // ..//..
     // RCLCPP_INFO(this->nh_->get_logger(), "< joint_position: %.3f; < joint_velocity: %.3f", this->dataPtr->joints_[i].joint_position, this->dataPtr->joints_[i].joint_velocity);
 
-    GZ_PHYSICS_NAMESPACE Vector3d force_or_torque; //[объяснение] буффер
-    if (this->dataPtr->joints_[i].joint_type == sdf::JointType::PRISMATIC) {  //[объяснение] проверка типа соединения
-      force_or_torque = {jointWrench->Data().force().x(),
-        jointWrench->Data().force().y(), jointWrench->Data().force().z()}; //[объяснение] заполнение force(_or_torque) данными вектора от поступательного шарнира
-    } else {  // REVOLUTE and CONTINUOUS
-      force_or_torque = {jointWrench->Data().torque().x(),
-        jointWrench->Data().torque().y(), jointWrench->Data().torque().z()}; //[объяснение] заполнение (force_or_)torque данными вектора от вращательного шарнира
-    }
+    // GZ_PHYSICS_NAMESPACE Vector3d force_or_torque; //[объяснение] буффер
+    // if (this->dataPtr->joints_[i].joint_type == sdf::JointType::PRISMATIC) {  //[объяснение] проверка типа соединения
+    //   force_or_torque = {jointWrench->Data().force().x(),
+    //     jointWrench->Data().force().y(), jointWrench->Data().force().z()}; //[объяснение] заполнение force(_or_torque) данными вектора от поступательного шарнира
+    // } else {  // REVOLUTE and CONTINUOUS
+    //   force_or_torque = {jointWrench->Data().torque().x(),
+    //     jointWrench->Data().torque().y(), jointWrench->Data().torque().z()}; //[объяснение] заполнение (force_or_)torque данными вектора от вращательного шарнира
+    // }
     // Calculate the scalar effort along the joint axis
     this->dataPtr->joints_[i].joint_effort = force_or_torque.GZ_VECTOR_DOT(
       GZ_PHYSICS_NAMESPACE Vector3d{this->dataPtr->joints_[i].joint_axis.Xyz()[0],

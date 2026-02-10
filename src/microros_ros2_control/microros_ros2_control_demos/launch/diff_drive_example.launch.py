@@ -89,14 +89,14 @@ def generate_launch_description():
 
     return LaunchDescription([
         # Launch gazebo environment
-        IncludeLaunchDescription(
+        IncludeLaunchDescription( #[объяснение] лаунч симуляции газебо
             PythonLaunchDescriptionSource(
                 [PathJoinSubstitution([FindPackageShare('ros_gz_sim'),
-                                       'launch',
-                                       'gz_sim.launch.py'])]),
+                                        'launch',
+                                        'gz_sim.launch.py'])]),
             launch_arguments=[('gz_args', ['--record-topic ".*" -r -v 4 empty.sdf'])]),
             # launch_arguments=[('gz_args', [' -s -r -v 4 empty.sdf']), ('ign_args', [' -s -v 4'])]),
-        RegisterEventHandler(
+        RegisterEventHandler( #[объяснение] 
             event_handler=OnProcessExit(
                 target_action=gz_spawn_entity,
                 on_exit=[joint_state_broadcaster_spawner],

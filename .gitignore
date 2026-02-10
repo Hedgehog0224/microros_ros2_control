@@ -73,3 +73,4 @@ web_connect/*.*
 rockchip.code-workspace
 .docx#
 src/serial/
+out.txt

@@ -118,7 +118,7 @@
     <child link="caster"/>
   </joint>
 
-  <!-- caster frontal wheel Link -->
+  <!-- caster frontal wheel Link колёсико-->
   <link name="caster">
     <collision>
       <geometry>

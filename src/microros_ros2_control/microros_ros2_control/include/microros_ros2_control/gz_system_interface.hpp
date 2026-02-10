@@ -77,7 +77,7 @@ protected:
 };
 
 // SystemInterface provides API-level access to read and command joint properties.
-class GazeboSimSystemInterface
+class GazeboSimSystemInterface // загрузчик плагипов (!)
   : public hardware_interface::SystemInterface
 {
 public:
