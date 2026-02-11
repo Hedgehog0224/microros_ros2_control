@@ -97,6 +97,7 @@ private:
   rclcpp::Subscription<std_msgs::msg::Int16MultiArray>::SharedPtr subscription_micro_ros_;
   /// \brief данные с micro_ros
   float velocity_from_micro_ros_[2];
+  float position_from_micro_ros_[2];
 };
 
 }  // namespace microros_ros2_control

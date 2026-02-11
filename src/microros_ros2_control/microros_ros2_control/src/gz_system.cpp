@@ -649,6 +649,10 @@ CallbackReturn GazeboSimSystem::on_init(const hardware_interface::HardwareInfo &
   qos_profile.best_effort();
   subscription_micro_ros_ = this->nh_->create_subscription<std_msgs::msg::Int16MultiArray>(
         "/robot/robot_state", qos_profile, std::bind(&GazeboSimSystem::micro_ros_callback, this, std::placeholders::_1));
+  velocity_from_micro_ros_[0] = 0.0;
+  velocity_from_micro_ros_[1] = 0.0;
+  position_from_micro_ros_[0] = 0.0;
+  position_from_micro_ros_[1] = 0.0;
   return CallbackReturn::SUCCESS;
 }
 
@@ -692,6 +696,7 @@ const void GazeboSimSystem::micro_ros_callback(const std_msgs::msg::Int16MultiAr
       if (abs(this->velocity_from_micro_ros_[i]) > 1) { 
         this->velocity_from_micro_ros_[i] = 1 * (this->velocity_from_micro_ros_[i]/abs(this->velocity_from_micro_ros_[i])); 
       }
+      this->position_from_micro_ros_[i] += this->velocity_from_micro_ros_[i] / this->dataPtr->update_rate[0];
     }
 }
 
@@ -702,81 +707,9 @@ hardware_interface::return_type GazeboSimSystem::read( // Считайте те�
   // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] read");
 
   for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) { //[объяснение] для каждого шарнира
-    // if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) { //[объяснение] если шарнира нет - скип
-    //   continue;
-    // }
-
-    // Get the joint velocity
-    // const auto * jointVelocity =
-    //   this->dataPtr->ecm->Component<sim::components::JointVelocity>(
-    //   this->dataPtr->joints_[i].sim_joint); //[объяснение] получение скорости от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
-
-    // // Get the joint force via joint transmitted wrench
-    // const auto * jointWrench =
-    //   this->dataPtr->ecm->Component<sim::components::JointTransmittedWrench>(
-    //   this->dataPtr->joints_[i].sim_joint); //[объяснение] получение усилий от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
-
-    // // Get the joint position
-    // const auto * jointPositions =
-    //   this->dataPtr->ecm->Component<sim::components::JointPosition>(
-    //   this->dataPtr->joints_[i].sim_joint); //[объяснение] получение позиции от энтити (ГАЗЕБО) [ПОД ЗАМЕНУ]
-
-    // this->dataPtr->joints_[i].joint_position = jointPositions->Data()[0];
-
-    // this->dataPtr->joints_[i].joint_velocity = jointVelocity->Data()[0];
+    this->dataPtr->joints_[i].joint_position = this->position_from_micro_ros_[i];
     this->dataPtr->joints_[i].joint_velocity = this->velocity_from_micro_ros_[i];
-    // RCLCPP_INFO(this->nh_->get_logger(), "< joint_position: %.3f; < joint_velocity: %.3f", this->dataPtr->joints_[i].joint_position, this->dataPtr->joints_[i].joint_velocity);
-
-    // GZ_PHYSICS_NAMESPACE Vector3d force_or_torque; //[объяснение] буффер
-    // if (this->dataPtr->joints_[i].joint_type == sdf::JointType::PRISMATIC) {  //[объяснение] проверка типа соединения
-    //   force_or_torque = {jointWrench->Data().force().x(),
-    //     jointWrench->Data().force().y(), jointWrench->Data().force().z()}; //[объяснение] заполнение force(_or_torque) данными вектора от поступательного шарнира
-    // } else {  // REVOLUTE and CONTINUOUS
-    //   force_or_torque = {jointWrench->Data().torque().x(),
-    //     jointWrench->Data().torque().y(), jointWrench->Data().torque().z()}; //[объяснение] заполнение (force_or_)torque данными вектора от вращательного шарнира
-    // }
-    // // Calculate the scalar effort along the joint axis
-    // this->dataPtr->joints_[i].joint_effort = force_or_torque.GZ_VECTOR_DOT(
-    //   GZ_PHYSICS_NAMESPACE Vector3d{this->dataPtr->joints_[i].joint_axis.Xyz()[0],
-    //     this->dataPtr->joints_[i].joint_axis.Xyz()[1],
-    //     this->dataPtr->joints_[i].joint_axis.Xyz()[2]}); //[объяснение] расчёт общего усилия на шарнир
   }
-
-  for (unsigned int i = 0; i < this->dataPtr->imus_.size(); ++i) { //[объяснение] для каждого датчика
-    if (this->dataPtr->imus_[i]->topicName.empty()) { //[объяснение] при отсутствии топика публикации
-      auto sensorTopicComp = this->dataPtr->ecm->Component<
-        sim::components::SensorTopic>(this->dataPtr->imus_[i]->sim_imu_sensors_);
-      if (sensorTopicComp) {
-        this->dataPtr->imus_[i]->topicName = sensorTopicComp->Data();
-        RCLCPP_INFO_STREAM(
-          this->nh_->get_logger(), "IMU " << this->dataPtr->imus_[i]->name <<
-            " has a topic name: " << sensorTopicComp->Data());
-
-        this->dataPtr->node.Subscribe(
-          this->dataPtr->imus_[i]->topicName, &ImuData::OnIMU,
-          this->dataPtr->imus_[i].get());
-      }
-    }
-  } //[объяснение] установка топика для датчика
-
-  for (unsigned int i = 0; i < this->dataPtr->ft_sensors_.size(); ++i) {
-    if (this->dataPtr->ft_sensors_[i]->topicName.empty()) {
-      auto sensorTopicComp = this->dataPtr->ecm->Component<
-        sim::components::SensorTopic>(this->dataPtr->ft_sensors_[i]->sim_ft_sensors_);
-      if (sensorTopicComp) {
-        this->dataPtr->ft_sensors_[i]->topicName = sensorTopicComp->Data();
-        RCLCPP_INFO_STREAM(
-          this->nh_->get_logger(), "ForceTorque " << this->dataPtr->ft_sensors_[i]->name <<
-            " has a topic name: " << sensorTopicComp->Data());
-
-        this->dataPtr->node.Subscribe(
-          this->dataPtr->ft_sensors_[i]->topicName, &ForceTorqueData::OnForceTorque,
-          this->dataPtr->ft_sensors_[i].get());
-      }
-    }
-  } //[объяснение] установка топика для датчика (тоже самое но для tf)
-  // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] read OUT");
-
   return hardware_interface::return_type::OK;
 }
 
