@@ -137,5 +137,11 @@ install(TARGETS ign_ros2_control-system
 
 pluginlib_export_plugin_description_file(microros_ros2_control gz_hardware_plugins.xml)
 
+add_executable(node2test src/mini-node2test.cpp)
+ament_target_dependencies(node2test rclcpp std_msgs)
+install(TARGETS
+  node2test
+  DESTINATION lib/${PROJECT_NAME})
+
 # Setup the project
 ament_package()

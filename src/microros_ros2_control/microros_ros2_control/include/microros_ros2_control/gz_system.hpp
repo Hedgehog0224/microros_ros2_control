@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #ifndef GZ_ROS2_CONTROL__GZ_SYSTEM_HPP_
 #define GZ_ROS2_CONTROL__GZ_SYSTEM_HPP_
 
@@ -22,28 +21,26 @@
 #include <vector>
 
 #include "microros_ros2_control/gz_system_interface.hpp"
-#include "rclcpp_lifecycle/state.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
+#include "rclcpp_lifecycle/state.hpp"
 #include "std_msgs/msg/int16_multi_array.hpp"
 
-namespace microros_ros2_control
-{
+namespace microros_ros2_control {
 using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
 // Forward declaration
 class GazeboSimSystemPrivate;
 
-// These class must inherit `microros_ros2_control::GazeboSimSystemInterface` which implements a
-// simulated `ros2_control` `hardware_interface::SystemInterface`.
+// These class must inherit `microros_ros2_control::GazeboSimSystemInterface`
+// which implements a simulated `ros2_control`
+// `hardware_interface::SystemInterface`.
 
-class GazeboSimSystem : public GazeboSimSystemInterface
-{
+class GazeboSimSystem : public GazeboSimSystemInterface {
 public:
   // Documentation Inherited
-  CallbackReturn on_init(const hardware_interface::HardwareInfo & system_info)
-  override;
+  CallbackReturn on_init(const hardware_interface::HardwareInfo& system_info) override;
 
-  CallbackReturn on_configure(const rclcpp_lifecycle::State & previous_state) override;
+  CallbackReturn on_configure(const rclcpp_lifecycle::State& previous_state) override;
 
   // Documentation Inherited
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
@@ -52,43 +49,37 @@ public:
   std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
 
   // Documentation Inherited
-  CallbackReturn on_activate(const rclcpp_lifecycle::State & previous_state) override;
+  CallbackReturn on_activate(const rclcpp_lifecycle::State& previous_state) override;
 
   // Documentation Inherited
-  CallbackReturn on_deactivate(const rclcpp_lifecycle::State & previous_state) override;
+  CallbackReturn on_deactivate(const rclcpp_lifecycle::State& previous_state) override;
 
   // Колбэк для данных с стмки
-  const void micro_ros_callback(const std_msgs::msg::Int16MultiArray & msg);
+  const void micro_ros_callback(const std_msgs::msg::Int16MultiArray& msg);
 
   // Documentation Inherited
   hardware_interface::return_type perform_command_mode_switch(
-    const std::vector<std::string> & start_interfaces,
-    const std::vector<std::string> & stop_interfaces) override;
+      const std::vector<std::string>& start_interfaces,
+      const std::vector<std::string>& stop_interfaces) override;
 
   // Documentation Inherited
-  hardware_interface::return_type read(
-    const rclcpp::Time & time,
-    const rclcpp::Duration & period) override;
+  hardware_interface::return_type read(const rclcpp::Time& time,
+                                       const rclcpp::Duration& period) override;
 
   // Documentation Inherited
-  hardware_interface::return_type write(
-    const rclcpp::Time & time,
-    const rclcpp::Duration & period) override;
+  hardware_interface::return_type write(const rclcpp::Time& time,
+                                        const rclcpp::Duration& period) override;
 
   // Documentation Inherited
-  bool initSim(
-    rclcpp::Node::SharedPtr & model_nh,
-    std::map<std::string, sim::Entity> & joints,
-    const hardware_interface::HardwareInfo & hardware_info,
-    sim::EntityComponentManager & _ecm,
-    int & update_rate) override;
+  bool initMicroRos(rclcpp::Node::SharedPtr& model_nh, std::map<std::string, sim::Entity>& joints,
+                    const hardware_interface::HardwareInfo& hardware_info,
+                    sim::EntityComponentManager& _ecm, int& update_rate) override;
 
 private:
   /// Register a sensor (for now just IMUs)
   /// \param[in] hardware_info hardware information where the data of
   /// the sensors is extract.
-  void registerSensors(
-    const hardware_interface::HardwareInfo & hardware_info);
+  void registerSensors(const hardware_interface::HardwareInfo& hardware_info);
 
   /// \brief Private data class
   std::unique_ptr<GazeboSimSystemPrivate> dataPtr;
@@ -101,7 +92,7 @@ private:
 
   /// \brief Сообщение из данных для micro_ros
   mutable std_msgs::msg::Int16MultiArray message_micro_ros_;
-  
+
   /// \brief данные с micro_ros
   float velocity_from_micro_ros_[2];
   float position_from_micro_ros_[2];
@@ -110,8 +101,7 @@ private:
 }  // namespace microros_ros2_control
 
 // for backward compatibility
-namespace ign_ros2_control
-{
+namespace ign_ros2_control {
 using IgnitionSystem = microros_ros2_control::GazeboSimSystem;
 }  // namespace ign_ros2_control
 
