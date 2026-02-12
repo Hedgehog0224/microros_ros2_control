@@ -649,10 +649,14 @@ CallbackReturn GazeboSimSystem::on_init(const hardware_interface::HardwareInfo &
   qos_profile.best_effort();
   subscription_micro_ros_ = this->nh_->create_subscription<std_msgs::msg::Int16MultiArray>(
         "/robot/robot_state", qos_profile, std::bind(&GazeboSimSystem::micro_ros_callback, this, std::placeholders::_1));
+  publisher_micro_ros_ = this->nh_->create_publisher<std_msgs::msg::Int16MultiArray>(
+        "/robot/wheel_speeds", 1);      
   velocity_from_micro_ros_[0] = 0.0;
   velocity_from_micro_ros_[1] = 0.0;
   position_from_micro_ros_[0] = 0.0;
   position_from_micro_ros_[1] = 0.0;
+  std::vector<int16_t> placeholder{0,0};
+  message_micro_ros_.data = placeholder;
   return CallbackReturn::SUCCESS;
 }
 
@@ -763,162 +767,169 @@ hardware_interface::return_type GazeboSimSystem::write( // Запишите те
   const rclcpp::Time & /*time*/,
   const rclcpp::Duration & /*period*/)
 {
-  // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] write");
   for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) { //[объяснение] для каждого шарнира
-    if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) {
-      continue;
-    }
-
-    if (this->dataPtr->joints_[i].joint_control_method & VELOCITY) { //[объяснение] если установлен режим для контроллера скорости (x1x)
-      // RCLCPP_INFO(this->nh_->get_logger(), "[IF] 1");
-      if (!this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>( //[объяснение] если не найден компонент JointVelocityCmd, то он создаёться
-          this->dataPtr->joints_[i].sim_joint))
-      {
-        this->dataPtr->ecm->CreateComponent(
-          this->dataPtr->joints_[i].sim_joint,
-          sim::components::JointVelocityCmd({0}));
-      } else { //[объяснение] если компонент JointVelocityCmd есть, то устанавливаем значение this->dataPtr->joints_[i].joint_velocity_cmd
-        const auto jointVelCmd =
-          this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
-          this->dataPtr->joints_[i].sim_joint);
-        *jointVelCmd = sim::components::JointVelocityCmd(
-          {this->dataPtr->joints_[i].joint_velocity_cmd});
-        // *jointVelCmd = sim::components::JointVelocityCmd(
-        //   {1.126});
-      }
-    } else if (this->dataPtr->joints_[i].joint_control_method & POSITION) { //[объяснение] если установлен режим для контроллера положения (xx1)
-      RCLCPP_INFO(this->nh_->get_logger(), "[IF] 2");
-      // Get error in position
-      double error;
-      error = (this->dataPtr->joints_[i].joint_position -
-        this->dataPtr->joints_[i].joint_position_cmd) * *this->dataPtr->update_rate; //[объяснение] ошибка положения в еденицах скорости (попугаи)
-
-      // Calculate target velcity
-      double target_vel = -this->dataPtr->position_proportional_gain_ * error; //[объяснение] вычисление целевой скорости
-
-      auto vel =
-        this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>( //[объяснение] получение компонента от Gazebo
-        this->dataPtr->joints_[i].sim_joint);
-
-      if (vel == nullptr) { //[объяснение] если нет копонента
-        this->dataPtr->ecm->CreateComponent(
-          this->dataPtr->joints_[i].sim_joint,
-          sim::components::JointVelocityCmd({target_vel})); //[объяснение] создаёться с целевой скоростью
-      } else if (!vel->Data().empty()) { //[объяснение] если скорость компонента не пустая, присваеваеться целевая
-        vel->Data()[0] = target_vel;
-      }
-    } else if (this->dataPtr->joints_[i].joint_control_method & EFFORT) { //[объяснение] если установлен режим для контроллера усилиия (1xx)
-      RCLCPP_INFO(this->nh_->get_logger(), "[IF] 3");
-      if (!this->dataPtr->ecm->Component<sim::components::JointForceCmd>( //[объяснение] если компонент не существует, то он создаёться
-          this->dataPtr->joints_[i].sim_joint))
-      {
-        this->dataPtr->ecm->CreateComponent(
-          this->dataPtr->joints_[i].sim_joint,
-          sim::components::JointForceCmd({0}));
-      } else { //[объяснение] если компонент jointEffortCmd есть, то устанавливаем значение this->dataPtr->joints_[i].joint_effort_cmd
-        const auto jointEffortCmd =
-          this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
-          this->dataPtr->joints_[i].sim_joint);
-        *jointEffortCmd = sim::components::JointForceCmd(
-          {this->dataPtr->joints_[i].joint_effort_cmd});
-      }
-    } else if (this->dataPtr->joints_[i].is_actuated) {
-      // Fallback case is a velocity command of zero (only for actuated joints)
-      // Резервный вариант - нулевая скорость (только для приводимых в действие шарниров)
-      double target_vel = 0.0;
-      auto vel =
-        this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
-        this->dataPtr->joints_[i].sim_joint);
-      if (vel == nullptr) {
-        this->dataPtr->ecm->CreateComponent(
-          this->dataPtr->joints_[i].sim_joint,
-          sim::components::JointVelocityCmd({target_vel}));
-      } else if (!vel->Data().empty()) {
-        vel->Data()[0] = target_vel;
-      } //[объяснение] создаёться компонент JointVelocityCmd, с нулевой скоростью
-    }
-      // RCLCPP_INFO(this->nh_->get_logger(), "joint_effort_cmd: %.3f, joint_position_cmd: %.3f, joint_velocity_cmd: %.3f", 
-      //                                       this->dataPtr->joints_[i].joint_effort_cmd, 
-      //                                       this->dataPtr->joints_[i].joint_position_cmd, 
-      //                                       this->dataPtr->joints_[i].joint_velocity_cmd);
+    this->message_micro_ros_.data[i] = int(this->dataPtr->joints_[i].joint_velocity_cmd * 2900.0f);
+    RCLCPP_DEBUG(this->nh_->get_logger(), "joint_velocity_cmd: %.3f", this->dataPtr->joints_[i].joint_velocity_cmd);
   }
+  // RCLCPP_INFO(this->nh_->get_logger(), "[1]: %d, [2]: %d", this->message_micro_ros_.data[0], this->message_micro_ros_.data[1]);
+  this->publisher_micro_ros_->publish(this->message_micro_ros_);
 
-  // set values of all mimic joints with respect to mimicked joint //[объяснение] Только для Gazebo, повторяет движение настоящих шарниров
-  for (const auto & mimic_joint : this->dataPtr->mimic_joints_) {
+  // // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] write");
+  // for (unsigned int i = 0; i < this->dataPtr->joints_.size(); ++i) { //[объяснение] для каждого шарнира
+  //   if (this->dataPtr->joints_[i].sim_joint == sim::kNullEntity) {
+  //     continue;
+  //   }
+
+  //   if (this->dataPtr->joints_[i].joint_control_method & VELOCITY) { //[объяснение] если установлен режим для контроллера скорости (x1x)
+  //     // RCLCPP_INFO(this->nh_->get_logger(), "[IF] 1");
+  //     if (!this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>( //[объяснение] если не найден компонент JointVelocityCmd, то он создаёться
+  //         this->dataPtr->joints_[i].sim_joint))
+  //     {
+  //       this->dataPtr->ecm->CreateComponent(
+  //         this->dataPtr->joints_[i].sim_joint,
+  //         sim::components::JointVelocityCmd({0}));
+  //     } else { //[объяснение] если компонент JointVelocityCmd есть, то устанавливаем значение this->dataPtr->joints_[i].joint_velocity_cmd
+  //       const auto jointVelCmd =
+  //         this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
+  //         this->dataPtr->joints_[i].sim_joint);
+  //       *jointVelCmd = sim::components::JointVelocityCmd(
+  //         {this->dataPtr->joints_[i].joint_velocity_cmd});
+  //       // *jointVelCmd = sim::components::JointVelocityCmd(
+  //       //   {1.126});
+  //     }
+  //   } else if (this->dataPtr->joints_[i].joint_control_method & POSITION) { //[объяснение] если установлен режим для контроллера положения (xx1)
+  //     RCLCPP_INFO(this->nh_->get_logger(), "[IF] 2");
+  //     // Get error in position
+  //     double error;
+  //     error = (this->dataPtr->joints_[i].joint_position -
+  //       this->dataPtr->joints_[i].joint_position_cmd) * *this->dataPtr->update_rate; //[объяснение] ошибка положения в еденицах скорости (попугаи)
+
+  //     // Calculate target velcity
+  //     double target_vel = -this->dataPtr->position_proportional_gain_ * error; //[объяснение] вычисление целевой скорости
+
+  //     auto vel =
+  //       this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>( //[объяснение] получение компонента от Gazebo
+  //       this->dataPtr->joints_[i].sim_joint);
+
+  //     if (vel == nullptr) { //[объяснение] если нет копонента
+  //       this->dataPtr->ecm->CreateComponent(
+  //         this->dataPtr->joints_[i].sim_joint,
+  //         sim::components::JointVelocityCmd({target_vel})); //[объяснение] создаёться с целевой скоростью
+  //     } else if (!vel->Data().empty()) { //[объяснение] если скорость компонента не пустая, присваеваеться целевая
+  //       vel->Data()[0] = target_vel;
+  //     }
+  //   } else if (this->dataPtr->joints_[i].joint_control_method & EFFORT) { //[объяснение] если установлен режим для контроллера усилиия (1xx)
+  //     RCLCPP_INFO(this->nh_->get_logger(), "[IF] 3");
+  //     if (!this->dataPtr->ecm->Component<sim::components::JointForceCmd>( //[объяснение] если компонент не существует, то он создаёться
+  //         this->dataPtr->joints_[i].sim_joint))
+  //     {
+  //       this->dataPtr->ecm->CreateComponent(
+  //         this->dataPtr->joints_[i].sim_joint,
+  //         sim::components::JointForceCmd({0}));
+  //     } else { //[объяснение] если компонент jointEffortCmd есть, то устанавливаем значение this->dataPtr->joints_[i].joint_effort_cmd
+  //       const auto jointEffortCmd =
+  //         this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
+  //         this->dataPtr->joints_[i].sim_joint);
+  //       *jointEffortCmd = sim::components::JointForceCmd(
+  //         {this->dataPtr->joints_[i].joint_effort_cmd});
+  //     }
+  //   } else if (this->dataPtr->joints_[i].is_actuated) {
+  //     // Fallback case is a velocity command of zero (only for actuated joints)
+  //     // Резервный вариант - нулевая скорость (только для приводимых в действие шарниров)
+  //     double target_vel = 0.0;
+  //     auto vel =
+  //       this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
+  //       this->dataPtr->joints_[i].sim_joint);
+  //     if (vel == nullptr) {
+  //       this->dataPtr->ecm->CreateComponent(
+  //         this->dataPtr->joints_[i].sim_joint,
+  //         sim::components::JointVelocityCmd({target_vel}));
+  //     } else if (!vel->Data().empty()) {
+  //       vel->Data()[0] = target_vel;
+  //     } //[объяснение] создаёться компонент JointVelocityCmd, с нулевой скоростью
+  //   }
+  //     // RCLCPP_INFO(this->nh_->get_logger(), "joint_effort_cmd: %.3f, joint_position_cmd: %.3f, joint_velocity_cmd: %.3f", 
+  //     //                                       this->dataPtr->joints_[i].joint_effort_cmd, 
+  //     //                                       this->dataPtr->joints_[i].joint_position_cmd, 
+  //     //                                       this->dataPtr->joints_[i].joint_velocity_cmd);
+  // }
+
+  // // set values of all mimic joints with respect to mimicked joint //[объяснение] Только для Gazebo, повторяет движение настоящих шарниров
+  // for (const auto & mimic_joint : this->dataPtr->mimic_joints_) {
     
-    for (const auto & mimic_interface : mimic_joint.interfaces_to_mimic) {
-      if (mimic_interface == "position") {
-        // Get the joint position
-        double position_mimicked_joint =
-          this->dataPtr->ecm->Component<sim::components::JointPosition>(
-          this->dataPtr->joints_[mimic_joint.mimicked_joint_index].sim_joint)->Data()[0];
+  //   for (const auto & mimic_interface : mimic_joint.interfaces_to_mimic) {
+  //     if (mimic_interface == "position") {
+  //       // Get the joint position
+  //       double position_mimicked_joint =
+  //         this->dataPtr->ecm->Component<sim::components::JointPosition>(
+  //         this->dataPtr->joints_[mimic_joint.mimicked_joint_index].sim_joint)->Data()[0];
 
-        double position_mimic_joint =
-          this->dataPtr->ecm->Component<sim::components::JointPosition>(
-          this->dataPtr->joints_[mimic_joint.joint_index].sim_joint)->Data()[0];
+  //       double position_mimic_joint =
+  //         this->dataPtr->ecm->Component<sim::components::JointPosition>(
+  //         this->dataPtr->joints_[mimic_joint.joint_index].sim_joint)->Data()[0];
 
-        double position_error =
-          position_mimic_joint - position_mimicked_joint * mimic_joint.multiplier;
+  //       double position_error =
+  //         position_mimic_joint - position_mimicked_joint * mimic_joint.multiplier;
 
-        double velocity_sp = (-1.0) * position_error * (*this->dataPtr->update_rate);
+  //       double velocity_sp = (-1.0) * position_error * (*this->dataPtr->update_rate);
 
-        auto vel =
-          this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
-          this->dataPtr->joints_[mimic_joint.joint_index].sim_joint);
+  //       auto vel =
+  //         this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
+  //         this->dataPtr->joints_[mimic_joint.joint_index].sim_joint);
 
-        if (vel == nullptr) {
-          this->dataPtr->ecm->CreateComponent(
-            this->dataPtr->joints_[mimic_joint.joint_index].sim_joint,
-            sim::components::JointVelocityCmd({velocity_sp}));
-        } else if (!vel->Data().empty()) {
-          vel->Data()[0] = velocity_sp;
-        }
-      }
-      if (mimic_interface == "velocity") {
-        // get the velocity of mimicked joint
-        double velocity_mimicked_joint =
-          this->dataPtr->ecm->Component<sim::components::JointVelocity>(
-          this->dataPtr->joints_[mimic_joint.mimicked_joint_index].sim_joint)->Data()[0];
+  //       if (vel == nullptr) {
+  //         this->dataPtr->ecm->CreateComponent(
+  //           this->dataPtr->joints_[mimic_joint.joint_index].sim_joint,
+  //           sim::components::JointVelocityCmd({velocity_sp}));
+  //       } else if (!vel->Data().empty()) {
+  //         vel->Data()[0] = velocity_sp;
+  //       }
+  //     }
+  //     if (mimic_interface == "velocity") {
+  //       // get the velocity of mimicked joint
+  //       double velocity_mimicked_joint =
+  //         this->dataPtr->ecm->Component<sim::components::JointVelocity>(
+  //         this->dataPtr->joints_[mimic_joint.mimicked_joint_index].sim_joint)->Data()[0];
 
-        if (!this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
-            this->dataPtr->joints_[mimic_joint.joint_index].sim_joint))
-        {
-          this->dataPtr->ecm->CreateComponent(
-            this->dataPtr->joints_[mimic_joint.joint_index].sim_joint,
-            sim::components::JointVelocityCmd({0}));
-        } else {
-          const auto jointVelCmd =
-            this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
-            this->dataPtr->joints_[mimic_joint.joint_index].sim_joint);
-          *jointVelCmd = sim::components::JointVelocityCmd(
-            {mimic_joint.multiplier * velocity_mimicked_joint});
-        }
-      }
-      if (mimic_interface == "effort") {
-        // TODO(ahcorde): Revisit this part ignitionrobotics/ign-physics#124
-        // Get the joint force
-        // const auto * jointForce =
-        //   _ecm.Component<sim::components::JointForce>(
-        //   this->dataPtr->sim_joints_[j]);
-        if (!this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
-            this->dataPtr->joints_[mimic_joint.joint_index].sim_joint))
-        {
-          this->dataPtr->ecm->CreateComponent(
-            this->dataPtr->joints_[mimic_joint.joint_index].sim_joint,
-            sim::components::JointForceCmd({0}));
-        } else {
-          const auto jointEffortCmd =
-            this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
-            this->dataPtr->joints_[mimic_joint.joint_index].sim_joint);
-          *jointEffortCmd = sim::components::JointForceCmd(
-            {mimic_joint.multiplier *
-              this->dataPtr->joints_[mimic_joint.mimicked_joint_index].joint_effort});
-        }
-      }
-    }
-  }
+  //       if (!this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
+  //           this->dataPtr->joints_[mimic_joint.joint_index].sim_joint))
+  //       {
+  //         this->dataPtr->ecm->CreateComponent(
+  //           this->dataPtr->joints_[mimic_joint.joint_index].sim_joint,
+  //           sim::components::JointVelocityCmd({0}));
+  //       } else {
+  //         const auto jointVelCmd =
+  //           this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(
+  //           this->dataPtr->joints_[mimic_joint.joint_index].sim_joint);
+  //         *jointVelCmd = sim::components::JointVelocityCmd(
+  //           {mimic_joint.multiplier * velocity_mimicked_joint});
+  //       }
+  //     }
+  //     if (mimic_interface == "effort") {
+  //       // TODO(ahcorde): Revisit this part ignitionrobotics/ign-physics#124
+  //       // Get the joint force
+  //       // const auto * jointForce =
+  //       //   _ecm.Component<sim::components::JointForce>(
+  //       //   this->dataPtr->sim_joints_[j]);
+  //       if (!this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
+  //           this->dataPtr->joints_[mimic_joint.joint_index].sim_joint))
+  //       {
+  //         this->dataPtr->ecm->CreateComponent(
+  //           this->dataPtr->joints_[mimic_joint.joint_index].sim_joint,
+  //           sim::components::JointForceCmd({0}));
+  //       } else {
+  //         const auto jointEffortCmd =
+  //           this->dataPtr->ecm->Component<sim::components::JointForceCmd>(
+  //           this->dataPtr->joints_[mimic_joint.joint_index].sim_joint);
+  //         *jointEffortCmd = sim::components::JointForceCmd(
+  //           {mimic_joint.multiplier *
+  //             this->dataPtr->joints_[mimic_joint.mimicked_joint_index].joint_effort});
+  //       }
+  //     }
+  //   }
+  // }
 
-  // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] write OUT");
+  // // RCLCPP_INFO(this->nh_->get_logger(), "[PATH OF EXECUTION] write OUT");
 
   return hardware_interface::return_type::OK;
 }

@@ -95,6 +95,13 @@ private:
 
   /// \brief Подписчик на данные от micro_ros
   rclcpp::Subscription<std_msgs::msg::Int16MultiArray>::SharedPtr subscription_micro_ros_;
+
+  /// \brief Издатель расчитанных данных для micro_ros
+  rclcpp::Publisher<std_msgs::msg::Int16MultiArray>::SharedPtr publisher_micro_ros_;
+
+  /// \brief Сообщение из данных для micro_ros
+  mutable std_msgs::msg::Int16MultiArray message_micro_ros_;
+  
   /// \brief данные с micro_ros
   float velocity_from_micro_ros_[2];
   float position_from_micro_ros_[2];
