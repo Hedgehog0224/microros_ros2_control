@@ -69,7 +69,6 @@ net2/
 
 web_connect/*.*
 !web_connect/*.py
-.vscode/
 rockchip.code-workspace
 .docx#
 src/serial/

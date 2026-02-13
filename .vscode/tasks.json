@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "ament",
+      "task": "cppcheck",
+      "args": [
+          "--directory",
+          "/home/me/rockchip",
+          "--pkg",
+          "robot-pkg",
+          "-j4",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
+      ],
+      "commandOptions": "",
+      "envSetup": "",
+      "problemMatcher": [
+        "$ament_cppcheck"
+      ],
+      "label": "ament: cppcheck",
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      }
+    },
+    {
+      "label": "format-cpp",
+      "type": "shell",
+      "command": "./format.sh && colcon build --cmake-args -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && source install/setup.bash",
+      "group": "none",
+      "problemMatcher": []
+    }
+  ]
+}
