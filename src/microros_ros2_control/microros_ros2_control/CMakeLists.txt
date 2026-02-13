@@ -24,6 +24,7 @@ find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(yaml_cpp_vendor REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 set(GZ_PLUGIN)
 set(GZ_SIM)
@@ -138,7 +139,7 @@ install(TARGETS ign_ros2_control-system
 pluginlib_export_plugin_description_file(microros_ros2_control gz_hardware_plugins.xml)
 
 add_executable(node2test src/mini-node2test.cpp)
-ament_target_dependencies(node2test rclcpp std_msgs)
+ament_target_dependencies(node2test rclcpp std_msgs geometry_msgs)
 install(TARGETS
   node2test
   DESTINATION lib/${PROJECT_NAME})

@@ -2,11 +2,13 @@
 #include <memory>
 #include <string>
 
+#include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/int16_multi_array.hpp"
 #include "std_msgs/msg/string.hpp"
 
 using namespace std::chrono_literals;
+using std::placeholders::_1;
 
 /* This example creates a subclass of Node and uses a fancy C++11 lambda
  * function to shorten the callback syntax, at the expense of making the
@@ -15,40 +17,58 @@ using namespace std::chrono_literals;
 class MinimalPublisher : public rclcpp::Node {
 public:
   MinimalPublisher() : Node("minimal_publisher"), count_(0) {
+    auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(1));
+    qos_profile.best_effort();
+
     right_wheel = 0;
     left_wheel = 0;
+    auto message_twist = geometry_msgs::msg::Twist();
+    auto message = std_msgs::msg::Int16MultiArray();
+    std::vector<int16_t> placeholder(5, 0);
+    this->message.data = placeholder;
 
-    publisher_ = this->create_publisher<std_msgs::msg::Int16MultiArray>("/robot/robot_state", 20);
+    publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(
+      "/diff_drive_base_controller/cmd_vel_unstamped", 1);
+    publisher_ = this->create_publisher<std_msgs::msg::Int16MultiArray>(
+      "/robot/robot_state", 1);
+    subscription_ = this->create_subscription<std_msgs::msg::Int16MultiArray>(
+      "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this, _1));
+    timer_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timer_callback, this));
+  }
 
-    auto timer_callback = [this]() -> void {
-      auto message = std_msgs::msg::Int16MultiArray();
-      std::vector<int16_t> placeholder(5, 0);
-      message.data = placeholder;
-      message.data[0] = 179;
-      message.data[1] = right_wheel;
-      message.data[2] = left_wheel;
-      message.data[3] = 50;
-      message.data[4] = 50;
-      this->publisher_->publish(message);
-    };
+  void timer_callback() {
+    // == "/robot/robot_state" ==
+    this->message.data[0] = 179;
+    this->message.data[1] = right_wheel;
+    this->message.data[2] = left_wheel;
+    this->message.data[3] = 50;
+    this->message.data[4] = 50;
+    this->publisher_->publish(this->message);
 
-    auto topic_callback = [this](std_msgs::msg::Int16MultiArray::UniquePtr msg) -> void {
-      this->right_wheel = msg->data[0];
-      this->left_wheel = msg->data[1];
-    };
+    // == "/diff_drive_base_controller/cmd_vel_unstamped" ==
+    this->message_twist.linear.x = 0.5;
+    this->message_twist.linear.y = 0;
+    this->message_twist.linear.z = 0;
+    this->message_twist.angular.x = 0;
+    this->message_twist.angular.y = 0;
+    this->message_twist.angular.z = 0.5;
+    this->publisher_twist_->publish(this->message_twist);
+  }
 
-    subscription_ = this->create_subscription<std_msgs::msg::Int16MultiArray>("/robot/wheel_speeds",
-                                                                              10, topic_callback);
-
-    timer_ = this->create_wall_timer(500ms, timer_callback);
+  const void topic_callback(const std_msgs::msg::Int16MultiArray& msg) {
+    this->right_wheel = msg.data[0];
+    this->left_wheel = msg.data[1];
   }
 
 private:
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::Int16MultiArray>::SharedPtr publisher_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_twist_;
   rclcpp::Subscription<std_msgs::msg::Int16MultiArray>::SharedPtr subscription_;
   int right_wheel;
   int left_wheel;
+  std_msgs::msg::Int16MultiArray message;
+  geometry_msgs::msg::Twist message_twist;
   size_t count_;
 };
 
