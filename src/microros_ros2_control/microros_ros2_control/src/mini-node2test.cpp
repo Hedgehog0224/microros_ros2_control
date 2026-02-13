@@ -16,7 +16,7 @@ using std::placeholders::_1;
 
 class MinimalPublisher : public rclcpp::Node {
 public:
-  MinimalPublisher() : Node("minimal_publisher"), count_(0) {
+  MinimalPublisher() : Node("minimal_publisher") {
     auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(1));
     qos_profile.best_effort();
 
@@ -28,15 +28,15 @@ public:
     this->message.data = placeholder;
 
     publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(
-      "/diff_drive_base_controller/cmd_vel_unstamped", 1);
-    publisher_ = this->create_publisher<std_msgs::msg::Int16MultiArray>(
-      "/robot/robot_state", 1);
+        "/diff_drive_base_controller/cmd_vel_unstamped", 1);
+    publisher_ = this->create_publisher<std_msgs::msg::Int16MultiArray>("/robot/robot_state", 1);
     subscription_ = this->create_subscription<std_msgs::msg::Int16MultiArray>(
-      "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this, _1));
+        "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this, _1));
     timer_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timer_callback, this));
   }
 
   void timer_callback() {
+    this->count_++;
     // == "/robot/robot_state" ==
     this->message.data[0] = 179;
     this->message.data[1] = right_wheel;
@@ -53,11 +53,22 @@ public:
     this->message_twist.angular.y = 0;
     this->message_twist.angular.z = 0.5;
     this->publisher_twist_->publish(this->message_twist);
+
+    if (this->count_ > 5) {
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 120000, "OZHIDAJU...");
+    }
   }
 
   const void topic_callback(const std_msgs::msg::Int16MultiArray& msg) {
+    this->count_ = 0;
     this->right_wheel = msg.data[0];
     this->left_wheel = msg.data[1];
+    if ((this->right_wheel != 543) || (this->left_wheel != 2356)) {
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "PYPYPY NE WORCKAET..");
+    } else {
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 60000,
+                           "OLL WORCKAET KAK CHAS'S");
+    }
   }
 
 private:

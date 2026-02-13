@@ -110,6 +110,8 @@ public:
 
   /// \brief controller update rate
   int update_rate;
+
+  rclcpp::Time start_time;
 };
 
 //////////////////////////////////////////////////
@@ -468,6 +470,7 @@ void GazeboSimROS2ControlPlugin::Configure(const sim::Entity& _entity,
       rclcpp::Parameter("use_sim_time", rclcpp::ParameterValue(true)));
 
   this->dataPtr->entity_ = _entity;
+  this->dataPtr->start_time = this->dataPtr->node_->get_clock()->now();
 }
 
 //////////////////////////////////////////////////
@@ -508,13 +511,21 @@ void GazeboSimROS2ControlPlugin::PreUpdate(const sim::UpdateInfo& _info,
 //////////////////////////////////////////////////
 void GazeboSimROS2ControlPlugin::PostUpdate(const sim::UpdateInfo& _info,
                                             const sim::EntityComponentManager& /*_ecm*/) {
-  if (!this->dataPtr->controller_manager_) {
-    return;
-  }
+  // if (!this->dataPtr->controller_manager_) {
+  //   return;
+  // }
   // Get the simulation time and period
+  rclcpp::Time sys_time_ros = this->dataPtr->node_->get_clock()->now();
+
   rclcpp::Time sim_time_ros(
       std::chrono::duration_cast<std::chrono::nanoseconds>(_info.simTime).count(), RCL_ROS_TIME);
+
   rclcpp::Duration sim_period = sim_time_ros - this->dataPtr->last_update_sim_time_ros_;
+  rclcpp::Duration sys_period = sys_time_ros - this->dataPtr->start_time;
+  RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sim_period: %.3f", sim_period.seconds());
+  RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sys_period: %.3f", sys_period.seconds());
+  // RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "last_update_sim_time_ros_: %.3f",
+  //              this->dataPtr->last_update_sim_time_ros_);
 
   if (sim_period >= this->dataPtr->control_period_) {
     this->dataPtr->last_update_sim_time_ros_ = sim_time_ros;
