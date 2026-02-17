@@ -1,7 +1,7 @@
 #include <chrono>
+#include <iostream>
 #include <memory>
 #include <string>
-
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/int16_multi_array.hpp"
@@ -33,8 +33,23 @@ public:
     subscription_ = this->create_subscription<std_msgs::msg::Int16MultiArray>(
         "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this, _1));
     timer_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timer_callback, this));
+    // timer_check_ = this->create_wall_timer(
+    //     200ms, std::bind(&MinimalPublisher::timer_callback_for_check, this));
   }
+  void check() {
+    std::string command;
+    std::cout << "ZHDU COMANDU... ";
+    std::cin >> command;
 
+    if (command == "go") {
+      if ((this->right_wheel != 543) || (this->left_wheel != 2356)) {
+        RCLCPP_INFO(this->get_logger(), "PYPYPY NE WORCKAET.. %d, %d", this->right_wheel,
+                    this->left_wheel);
+      } else {
+        RCLCPP_INFO(this->get_logger(), "OLL WORCKAET KAK CHAS'S");
+      }
+    }
+  }
   void timer_callback() {
     this->count_++;
     // == "/robot/robot_state" ==
@@ -53,26 +68,17 @@ public:
     this->message_twist.angular.y = 0;
     this->message_twist.angular.z = 0.5;
     this->publisher_twist_->publish(this->message_twist);
-
-    if (this->count_ > 5) {
-      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 120000, "OZHIDAJU...");
-    }
   }
 
   const void topic_callback(const std_msgs::msg::Int16MultiArray& msg) {
     this->count_ = 0;
     this->right_wheel = msg.data[0];
     this->left_wheel = msg.data[1];
-    if ((this->right_wheel != 543) || (this->left_wheel != 2356)) {
-      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, "PYPYPY NE WORCKAET..");
-    } else {
-      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 60000,
-                           "OLL WORCKAET KAK CHAS'S");
-    }
   }
 
 private:
   rclcpp::TimerBase::SharedPtr timer_;
+  // rclcpp::TimerBase::SharedPtr timer_check_;
   rclcpp::Publisher<std_msgs::msg::Int16MultiArray>::SharedPtr publisher_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_twist_;
   rclcpp::Subscription<std_msgs::msg::Int16MultiArray>::SharedPtr subscription_;
@@ -85,7 +91,27 @@ private:
 
 int main(int argc, char* argv[]) {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<MinimalPublisher>());
+  auto Node = std::make_shared<MinimalPublisher>();
+
+  std::thread spinner([Node]() { rclcpp::spin(Node); });
+
+  while (rclcpp::ok()) {
+    Node->check();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+
   rclcpp::shutdown();
+  spinner.join();
   return 0;
 }
+
+// int main(int argc, char* argv[]) {
+//   rclcpp::init(argc, argv);
+//   while (rclcpp::ok) {
+//     auto Node = std::make_shared<MinimalPublisher>();
+//     rclcpp::spin_some(Node);
+//     Node->check();
+//   }
+//   rclcpp::shutdown();
+//   return 0;
+// }

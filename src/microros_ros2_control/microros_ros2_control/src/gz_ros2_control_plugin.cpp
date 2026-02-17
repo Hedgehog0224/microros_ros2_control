@@ -483,25 +483,25 @@ void GazeboSimROS2ControlPlugin::PreUpdate(const sim::UpdateInfo& _info,
     return;
   }
   static bool warned{false};
-  if (!warned) {
-    rclcpp::Duration gazebo_period(_info.dt);
+  // if (!warned) {
+  //   rclcpp::Duration gazebo_period(_info.dt);
 
-    // Check the period against the simulation period
-    if (this->dataPtr->control_period_ < gazebo_period) {
-      RCLCPP_ERROR_STREAM(this->dataPtr->node_->get_logger(),
-                          "Desired controller update period ("
-                              << this->dataPtr->control_period_.seconds()
-                              << " s) is faster than the gazebo simulation period ("
-                              << gazebo_period.seconds() << " s).");
-    } else if (this->dataPtr->control_period_ > gazebo_period) {
-      RCLCPP_WARN_STREAM(this->dataPtr->node_->get_logger(),
-                         " Desired controller update period ("
-                             << this->dataPtr->control_period_.seconds()
-                             << " s) is slower than the gazebo simulation period ("
-                             << gazebo_period.seconds() << " s).");
-    }
-    warned = true;
-  }
+  //   // Check the period against the simulation period
+  //   if (this->dataPtr->control_period_ < gazebo_period) {
+  //     RCLCPP_ERROR_STREAM(this->dataPtr->node_->get_logger(),
+  //                         "Desired controller update period ("
+  //                             << this->dataPtr->control_period_.seconds()
+  //                             << " s) is faster than the gazebo simulation period ("
+  //                             << gazebo_period.seconds() << " s).");
+  //   } else if (this->dataPtr->control_period_ > gazebo_period) {
+  //     RCLCPP_WARN_STREAM(this->dataPtr->node_->get_logger(),
+  //                        " Desired controller update period ("
+  //                            << this->dataPtr->control_period_.seconds()
+  //                            << " s) is slower than the gazebo simulation period ("
+  //                            << gazebo_period.seconds() << " s).");
+  //   }
+  //   warned = true;
+  // }
 
   rclcpp::Time sys_time_ros(
       std::chrono::duration_cast<std::chrono::nanoseconds>(_info.simTime).count(), RCL_ROS_TIME);
@@ -525,23 +525,6 @@ void GazeboSimROS2ControlPlugin::PostUpdate(const sim::UpdateInfo& _info,
     this->dataPtr->controller_manager_->read(sys_time_ros, sys_period);
     this->dataPtr->controller_manager_->update(sys_time_ros, sys_period);
   }
-  //////////////////////////////  SIM
-  /*
-  rclcpp::Time sim_time_ros(
-      std::chrono::duration_cast<std::chrono::nanoseconds>(_info.simTime).count(), RCL_ROS_TIME);
-
-  rclcpp::Duration sim_period = sim_time_ros - this->dataPtr->last_update_time_ros_;
-
-  if (sim_period >= this->dataPtr->control_period_) {
-    this->dataPtr->last_update_time_ros_ = sim_time_ros;
-    auto gz_controller_manager =
-        std::dynamic_pointer_cast<microros_ros2_control::GazeboSimSystemInterface>(
-            this->dataPtr->controller_manager_);
-    this->dataPtr->controller_manager_->read(sim_time_ros, sim_period);
-    this->dataPtr->controller_manager_->update(sim_time_ros, sim_period);
-  }
-  */
-  // RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sim_period: %.3f", sim_period.seconds());
   // RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sys_period: %.3f", sys_period.seconds());
 }
 }  // namespace microros_ros2_control
