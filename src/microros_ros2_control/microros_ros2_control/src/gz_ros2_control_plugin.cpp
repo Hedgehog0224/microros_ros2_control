@@ -103,7 +103,10 @@ public:
   std::string robot_description_node_ = "robot_state_publisher";
 
   /// \brief Last time the update method was called
-  rclcpp::Time last_update_sim_time_ros_ = rclcpp::Time(static_cast<int64_t>(0), RCL_ROS_TIME);
+  rclcpp::Time last_update_time_ros_ = rclcpp::Time(static_cast<int64_t>(0), RCL_ROS_TIME);
+
+  // /// \brief Last time the update method was called
+  // rclcpp::Time last_update_time_ros_ = rclcpp::Time(static_cast<int64_t>(0), RCL_ROS_TIME);
 
   /// \brief ECM pointer
   sim::EntityComponentManager* ecm{nullptr};
@@ -111,7 +114,7 @@ public:
   /// \brief controller update rate
   int update_rate;
 
-  rclcpp::Time start_time;
+  // rclcpp::Time start_time;
 };
 
 //////////////////////////////////////////////////
@@ -466,11 +469,11 @@ void GazeboSimROS2ControlPlugin::Configure(const sim::Entity& _entity,
           std::chrono::duration<double>(1.0 / static_cast<double>(this->dataPtr->update_rate))));
 
   // Force setting of use_sim_time parameter
-  this->dataPtr->controller_manager_->set_parameter(
-      rclcpp::Parameter("use_sim_time", rclcpp::ParameterValue(true)));
+  // this->dataPtr->controller_manager_->set_parameter(
+  //     rclcpp::Parameter("use_sim_time", rclcpp::ParameterValue(true)));
 
   this->dataPtr->entity_ = _entity;
-  this->dataPtr->start_time = this->dataPtr->node_->get_clock()->now();
+  // this->dataPtr->start_time = this->dataPtr->node_->get_clock()->now();
 }
 
 //////////////////////////////////////////////////
@@ -500,41 +503,46 @@ void GazeboSimROS2ControlPlugin::PreUpdate(const sim::UpdateInfo& _info,
     warned = true;
   }
 
-  rclcpp::Time sim_time_ros(
+  rclcpp::Time sys_time_ros(
       std::chrono::duration_cast<std::chrono::nanoseconds>(_info.simTime).count(), RCL_ROS_TIME);
-  rclcpp::Duration sim_period = sim_time_ros - this->dataPtr->last_update_sim_time_ros_;
+  rclcpp::Duration sys_period = sys_time_ros - this->dataPtr->last_update_time_ros_;
   // Always set commands on joints, otherwise at low control frequencies the
   // joints tremble as they are updated at a fraction of gazebo sim time
-  this->dataPtr->controller_manager_->write(sim_time_ros, sim_period);
+  this->dataPtr->controller_manager_->write(sys_time_ros, sys_period);
 }
 
 //////////////////////////////////////////////////
 void GazeboSimROS2ControlPlugin::PostUpdate(const sim::UpdateInfo& _info,
                                             const sim::EntityComponentManager& /*_ecm*/) {
-  // if (!this->dataPtr->controller_manager_) {
-  //   return;
-  // }
-  // Get the simulation time and period
+  //////////////////////////////  SYS
   rclcpp::Time sys_time_ros = this->dataPtr->node_->get_clock()->now();
-
+  rclcpp::Duration sys_period = sys_time_ros - this->dataPtr->last_update_time_ros_;
+  if (sys_period >= this->dataPtr->control_period_) {
+    this->dataPtr->last_update_time_ros_ = sys_time_ros;
+    auto controller_manager =
+        std::dynamic_pointer_cast<microros_ros2_control::GazeboSimSystemInterface>(
+            this->dataPtr->controller_manager_);
+    this->dataPtr->controller_manager_->read(sys_time_ros, sys_period);
+    this->dataPtr->controller_manager_->update(sys_time_ros, sys_period);
+  }
+  //////////////////////////////  SIM
+  /*
   rclcpp::Time sim_time_ros(
       std::chrono::duration_cast<std::chrono::nanoseconds>(_info.simTime).count(), RCL_ROS_TIME);
 
-  rclcpp::Duration sim_period = sim_time_ros - this->dataPtr->last_update_sim_time_ros_;
-  rclcpp::Duration sys_period = sys_time_ros - this->dataPtr->start_time;
-  RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sim_period: %.3f", sim_period.seconds());
-  RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sys_period: %.3f", sys_period.seconds());
-  // RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "last_update_sim_time_ros_: %.3f",
-  //              this->dataPtr->last_update_sim_time_ros_);
+  rclcpp::Duration sim_period = sim_time_ros - this->dataPtr->last_update_time_ros_;
 
   if (sim_period >= this->dataPtr->control_period_) {
-    this->dataPtr->last_update_sim_time_ros_ = sim_time_ros;
+    this->dataPtr->last_update_time_ros_ = sim_time_ros;
     auto gz_controller_manager =
         std::dynamic_pointer_cast<microros_ros2_control::GazeboSimSystemInterface>(
             this->dataPtr->controller_manager_);
     this->dataPtr->controller_manager_->read(sim_time_ros, sim_period);
     this->dataPtr->controller_manager_->update(sim_time_ros, sim_period);
   }
+  */
+  // RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sim_period: %.3f", sim_period.seconds());
+  // RCLCPP_ERROR(this->dataPtr->node_->get_logger(), "sys_period: %.3f", sys_period.seconds());
 }
 }  // namespace microros_ros2_control
 

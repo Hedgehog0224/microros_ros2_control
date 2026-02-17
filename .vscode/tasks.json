@@ -30,6 +30,13 @@
       "command": "./format.sh && colcon build --cmake-args -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && source install/setup.bash",
       "group": "none",
       "problemMatcher": []
+    },
+    {
+      "label": "source-ros",
+      "type": "shell",
+      "command": "source /opt/ros/humble/setup.bash",
+      "group": "none",
+      "problemMatcher": []
     }
   ]
 }
