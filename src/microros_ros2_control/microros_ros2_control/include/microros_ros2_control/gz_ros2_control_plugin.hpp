@@ -22,6 +22,7 @@
 namespace sim = gz::sim;
 #else
 #include <ignition/gazebo/System.hh>
+
 namespace sim = ignition::gazebo;
 #endif
 
@@ -41,7 +42,7 @@ public:
   ~GazeboSimROS2ControlPlugin() override;
 
   // Documentation inherited
-  void Configure(const sim::Entity& _entity, const std::shared_ptr<const sdf::Element>& _sdf,
+  void Configure(const uint64_t& _entity, const std::shared_ptr<const sdf::Element>& _sdf,
                  sim::EntityComponentManager& _ecm, sim::EventManager& _eventMgr) override;
 
   // Documentation inherited

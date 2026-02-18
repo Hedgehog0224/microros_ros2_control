@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "microros_ros2_control/gz_system_interface.hpp"
+
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "std_msgs/msg/int16_multi_array.hpp"
@@ -71,7 +72,7 @@ public:
                                         const rclcpp::Duration& period) override;
 
   // Documentation Inherited
-  bool initMicroRos(rclcpp::Node::SharedPtr& model_nh, std::map<std::string, sim::Entity>& joints,
+  bool initMicroRos(rclcpp::Node::SharedPtr& model_nh, std::map<std::string, uint64_t>& joints,
                     const hardware_interface::HardwareInfo& hardware_info,
                     sim::EntityComponentManager& _ecm, int& update_rate) override;
 

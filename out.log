@@ -1,494 +1,266 @@
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.IncludeLaunchDescription'
-[INFO] [launch]: All log files can be found below /home/me/.ros/log/2026-02-18-11-38-35-903691-comp-13051
-[INFO] [launch]: Default logging verbosity is set to DEBUG
-[DEBUG] [launch]: processing event: '<launch.events.include_launch_description.IncludeLaunchDescription object at 0x72d03df83070>'
-[DEBUG] [launch]: processing event: '<launch.events.include_launch_description.IncludeLaunchDescription object at 0x72d03df83070>' ✓ '<launch.event_handlers.on_include_launch_description.OnIncludeLaunchDescription object at 0x72d03eea48e0>'
-microros_ros2_control_demos
-[INFO] [ign gazebo-1]: process started with pid [13054]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessStarted'
-[INFO] [spawner-2]: process started with pid [13057]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessStarted'
-[INFO] [parameter_bridge-3]: process started with pid [13059]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessStarted'
-[INFO] [robot_state_publisher-4]: process started with pid [13061]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessStarted'
-[INFO] [create-5]: process started with pid [13063]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessStarted'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_started.ProcessStarted object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_started.ProcessStarted object at 0x72d03d127f10>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_started.ProcessStarted object at 0x72d03d170d90>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_started.ProcessStarted object at 0x72d03d170220>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_started.ProcessStarted object at 0x72d03d1704f0>'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1cf0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d126b30>'
-[robot_state_publisher-4] [WARN] [1771414716.243777018] [kdl_parser]: The root link chassis has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
-[robot_state_publisher-4] [INFO] [1771414716.243827918] [robot_state_publisher]: got segment caster
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1cf0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d126b30>'
-[robot_state_publisher-4] [INFO] [1771414716.243863098] [robot_state_publisher]: got segment chassis
-[robot_state_publisher-4] [INFO] [1771414716.243869274] [robot_state_publisher]: got segment left_wheel
-[robot_state_publisher-4] [INFO] [1771414716.243873064] [robot_state_publisher]: got segment right_wheel
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d127430>'
-[create-5] [INFO] [1771414716.269459725] [ros_gz_sim]: Requesting list of world names.
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d126170>'
-[parameter_bridge-3] [INFO] [1771414716.292124016] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d125900>'
-[spawner-2] [INFO] [1771414716.489238421] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:/qml/StyleDialog.qml:112:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:/qml/StyleDialog.qml:105:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:/qml/StyleDialog.qml:98:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:102:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:/qml/PluginMenu.qml:27:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/Gazebo/GazeboDrawer.qml:242:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStdout'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;36m[Dbg] [gz.cc:161] [0m[1;36mSubscribing to [[0m[1;36m/gazebo/starting_world[0m[1;36m].[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [gz.cc:163] [0m[1;36mWaiting for a world to be set from the GUI...[0m[1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mReceived world [[0m[1;32mempty.sdf[0m[1;32m] from the GUI.[0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [gz.cc:167] [0m[1;36mUnsubscribing from [[0m[1;36m/gazebo/starting_world[0m[1;36m].[0m[1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mRecording states to default path [[0m[1;32m/home/me/.ignition/gazebo/log/2026-02-18T11:38:36.369867742[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mIgnition Gazebo Server v[0m[1;32m6.17.0[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mLoading SDF world file[[0m[1;32m/usr/share/ignition/ignition-gazebo6/worlds/empty.sdf[0m[1;32m].[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing entity system service on [[0m[1;32m/[0m[1;32mentity/system/add[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [Physics.cc:804] [0m[1;36mLoaded [[0m[1;36mignition::physics::dartsim::Plugin[0m[1;36m] from library [[0m[1;36m/usr/lib/x86_64-linux-gnu/ign-physics-5/engine-plugins/libignition-physics-dartsim-plugin.so[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Physics[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mCreate service on [[0m[1;32m/world/empty/create[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mRemove service on [[0m[1;32m/world/empty/remove[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPose service on [[0m[1;32m/world/empty/set_pose[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPose service on [[0m[1;32m/world/empty/set_pose_vector[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mLight configuration service on [[0m[1;32m/world/empty/light_config[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPhysics service on [[0m[1;32m/world/empty/set_physics[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mSphericalCoordinates service on [[0m[1;32m/world/empty/set_spherical_coordinates[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mEnable collision service on [[0m[1;32m/world/empty/enable_collision[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mDisable collision service on [[0m[1;32m/world/empty/disable_collision[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mMaterial service on [[0m[1;32m/world/empty/visual_config[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mMaterial service on [[0m[1;32m/world/empty/wheel_slip[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::UserCommands[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::SceneBroadcaster[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SystemManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Contact[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mLoaded level [[0m[1;32m3[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [ServerConfig.cc:665] [0m[1;36mGenerating LogRecord SDF:[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [ServerConfig.cc:721] [0m[1;36m<plugin name='gz::sim::systems::LogRecord' filename='ignition-gazebo-log-system'>
-[ign gazebo-1]   <record_path>/home/me/.ignition/gazebo/log/2026-02-18T11:38:36.369867742</record_path>
-[ign gazebo-1]   <record_resources>false</record_resources>
-[ign gazebo-1]   <record_topic>.*</record_topic>
-[ign gazebo-1] </plugin>[0m
-[ign gazebo-1] [1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mRecording to log file [[0m[1;32m/home/me/.ignition/gazebo/log/2026-02-18T11:38:36.369867742/state.tlog[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [LogRecord.cc:333] [0m[1;36mRecording default topic[[0m[1;36m/2026-02-18T11:38:36.369867742/sdf[0m[1;36m].[0m
-[ign gazebo-1] [1;36m[Dbg] [LogRecord.cc:334] [0m[1;36mRecording default topic[[0m[1;36m/world/empty/changed_state[0m[1;36m].[0m
-[ign gazebo-1] [1;36m[Dbg] [LogRecord.cc:352] [0m[1;36mRecording topic[[0m[1;36m.*[0m[1;36m] as regular expression.[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d127430>'
-[create-5] [INFO] [1771414718.963034610] [ros_gz_sim]: Waiting messages on topic [robot_description].
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d127430>'
-[create-5] [INFO] [1771414719.061537451] [ros_gz_sim]: Requested creation of entity.
-[create-5] [INFO] [1771414719.061648660] [ros_gz_sim]: OK creation of entity.
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;31m[Err] [SystemLoader.cc:103] [0m[1;31mFailed to load system plugin [[0m[1;31mmicroros_ros2_control-system[0m[1;31m] : couldn't load library on path [[0m[1;31m/home/me/Documents/ws/microros_ros2_control/install/microros_ros2_control/lib/libmicroros_ros2_control-system.so[0m[1;31m].[0m[1;31m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:57:5: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e17e0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e17e0>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:52:3: QML RenderWindowOverlay: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:67:3: QML EntityContextMenu: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e17e0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e17e0>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:52:3: QML RenderWindowOverlay: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:67:3: QML EntityContextMenu: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e17e0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e17e0>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:52:3: QML RenderWindowOverlay: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:67:3: QML EntityContextMenu: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:52:3: QML RenderWindowOverlay: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:67:3: QML EntityContextMenu: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1990>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1990>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:52:3: QML RenderWindowOverlay: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:67:3: QML EntityContextMenu: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d170a00>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d170a00>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:52:3: QML RenderWindowOverlay: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:67:3: QML EntityContextMenu: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1cf0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[Wrn] [Component.hh:144] [0m[1;33mTrying to serialize component with data type [[0m[1;33mN3sdf3v125WorldE[0m[1;33m], which doesn't have [0m[1;33m`operator<<`. Component will not be serialized.[0m[1;33m[0m
-[INFO] [create-5]: process has finished cleanly [pid 13063]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessExited'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d6e1cf0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d127610>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d127520>'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStdout'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;36m[Dbg] [Syste[1;32m[Msg] [0m[1;32mIgnition Gazebo GUI    v[0m[1;32m6.17.0[0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [Gui.cc:253] [0m[1;36mWaiting for subscribers to [[0m[1;36m/gazebo/starting_world[0m[1;36m]...[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [Application.cc:92] [0m[1;36mInitializing application.[0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:555] [0m[1;36mCreate main window[0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [PathManager.cc:66] [0m[1;36mRequesting resource paths through [[0m[1;36m/gazebo/resource_paths/get[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Gui.cc:333] [0m[1;36mGUI requesting list of world names. The server may be busy [0m[1;36mdownloading resources. Please be patient.[0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Gui.cc:391] [0m[1;36mRequesting GUI from [[0m[1;36m/world/empty/gui/info[0m[1;36m]...[0m[1;36m[0m
-[ign gazebo-1] [1;36mReceived resource paths.[0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [GuiRunner.cc:145] [0m[1;36mRequesting initial state from [[0m[1;36m/world/empty/state[0m[1;36m]...[0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading config [[0m[1;32m/home/me/.ignition/gazebo/6/gui.config[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mMinimalScene[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32m3D View[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mMinimalScene[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gui-6/plugins/libMinimalScene.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mEntityContextMenuPlugin[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mEntity Context Menu[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mEntityContextMenuPlugin[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libEntityContextMenuPlugin.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mGzSceneManager[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mScene Manager[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mGzSceneManager[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libGzSceneManager.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mInteractiveViewControl[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mCamera view controller topic advertised on [[0m[1;32m/gui/camera/view_control[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mCamera reference visual topic advertised on [[0m[1;32m/gui/camera/view_control/reference_visual[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mCamera view control sensitivity advertised on [[0m[1;32m/gui/camera/view_control/sensitivity[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mInteractive view control[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mInteractiveViewControl[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gui-6/plugins/libInteractiveViewControl.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mCameraTracking[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mCamera tracking[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mCameraTracking[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gui-6/plugins/libCameraTracking.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mMarkerManager[0m[1;36m][0m[1;36m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/Spawn/Spawn.qml:32:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/WorldControl/WorldControl.qml:30:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStdout'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mListening to stats on [[0m[1;32m/world/empty/stats[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mMarker Manager[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mMarkerManager[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gui-6/plugins/libMarkerManager.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mSelectEntities[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mSelect entities[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mSelectEntities[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libSelectEntities.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mSpawn[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mSpawn[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mSpawn[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libSpawn.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mVisualizationCapabilities[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mView as transparent service on [[0m[1;32m/gui/view/transparent[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mView as wireframes service on [[0m[1;32m/gui/view/wireframes[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mView center of mass service on [[0m[1;32m/gui/view/com[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mView inertia service on [[0m[1;32m/gui/view/inertia[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mView collisions service on [[0m[1;32m/gui/view/collisions[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mView joints service on [[0m[1;32m/gui/view/joints[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mView frames service on [[0m[1;32m/gui/view/frames[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mVisualization capabilities[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mVisualizationCapabilities[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libVisualizationCapabilities.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mWorldControl[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mUsing world control service [[0m[1;32m/world/empty/control[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mListening to stats on [[0m[1;32m/world/empty/stats[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [WorldControl.cc:246] [0m[1;36mUsing an event to share WorldControl msgs with the server[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mWorld control[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mWorldControl[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gui-6/plugins/libWorldControl.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mWorldStats[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mListening to stats on [[0m[1;32m/world/empty/stats[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mWorld stats[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mWorldStats[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gui-6/plugins/libWorldStats.so[0m[1;32m][0m[1;32m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/TransformControl/TransformControl.qml:104:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/TransformControl/TransformControl.qml:99:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/TransformControl/TransformControl.qml:94:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/TransformControl/TransformControl.qml:89:3: QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityTree/EntityTree.qml:148:7: QML ToolButton: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Component.hh:189] [0m[1;33mTrying to deserialize component with data type [[0m[1;33mN3sdf3v125WorldE[0m[1;33m], which doesn't have [0m[1;33m`operator>>`. Component will not be deserialized.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityTree/EntityTree.qml:148:7: QML ToolButton: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/WorldStats/WorldStats.qml:53:3: QML RowLayout: Binding loop detected for property "x"[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:52:3: QML RenderWindowOverlay: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::/EntityContextMenuPlugin/EntityContextMenuPlugin.qml:67:3: QML EntityContextMenu: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStdout'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mShapes[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mShapes[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mShapes[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libShapes.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mLights[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mLights[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mLights[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libLights.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mTransformControl[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [TransformControl.cc:222] [0m[1;36mLegacy mode is disabled; this plugin must be used with [0m[1;36mMinimalScene.[0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mTransform control[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mTransformControl[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libTransformControl.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mScreenshot[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mScreenshot service on [[0m[1;32m/gui/screenshot[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mScreenshot[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mScreenshot[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gui-6/plugins/libScreenshot.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mCopyPaste[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mCopy/Paste[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mCopyPaste[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libCopyPaste.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mComponentInspector[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mComponent inspector[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mComponentInspector[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libComponentInspector.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:426] [0m[1;36mLoading plugin [[0m[1;36mEntityTree[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mAdded plugin [[0m[1;32mEntity tree[0m[1;32m] to main window[0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoaded plugin [[0m[1;32mEntityTree[0m[1;32m] from path [[0m[1;32m/usr/lib/x86_64-linux-gnu/ign-gazebo-6/plugins/gui/libEntityTree.so[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:296] [0m[1;36mLoading window config[0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mUsing server control service [[0m[1;32m/server_control[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:569] [0m[1;36mApplying config[0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [MinimalScene.cc:602] [0m[1;36mCreate scene [[0m[1;36mscene[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.Shutdown'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d6e1cf0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d127460>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d126bf0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d1261a0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d1258d0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d1253f0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d6e1cf0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03eea47f0>'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d126170>'
-[parameter_bridge-3] [INFO] [1771414724.969193633] [rclcpp]: signal_handler(SIGINT/SIGTERM)
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e3520>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e3520>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d126b30>'
-[robot_state_publisher-4] [INFO] [1771414724.969193966] [rclcpp]: signal_handler(SIGINT/SIGTERM)
-[INFO] [parameter_bridge-3]: process has finished cleanly [pid 13059]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessExited'
-[INFO] [robot_state_publisher-4]: process has finished cleanly [pid 13061]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessExited'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d513b50>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d126350>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d513b50>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d126260>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d512ef0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d512ef0>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d126830>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d512ef0>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d126ce0>'
-[INFO] [spawner-2]: process has finished cleanly [pid 13057]
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessExited'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d512ef0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d512ef0>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d125ab0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d512ef0>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d1259c0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d512ef0>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d510940>'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e3520>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e3520>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:52: TypeError: Cannot read property 'dialogOnExitText' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:54: TypeError: Cannot read property 'exitDialogShowCloseGui' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:53: TypeError: Cannot read property 'exitDialogShowShutdown' of null[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d4a3130>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d4a3130>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:251: TypeError: Cannot read property 'showDrawer' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:/qml/SideDrawer.qml:93: TypeError: Cannot read property 'showDefaultDrawerOpts' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:/qml/IgnSplit.qml:56: TypeError: Cannot read property 'pluginCount' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:41: TypeError: Cannot read property 'toolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:42: TypeError: Cannot read property 'toolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:43: TypeError: Cannot read property 'toolBarColorDark' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:44: TypeError: Cannot read property 'toolBarTextColorDark' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:45: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:46: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:47: TypeError: Cannot read property 'pluginToolBarColorDark' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:48: TypeError: Cannot read property 'pluginToolBarTextColorDark' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:50: TypeError: Cannot read property 'defaultExitAction' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:51: TypeError: Cannot read property 'showDialogOnExit' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:55: TypeError: Cannot read property 'exitDialogShutdownText' of null[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStderr'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d512ef0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d512ef0>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:56: TypeError: Cannot read property 'exitDialogCloseGuiText' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:66: TypeError: Cannot read property 'toolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:76: TypeError: Cannot read property 'toolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:219: TypeError: Cannot read property 'showPluginMenu' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:202: TypeError: Cannot read property 'showDrawer' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] qrc:qml/Main.qml:188: TypeError: Cannot read property 'showDrawer' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d125f00>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d125f00>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d4a3130>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d4a3130>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e3520>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stderr.ProcessStderr object at 0x72d03d6e3520>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:128: TypeError: Cannot read property 'pluginToolBarColorLight' of null[0m[1;33m[0m
-[ign gazebo-1] [1;33m[GUI] [Wrn] [Application.cc:797] [0m[1;33m[QT] file::qml/IgnCard.qml:139: TypeError: Cannot read property 'pluginToolBarTextColorLight' of null[0m[1;33m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStdout'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;36m[GUI] [Dbg] [TransformControl.cc:531] [0m[1;36mTransformControl plugin is using camera [[0m[1;36mscene::Camera(65527)[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Spawn.cc:289] [0m[1;36mSpawn plugin is using camera [[0m[1;36mscene::Camera(65527)[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [SelectEntities.cc:451] [0m[1;36mSelectEntities plugin is using camera [[0m[1;36mscene::Camera(65527)[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [MarkerManager.cc:173] [0m[1;36mAdvertise [0m[1;36m/marker[0m[1;36m/list service.[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [MarkerManager.cc:183] [0m[1;36mAdvertise [0m[1;36m/marker[0m[1;36m/list.[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [MarkerManager.cc:193] [0m[1;36mAdvertise [0m[1;36m/marker[0m[1;36m_array.[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [CameraTracking.cc:181] [0m[1;36mCameraTrackingPrivate plugin is moving camera [[0m[1;36mscene::Camera(65527)[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mMove to service on [[0m[1;32m/gui/move_to[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mFollow service on [[0m[1;32m/gui/follow[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mMove to pose service on [[0m[1;32m/gui/move_to/pose[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mCamera pose topic advertised on [[0m[1;32m/gui/camera/pose[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mFollow offset service on [[0m[1;32m/gui/follow/offset[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [InteractiveViewControl.cc:174] [0m[1;36mInteractiveViewControl plugin is moving camera [[0m[1;36mscene::Camera(65527)[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [EntityContextMenuPlugin.cc:79] [0m[1;36mEntity context menu plugin is using camera [[0m[1;36mscene::Camera(65527)[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [SignalHandler.cc:141] [0m[1;36mReceived signal[[0m[1;36m2[0m[1;36m].[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Gui.cc:472] [0m[1;36mShutting down ign-gazebo-gui[0m[1;36m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [Application.cc:140] [0m[1;36mTerminating application.[0m[1;36m[0m
-[ign gazebo-1] [1;32m[GUI] [0m[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mignition-rendering-ogre2[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[GUI] [Dbg] [MinimalScene.cc:657] [0m[1;36mDestroy scene [[0m[1;36mscene[0m[1;36m][0m[1;36m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStdout'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d4a3130>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d4a3130>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] mManager.cc:73] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::LogRecord[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing world controls on [[0m[1;32m/world/empty[0m[1;32m/control], [[0m[1;32m/world/empty[0m[1;32m/control/state] and [[0m[1;32m/world/empty[0m[1;32m/playback/control][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing GUI information on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mgui/info[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mWorld [[0m[1;32mempty[0m[1;32m] initialized with [[0m[1;32m1ms[0m[1;32m] physics profile.[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing world SDF generation service on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mgenerate_world_sdf[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing world names on [[0m[1;32m/gazebo/worlds[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mResource path add service on [[0m[1;32m/gazebo/resource_paths/add[0m[1;32m].[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mResource path get service on [[0m[1;32m/gazebo/resource_paths/get[0m[1;32m].[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mResource path resolve service on [[0m[1;32m/gazebo/resource_paths/resolve[0m[1;32m].[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mResource paths published on [[0m[1;32m/gazebo/resource_paths[0m[1;32m].[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServer control service on [[0m[1;32m/server_control[0m[1;32m].[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mFound no publishers on /stats, adding root stats topic[0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mFound no publishers on /clock, adding root clock topic[0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [SimulationRunner.cc:501] [0m[1;36mCreating PostUpdate worker threads: [0m[1;36m4[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m0[0m[1;36m)[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m1[0m[1;36m)[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SimulationRunner.cc:512] [0m[1;36mCreating postupdate worker thread ([0m[1;36m2[0m[1;36m)[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [UserCommands.cc:1303] [0m[1;36mCreated entity [[0m[1;36m10[0m[1;36m] named [[0m[1;36mdiff_drive[0m[1;36m][0m[1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing scene information on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mscene/info[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing graph information on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mscene/graph[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing full state on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mstate[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mServing full state (async) on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mstate_async[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPublishing scene information on [[0m[1;32m/world/empty/scene/info[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPublishing entity deletions on [[0m[1;32m/world/empty/scene/deletion[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPublishing state changes on [[0m[1;32m/world/empty/state[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPublishing pose messages on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mpose/info[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mPublishing dynamic pose messages on [[0m[1;32m/world/empty[0m[1;32m/[0m[1;32mdynamic_pose/info[0m[1;32m][0m[1;32m[0m
-[ign gazebo-1] [1;36m[Dbg] [EntityComponentManager.cc:1623] [0m[1;36mUpdated state thread iterators: [0m[1;36m12[0m[1;36m threads processing around [0m[1;36m2[0m[1;36m entities each.[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SignalHandler.cc:141] [0m[1;36mReceived signal[[0m[1;36m2[0m[1;36m].[0m
-[ign gazebo-1] [1;36m[Dbg] [ServerPrivate.cc:110] [0m[1;36mServer received signal[[0m[1;36m2[0m[1;36m][0m
-[ign gazebo-1] [1;36m[Dbg] [gz.cc:410] [0m[1;36mShutting down ign-gazebo-server[0m[1;36m[0m
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.process.ProcessStdout'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_stdout.ProcessStdout object at 0x72d03d29d090>' ✓ '<launch.event_handlers.on_process_io.OnProcessIO object at 0x72d03d1253c0>'
-[ign gazebo-1] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36mExiting postupdate worker thread ([Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m2[0m[1;36m)[0m[1;36m[0m
-[ign gazebo-1] [1;36m[Dbg] [SimulationRunner.cc:528] [0m[1;36mExiting postupdate worker thread ([0m[1;36m1[0m[1;36m)[0m[1;36m[0m
-[ign gazebo-1] [1;36m)[0m[1;36m[0m
-[ign gazebo-1] [1;32m[Msg] [0m[1;32mStopping recording[0m[1;32m[0m
-[ERROR] [ign gazebo-1]: process has died [pid 13054, exit code -2, cmd 'ruby /usr/bin/ign gazebo --record-topic ".*" -r -v 4 empty.sdf --force-version 6'].
-[DEBUG] [launch.launch_context]: emitting event: 'launch.events.process.ProcessExited'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d2bbc70>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d2bbc70>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d1255a0>'
-[DEBUG] [launch]: processing event: '<launch.events.process.process_exited.ProcessExited object at 0x72d03d2bbc70>' ✓ '<launch.event_handlers.on_process_exit.OnProcessExit object at 0x72d03d1254b0>'
-[INFO] [launch]: process[ign gazebo-1] was required: shutting down launched system
-[DEBUG] [launch.launch_context]: emitting event synchronously: 'launch.events.Shutdown'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d29cfd0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d29cfd0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d127460>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d29cfd0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d126bf0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d29cfd0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d1261a0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d29cfd0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d1258d0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d29cfd0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03d1253f0>'
-[DEBUG] [launch]: processing event: '<launch.events.shutdown.Shutdown object at 0x72d03d29cfd0>' ✓ '<launch.event_handlers.on_shutdown.OnShutdown object at 0x72d03eea47f0>'
+# План по адаптации кода для работы без Gazebo
+
+## Текущая архитектура
+Сейчас код жестко завязан на Gazebo через:
+1. sim::Entity, sim::EntityComponentManager - типы Gazebo
+2. gz/sim и ignition/gazebo заголовки
+3. Компонентная модель Gazebo для работы с сущностями
+
+## Варианты решения
+
+### Вариант 1: Минимальные изменения (эмуляция Gazebo)
+Создать заглушки, эмулирующие интерфейсы Gazebo:
+
+// stub_gazebo.hpp
+namespace sim {
+    using Entity = uint64_t;
+    constexpr Entity kNullEntity = 0;
+    
+    class EntityComponentManager {
+    public:
+        template<typename T>
+        bool EntityHasComponentType(Entity, uint64_t) { return false; }
+        
+        template<typename T>
+        void CreateComponent(Entity, T) {}
+        
+        template<typename T>
+        auto Component(Entity) { return nullptr; }
+    };
+    
+    class Model {
+    public:
+        Model(Entity) {}
+        bool Valid(EntityComponentManager&) { return true; }
+        std::string Name(EntityComponentManager&) { return "stub_model"; }
+    };
+    
+    namespace components {
+        struct JointType { sdf::JointType Data() { return sdf::JointType::REVOLUTE; } };
+        struct JointAxis { sdf::JointAxis Data() { return sdf::JointAxis(); } };
+        // ... остальные компоненты
+    }
+}
+Плюсы: Минимальные изменения в существующем коде
+Минусы: Заглушки могут не полностью соответствовать поведению Gazebo
+
+### Вариант 2: Рефакторинг с выделением абстракций (рекомендуемый)
+
+#### Шаг 1: Создать абстрактный интерфейс для Gazebo-зависимостей
+
+// gazebo_abstraction.hpp
+namespace microros_ros2_control {
+
+// Абстракция для Entity
+class IEntity {
+public:
+    virtual ~IEntity() = default;
+    virtual bool isValid() const = 0;
+    virtual uint64_t getId() const = 0;
+};
+
+// Абстракция для EntityComponentManager
+class IEntityComponentManager {
+public:
+    virtual ~IEntityComponentManager() = default;
+    virtual bool hasComponent(uint64_t entity, const std::string& component_type) = 0;
+    virtual void createComponent(uint64_t entity, const std::string& component_type) = 0;
+    virtual double getJointPosition(uint64_t entity) = 0;
+    virtual double getJointVelocity(uint64_t entity) = 0;
+    virtual void setJointPositionCmd(uint64_t entity, double value) = 0;
+    virtual void setJointVelocityCmd(uint64_t entity, double value) = 0;
+    // ... другие методы
+};
+
+// Фабрика для создания правильной реализации
+class GazeboAbstractionFactory {
+public:
+    static std::unique_ptr<IEntityComponentManager> createECM(bool use_gazebo = false);
+    static std::unique_ptr<IEntity> createEntity(uint64_t id);
+};
+
+} // namespace microros_ros2_control
+#### Шаг 2: Модифицировать gz_system_interface.hpp
+
+// Вместо прямого использования sim:: типов
+class GazeboSimSystemInterface : public hardware_interface::SystemInterface {
+public:
+    virtual bool initMicroRos(
+        rclcpp::Node::SharedPtr& model_nh,
+        std::map<std::string, uint64_t>& joints,  // Изменено: теперь uint64_t ID
+        const hardware_interface::HardwareInfo& hardware_info,
+        std::shared_ptr<IEntityComponentManager> ecm,  // Абстрактный ECM
+        int& update_rate) = 0;
+    
+    // Добавить метод для выбора реализации
+    void useGazebo(bool enable) { use_gazebo_ = enable; }
+    
+protected:
+    bool use_gazebo_ = false;
+    rclcpp::Node::SharedPtr nh_;
+};
+#### Шаг 3: Модифицировать gz_system.hpp и gz_system.cpp
+
+// Вместо sim::Entity используем uint64_t
+class GazeboSimSystem : public GazeboSimSystemInterface {
+public:
+    bool initMicroRos(
+        rclcpp::Node::SharedPtr& model_nh,
+        std::map<std::string, uint64_t>& joints,  // ID вместо Entity
+        const hardware_interface::HardwareInfo& hardware_info,
+        std::shared_ptr<IEntityComponentManager> ecm,  // Абстрактный ECM
+        int& update_rate) override;
+    
+private:
+    std::unique_ptr<GazeboSimSystemPrivate> dataPtr;
+    // ... остальные методы
+};
+#### Шаг 4: Создать реализацию без Gazebo
+// no_gazebo_ecm.hpp
+class NoGazeboEntityComponentManager : public IEntityComponentManager {
+public:
+    NoGazeboEntityComponentManager() {
+        // Внутреннее состояние для хранения данных о сущностях
+        joint_positions_.clear();
+        joint_velocities_.clear();
+        joint_efforts_.clear();
+    }
+    
+    bool hasComponent(uint64_t entity, const std::string& component_type) override {
+        // Всегда true для базовых компонентов
+        return component_type == "JointPosition" || 
+               component_type == "JointVelocity" ||
+               component_type == "JointTransmittedWrench";
+    }
+    
+    void createComponent(uint64_t entity, const std::string& component_type) override {
+        // Инициализация внутренних структур
+        if (component_type == "JointPosition") {
+            joint_positions_[entity] = 0.0;
+        } else if (component_type == "JointVelocity") {
+            joint_velocities_[entity] = 0.0;
+        }
+    }
+    
+    double getJointPosition(uint64_t entity) override {
+        auto it = joint_positions_.find(entity);
+        return it != joint_positions_.end() ? it->second : 0.0;
+    }
+    
+    double getJointVelocity(uint64_t entity) override {
+        auto it = joint_velocities_.find(entity);
+        return it != joint_velocities_.end() ? it->second : 0.0;
+    }
+    
+    void setJointPositionCmd(uint64_t entity, double value) override {
+        joint_pos_cmds_[entity] = value;
+    }
+    
+    void setJointVelocityCmd(uint64_t entity, double value) override {
+        joint_vel_cmds_[entity] = value;
+    }
+    
+private:
+    std::map<uint64_t, double> joint_positions_;
+    std::map<uint64_t, double> joint_velocities_;
+    std::map<uint64_t, double> joint_efforts_;
+    std::map<uint64_t, double> joint_pos_cmds_;
+    std::map<uint64_t, double> joint_vel_cmds_;
+    std::map<uint64_t, double> joint_eff_cmds_;
+};
+#### Шаг 5: Создать упрощенный плагин вместо gz_ros2_control_plugin
+
+`cpp
+// simple_ros2_control_node.hpp
+#include "rclcpp/rclcpp.hpp"
+#include "controller_manager/controller_manager.hpp"
+
+class SimpleROS2ControlNode : public rclcpp::Node {
+public:
+    SimpleROS2ControlNode() : Node("simple_ros2_control") {
+        // Инициализация без Gazebo
+        auto ecm = std::make_shared<NoGazeboEntityComponentManager>();
+        
+        // Загрузка URDF
+        std::string urdf_string = getURDF();
+        auto hardware_info = parse_control_resources_from_urdf(urdf_string);
+        
+        // Создание ResourceManager
+        resource_manager_ = std::make_unique<hardware_interface::ResourceManager>();
+        
+        // Инициализация hardware интерфейсов
+        for (const auto& info : hardware_info) {
+            auto system = std::make_unique<GazeboSimSystem>();
+            system->useGazebo(false);  // Режим без Gazebo
+            
+            // Создание заглушек для joint'ов
+            std::map<std::string, uint64_t> joints;
+            for (size_t i = 0; i < info.joints.size(); ++i) {
+                joints[info.joints[i].name] = i + 1;  // Простые ID
+            }
+            
+            system->initMicroRos(this->shared_from_this(), joints, info, ecm, update_rate_);
+            resource_manager_->import_component(std::move(system), info);
+        }
+        
+        // Создание controller_manager
+        controller_manager_ = std::make_shared<controller_manager::ControllerManager>(
+            std::move(resource_manager_), executor_, "controller_manager", this->get_namespace());
+        
+        // Таймер для обновления
+        timer_ = this->create_wall_timer(
+            std::chrono::milliseconds(1000 / update_rate_),
+            std::bind(&SimpleROS2ControlNode::update, this));
+    }
+    
+private:
+    void update() {
+        auto now = this->now();
+        auto period = now - last_update_;
+        // Чтение состояний (данные от микроконтроллера придут через callback)
+        controller_manager_->read(now, period);
+        
+        // Обновление контроллеров
+        controller_manager_->update(now, period);
+        
+        // Запись команд (отправка на микроконтроллер)
+        controller_manager_->write(now, period);
+        
+        last_update_ = now;
+    }
+    
+    std::unique_ptr<hardware_interface::ResourceManager> resource_manager_;
+    std::shared_ptr<controller_manager::ControllerManager> controller_manager_;
+    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::Time last_update_;
+    int update_rate_ = 100;  // Hz
+};
+`
+
+## Краткий план действий
+
+1. Анализ зависимостей: Выявить все места использования Gazebo API
+2. Создание абстракций: IEntity, IEntityComponentManager
+3. Модификация интерфейсов: Замена sim:: типов на uint64_t ID
+4. Создание реализации без Gazebo: NoGazeboEntityComponentManager
+5. Создание простого узла управления: Вместо плагина Gazebo
+6. Адаптация логики чтения/записи: Использование callback'ов от micro-ROS
+7. Тестирование: Проверка работы без Gazebo
+
+## Основные изменения в коде
+
+1. В `gz_system.hpp`:
+   - Заменить `sim::Entity` на `uint64_t`
+   - Заменить `sim::EntityComponentManager&` на `std::shared_ptr<IEntityComponentManager>`
+
+2. В `gz_system.cpp`:
+   - Убрать прямые вызовы `_ecm.Component<>()`
+   - Использовать методы IEntityComponentManager
+
+3. В `gz_ros2_control_plugin.hpp/.cpp`:
+   - Либо заменить на новый узел
+   - Либо модифицировать для работы с абстракциями
+
+4. В `mini-node2test.cpp`:
+   - Интегрировать с модифицированной системой
+   

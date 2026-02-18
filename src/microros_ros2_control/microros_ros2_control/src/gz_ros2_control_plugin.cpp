@@ -70,11 +70,11 @@ public:
   /// configured for
   /// \param[in] _ecm Gazebo Entity Component Manager
   /// \return List of entities containing all enabled joints
-  std::map<std::string, sim::Entity> GetEnabledJoints(const sim::Entity& _entity,
-                                                      sim::EntityComponentManager& _ecm) const;
+  std::map<std::string, uint64_t> GetEnabledJoints(const uint64_t& _entity,
+                                                   sim::EntityComponentManager& _ecm) const;
 
   /// \brief Entity ID for sensor within Gazebo.
-  sim::Entity entity_;
+  uint64_t entity_;
 
   /// \brief Node Handles
   std::shared_ptr<rclcpp::Node> node_{nullptr};
@@ -118,9 +118,9 @@ public:
 };
 
 //////////////////////////////////////////////////
-std::map<std::string, sim::Entity> GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
-    const sim::Entity& _entity, sim::EntityComponentManager& _ecm) const {
-  std::map<std::string, sim::Entity> output;
+std::map<std::string, uint64_t> GazeboSimROS2ControlPluginPrivate::GetEnabledJoints(
+    const uint64_t& _entity, sim::EntityComponentManager& _ecm) const {
+  std::map<std::string, uint64_t> output;
 
   std::vector<std::string> enabledJoints;
 
@@ -231,7 +231,7 @@ GazeboSimROS2ControlPlugin::~GazeboSimROS2ControlPlugin() {
 }
 
 //////////////////////////////////////////////////
-void GazeboSimROS2ControlPlugin::Configure(const sim::Entity& _entity,
+void GazeboSimROS2ControlPlugin::Configure(const uint64_t& _entity,
                                            const std::shared_ptr<const sdf::Element>& _sdf,
                                            sim::EntityComponentManager& _ecm, sim::EventManager&) {
   rclcpp::Logger logger = rclcpp::get_logger("(GazeboSim)MicroROS2ControlPlugin");
@@ -508,18 +508,18 @@ void GazeboSimROS2ControlPlugin::PostUpdate(const sim::UpdateInfo& _info,
 }
 }  // namespace microros_ros2_control
 
-// #ifdef GZ_HEADERS
-// GZ_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
-//               microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
-//               microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
-//               microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
-// GZ_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
-//                     "ign_ros2_control::IgnitionROS2ControlPlugin")
-// #else
-// IGNITION_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
-//                     microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
-//                     microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
-//                     microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
-// IGNITION_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
-//                           "ign_ros2_control::IgnitionROS2ControlPlugin")
-// #endif
+#ifdef GZ_HEADERS
+GZ_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
+              microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
+              microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
+              microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
+GZ_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
+                    "ign_ros2_control::IgnitionROS2ControlPlugin")
+#else
+IGNITION_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
+                    microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
+                    microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
+                    microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
+IGNITION_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
+                          "ign_ros2_control::IgnitionROS2ControlPlugin")
+#endif

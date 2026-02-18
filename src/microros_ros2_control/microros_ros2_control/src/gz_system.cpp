@@ -135,7 +135,7 @@ public:
   std::string topicName{};
 
   /// \brief handles to the force torque from within Gazebo
-  sim::Entity sim_ft_sensors_ = sim::kNullEntity;
+  uint64_t sim_ft_sensors_ = sim::kNullEntity;
 
   /// \brief An array per FT
   std::array<double, 6> ft_sensor_data_;
@@ -162,7 +162,7 @@ public:
   std::string topicName{};
 
   /// \brief handles to the imu from within Gazebo
-  sim::Entity sim_imu_sensors_ = sim::kNullEntity;
+  uint64_t sim_imu_sensors_ = sim::kNullEntity;
 
   /// \brief An array per IMU with 4 orientation, 3 angular velocity and 3
   /// linear acceleration
@@ -234,7 +234,7 @@ namespace microros_ros2_control {
 bool GazeboSimSystem::initMicroRos(  //[объяснение] инициализация системного
                                      // интерфейса //хард-нет
     rclcpp::Node::SharedPtr& model_nh,  //[объяснение] Указатель на ноду
-    std::map<std::string, sim::Entity>&
+    std::map<std::string, uint64_t>&
         enableJoints,  //[объяснение] Карта с названием соединения в качестве
                        // ключа и значением, связанным с объектом в Gazebo
     const hardware_interface::HardwareInfo& hardware_info,  //[объяснение] поле с данными от URDF
@@ -288,7 +288,7 @@ bool GazeboSimSystem::initMicroRos(  //[объяснение] инициализ
       continue;
     }
 
-    sim::Entity simjoint = enableJoints[joint_name];  //[объяснение]
+    uint64_t simjoint = enableJoints[joint_name];  //[объяснение]
     this->dataPtr->joints_[j].joint_type =
         _ecm.Component<sim::components::JointType>(  //[объяснение]
                 simjoint)
@@ -490,7 +490,7 @@ void GazeboSimSystem::registerSensors(  // хард-нет
   // the data will be stored, and we can safely use pointers to the structures
 
   this->dataPtr->ecm->Each<sim::components::Imu, sim::components::Name>(
-      [&](const sim::Entity& _entity, const sim::components::Imu*,
+      [&](const uint64_t& _entity, const sim::components::Imu*,
           const sim::components::Name* _name) -> bool {
         auto imuData = std::make_shared<ImuData>();
         RCLCPP_INFO_STREAM(this->nh_->get_logger(), "Loading sensor: " << _name->Data());
@@ -531,7 +531,7 @@ void GazeboSimSystem::registerSensors(  // хард-нет
       });
 
   this->dataPtr->ecm->Each<sim::components::ForceTorque, sim::components::Name>(
-      [&](const sim::Entity& _entity, const sim::components::ForceTorque*,
+      [&](const uint64_t& _entity, const sim::components::ForceTorque*,
           const sim::components::Name* _name) -> bool {
         // RCLCPP_INFO_STREAM(this->nh_->get_logger(), "===== Loading
         // ForceTorque =====");

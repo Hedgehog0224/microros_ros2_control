@@ -100,7 +100,7 @@ public:
   /// \param[in] _ecm Entity-component manager.
   /// \param[in] update_rate controller update rate
   virtual bool initMicroRos(rclcpp::Node::SharedPtr& model_nh,
-                            std::map<std::string, sim::Entity>& joints,
+                            std::map<std::string, uint64_t>& joints,
                             const hardware_interface::HardwareInfo& hardware_info,
                             sim::EntityComponentManager& _ecm, int& update_rate) = 0;
 
