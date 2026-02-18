@@ -483,26 +483,6 @@ void GazeboSimROS2ControlPlugin::PreUpdate(const sim::UpdateInfo& _info,
     return;
   }
   static bool warned{false};
-  // if (!warned) {
-  //   rclcpp::Duration gazebo_period(_info.dt);
-
-  //   // Check the period against the simulation period
-  //   if (this->dataPtr->control_period_ < gazebo_period) {
-  //     RCLCPP_ERROR_STREAM(this->dataPtr->node_->get_logger(),
-  //                         "Desired controller update period ("
-  //                             << this->dataPtr->control_period_.seconds()
-  //                             << " s) is faster than the gazebo simulation period ("
-  //                             << gazebo_period.seconds() << " s).");
-  //   } else if (this->dataPtr->control_period_ > gazebo_period) {
-  //     RCLCPP_WARN_STREAM(this->dataPtr->node_->get_logger(),
-  //                        " Desired controller update period ("
-  //                            << this->dataPtr->control_period_.seconds()
-  //                            << " s) is slower than the gazebo simulation period ("
-  //                            << gazebo_period.seconds() << " s).");
-  //   }
-  //   warned = true;
-  // }
-
   rclcpp::Time sys_time_ros(
       std::chrono::duration_cast<std::chrono::nanoseconds>(_info.simTime).count(), RCL_ROS_TIME);
   rclcpp::Duration sys_period = sys_time_ros - this->dataPtr->last_update_time_ros_;
@@ -514,7 +494,6 @@ void GazeboSimROS2ControlPlugin::PreUpdate(const sim::UpdateInfo& _info,
 //////////////////////////////////////////////////
 void GazeboSimROS2ControlPlugin::PostUpdate(const sim::UpdateInfo& _info,
                                             const sim::EntityComponentManager& /*_ecm*/) {
-  //////////////////////////////  SYS
   rclcpp::Time sys_time_ros = this->dataPtr->node_->get_clock()->now();
   rclcpp::Duration sys_period = sys_time_ros - this->dataPtr->last_update_time_ros_;
   if (sys_period >= this->dataPtr->control_period_) {
@@ -529,18 +508,18 @@ void GazeboSimROS2ControlPlugin::PostUpdate(const sim::UpdateInfo& _info,
 }
 }  // namespace microros_ros2_control
 
-#ifdef GZ_HEADERS
-GZ_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
-              microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
-              microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
-              microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
-GZ_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
-                    "ign_ros2_control::IgnitionROS2ControlPlugin")
-#else
-IGNITION_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
-                    microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
-                    microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
-                    microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
-IGNITION_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
-                          "ign_ros2_control::IgnitionROS2ControlPlugin")
-#endif
+// #ifdef GZ_HEADERS
+// GZ_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
+//               microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
+//               microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
+//               microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
+// GZ_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
+//                     "ign_ros2_control::IgnitionROS2ControlPlugin")
+// #else
+// IGNITION_ADD_PLUGIN(microros_ros2_control::GazeboSimROS2ControlPlugin, sim::System,
+//                     microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemConfigure,
+//                     microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPreUpdate,
+//                     microros_ros2_control::GazeboSimROS2ControlPlugin::ISystemPostUpdate)
+// IGNITION_ADD_PLUGIN_ALIAS(microros_ros2_control::GazeboSimROS2ControlPlugin,
+//                           "ign_ros2_control::IgnitionROS2ControlPlugin")
+// #endif

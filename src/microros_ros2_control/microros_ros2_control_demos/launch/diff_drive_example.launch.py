@@ -96,18 +96,19 @@ def generate_launch_description():
                                         'gz_sim.launch.py'])]),
             launch_arguments=[('gz_args', ['--record-topic ".*" -r -v 4 empty.sdf'])]),
             # launch_arguments=[('gz_args', [' -s -r -v 4 empty.sdf']), ('ign_args', [' -s -v 4'])]),
-        RegisterEventHandler( #[объяснение] 
-            event_handler=OnProcessExit(
-                target_action=gz_spawn_entity,
-                on_exit=[joint_state_broadcaster_spawner],
-            )
-        ),
+        # RegisterEventHandler( #[объяснение] 
+        #     event_handler=OnProcessExit(
+        #         target_action=gz_spawn_entity,
+        #         on_exit=[joint_state_broadcaster_spawner],
+        #     )
+        # ),
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=joint_state_broadcaster_spawner,
                 on_exit=[diff_drive_base_controller_spawner],
             )
         ),
+        joint_state_broadcaster_spawner,
         bridge,
         node_robot_state_publisher,
         gz_spawn_entity,

@@ -41,7 +41,7 @@ public:
     std::cout << "ZHDU COMANDU... ";
     std::cin >> command;
 
-    if (command == "go") {
+    if (command != "") {
       if ((this->right_wheel != 543) || (this->left_wheel != 2356)) {
         RCLCPP_INFO(this->get_logger(), "PYPYPY NE WORCKAET.. %d, %d", this->right_wheel,
                     this->left_wheel);
