@@ -146,9 +146,11 @@
     </inertial>
   </link>
 
-  <ros2_control name="GazeboSimSystem" type="system">
+  <ros2_control name="DiffBotSystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/GazeboSimSystem</plugin>
+      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
+        <param name="example_param_hw_start_duration_sec">0</param>
+        <param name="example_param_hw_stop_duration_sec">3.0</param>
     </hardware>
     
     <joint name="left_wheel_joint">
@@ -169,13 +171,13 @@
     </joint>
   </ros2_control>
 
-  <gazebo>
+  <!-- <gazebo>
     <plugin filename="microros_ros2_control-system" name="microros_ros2_control::GazeboSimROS2ControlPlugin">
       <ros>
         <namespace>$(arg namespace)</namespace>
       </ros>
       <parameters>$(find microros_ros2_control_demos)/config/diff_drive_controller.yaml</parameters>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
 </robot>

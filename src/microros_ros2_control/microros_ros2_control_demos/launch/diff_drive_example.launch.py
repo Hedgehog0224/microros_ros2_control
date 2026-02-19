@@ -12,112 +12,91 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# from launch import LaunchDescription
+# from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+# from launch.actions import RegisterEventHandler
+# from launch.event_handlers import OnProcessExit
+# from launch.launch_description_sources import PythonLaunchDescriptionSource
+# from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+
+# from launch_ros.actions import Node
+# from launch_ros.substitutions import FindPackageShare
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.actions import RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, LaunchConfiguration
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 
 print("microros_ros2_control_demos")
+
 def generate_launch_description():
-    # Launch Arguments
-    use_sim_time = LaunchConfiguration('use_sim_time', default=False)
-    # ign_args = LaunchConfiguration('ign_args', default=["-s", "-v", "4"])
-    ign_args = LaunchConfiguration('ign_args', default=["-v", "4"])
     # Get URDF via xacro
     robot_description_content = Command(
         [
-            PathJoinSubstitution([FindExecutable(name='xacro')]),
-            ' ',
+            PathJoinSubstitution([FindExecutable(name="xacro")]),
+            " ",
             PathJoinSubstitution(
-                [FindPackageShare('microros_ros2_control_demos'),
-                 'urdf', 'test_diff_drive.xacro.urdf']
+                [FindPackageShare("microros_ros2_control_demos"), "urdf", "test_diff_drive.xacro.urdf"]
             ),
         ]
     )
-    robot_description = {'robot_description': robot_description_content}
+
+    robot_description = {"robot_description": robot_description_content}
+
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare('microros_ros2_control_demos'),
-            'config',
-            'diff_drive_controller.yaml',
+            FindPackageShare("microros_ros2_control_demos"),
+            "config",
+            "diff_drive_controller.yaml",
         ]
     )
 
-    node_robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        # output='screen',
-        parameters=[robot_description]
+    control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[robot_controllers],
+        output="both",
+        remappings=[
+            ("~/robot_description", "/robot_description"),
+        ],
     )
 
-    gz_spawn_entity = Node(
-        package='ros_gz_sim',
-        executable='create',
-        # output='screen',
-        arguments=['-topic', 'robot_description', '-name',
-                   'diff_drive', '-allow_renaming', 'true', '-v', '4'],
-                #    'diff_drive', '-allow_renaming', 'true', '-s', '-v', '4'],
+    robot_state_pub_node = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        output="both",
+        parameters=[robot_description],
     )
-                       
+
     joint_state_broadcaster_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=['joint_state_broadcaster'],
-    )
-    diff_drive_base_controller_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            'diff_drive_base_controller',
-            '--param-file',
-            robot_controllers,
-            ],
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
-    # Bridge
-    bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
-        # output='screen'
+    robot_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["diff_drive_base_controller", "--controller-manager", "/controller_manager"],
     )
 
-    return LaunchDescription([
-        # Launch gazebo environment
-        IncludeLaunchDescription( #[объяснение] лаунч симуляции газебо
-            PythonLaunchDescriptionSource(
-                [PathJoinSubstitution([FindPackageShare('ros_gz_sim'),
-                                        'launch',
-                                        'gz_sim.launch.py'])]),
-            launch_arguments=[('gz_args', ['--record-topic ".*" -r -v 4 empty.sdf'])]),
-            # launch_arguments=[('gz_args', [' -s -r -v 4 empty.sdf']), ('ign_args', [' -s -v 4'])]),
-        # RegisterEventHandler( #[объяснение] 
-        #     event_handler=OnProcessExit(
-        #         target_action=gz_spawn_entity,
-        #         on_exit=[joint_state_broadcaster_spawner],
-        #     )
-        # ),
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=joint_state_broadcaster_spawner,
-                on_exit=[diff_drive_base_controller_spawner],
-            )
-        ),
+    # Delay start of robot_controller after `joint_state_broadcaster`
+    delay_robot_controller_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[robot_controller_spawner],
+        )
+    )
+
+    nodes = [
+        control_node,
+        robot_state_pub_node,
         joint_state_broadcaster_spawner,
-        bridge,
-        node_robot_state_publisher,
-        gz_spawn_entity,
-        # # Launch Arguments
-        # DeclareLaunchArgument(
-        #     'use_sim_time',
-        #     default_value=use_sim_time,
-        #     description='If true, use simulated clock'),
-        DeclareLaunchArgument(
-            'ign_args',
-            default_value=ign_args),
-    ])
+        delay_robot_controller_spawner_after_joint_state_broadcaster_spawner,
+    ]
+
+    return LaunchDescription(nodes)

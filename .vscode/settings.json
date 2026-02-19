@@ -12,6 +12,5 @@
         "other": true,
         "comments": true,
         "strings": true
-    },
-    "editor.suggestOnTriggerCharacters": true
+    }
 }

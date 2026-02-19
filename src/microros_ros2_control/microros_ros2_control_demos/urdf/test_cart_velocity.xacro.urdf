@@ -98,18 +98,18 @@
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
 
-  <gazebo reference="imu">
+  <!-- <gazebo reference="imu">
     <sensor name="cart_imu_sensor" type="imu">
       <always_on>1</always_on>
       <update_rate>10.0</update_rate>
       <visualize>true</visualize>
       <topic>imu</topic>
     </sensor>
-  </gazebo>
+  </gazebo> -->
 
-  <ros2_control name="GazeboSimSystem" type="system">
+  <ros2_control name="DiffBotSystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/GazeboSimSystem</plugin>
+      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
     </hardware>
     <joint name="slider_to_cart">
       <command_interface name="velocity">
@@ -136,7 +136,7 @@
     </sensor>
   </ros2_control>
 
-  <gazebo reference="slideBar">
+  <!-- <gazebo reference="slideBar">
     <visual>
       <material>
         <ambient>0 0.8 0 1</ambient>
@@ -164,5 +164,5 @@
       filename="ignition-gazebo-imu-system"
       name="ignition::gazebo::systems::Imu">
     </plugin>
-  </gazebo>
+  </gazebo> -->
 </robot>

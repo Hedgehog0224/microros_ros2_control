@@ -75,9 +75,9 @@
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
-  <ros2_control name="GazeboSimSystem" type="system">
+  <ros2_control name="DiffBotSystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/GazeboSimSystem</plugin>
+      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
     </hardware>
     <joint name="slider_to_cart">
       <command_interface name="effort">
@@ -100,9 +100,9 @@
     </joint>
   </ros2_control>
 
-  <gazebo>
+  <!-- <gazebo>
     <plugin filename="microros_ros2_control-system" name="microros_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find microros_ros2_control_demos)/config/cart_controller_effort.yaml</parameters>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 </robot>

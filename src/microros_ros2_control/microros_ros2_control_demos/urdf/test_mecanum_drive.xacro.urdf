@@ -164,7 +164,7 @@
 
   <!-- To emulate Mecanum wheels in Gazebo with spherical collisions it
   requires a custom friction model so the vehicle can strafe left to right -->
-  <gazebo reference='front_left_wheel'>
+  <!-- <gazebo reference='front_left_wheel'>
     <collision>
       <surface>
         <friction>
@@ -176,8 +176,8 @@
         </friction>
       </surface>
     </collision>
-  </gazebo>
-  <gazebo reference='front_right_wheel'>
+  </gazebo> -->
+  <!-- <gazebo reference='front_right_wheel'>
     <collision>
       <surface>
         <friction>
@@ -189,8 +189,8 @@
         </friction>
       </surface>
     </collision>
-  </gazebo>
-  <gazebo reference='rear_left_wheel'>
+  </gazebo> -->
+  <!-- <gazebo reference='rear_left_wheel'>
     <collision>
       <surface>
         <friction>
@@ -202,8 +202,8 @@
         </friction>
       </surface>
     </collision>
-  </gazebo>
-  <gazebo reference='rear_right_wheel'>
+  </gazebo> -->
+  <!-- <gazebo reference='rear_right_wheel'>
     <collision>
       <surface>
         <friction>
@@ -215,12 +215,12 @@
         </friction>
       </surface>
     </collision>
-  </gazebo>
+  </gazebo> -->
 
   <!-- Define the vehicles hardware, command and state interfaces -->
-  <ros2_control name="GazeboSimSystem" type="system">
+  <ros2_control name="DiffBotSystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/GazeboSimSystem</plugin>
+      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
     </hardware>
     <joint name="front_left_wheel_joint">
       <command_interface name="velocity">
@@ -257,7 +257,7 @@
   </ros2_control>
 
   <!-- ROS2 Control plugin and topic re-mapping -->
-  <gazebo>
+  <!-- <gazebo>
     <plugin filename="microros_ros2_control-system" name="microros_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find microros_ros2_control_demos)/config/mecanum_drive_controller.yaml</parameters>
       <ros>
@@ -265,6 +265,6 @@
         <remapping>/mecanum_drive_controller/odom:=/odom</remapping>
       </ros>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
 </robot>

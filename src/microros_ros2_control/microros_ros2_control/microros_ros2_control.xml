@@ -1,0 +1,28 @@
+<library path="microros_ros2_control">
+  <!-- <class
+    name="microros_ros2_control/GazeboSimSystem"
+    type="microros_ros2_control::GazeboSimSystem"
+    base_class_type="microros_ros2_control::GazeboSimSystemInterface"> -->
+    <class
+    name="microros_ros2_control/DiffBotSystemHardware"
+    type="microros_ros2_control::DiffBotSystemHardware"
+    base_class_type="hardware_interface::SystemInterface">
+    
+    <description>
+      ros2_control hardware component to be loaded by the gazebo plugin.
+    </description>
+  </class>
+  <!-- <class
+    name="ign_ros2_control/IgnitionSystem"
+    type="ign_ros2_control::IgnitionSystem"
+    base_class_type="microros_ros2_control::GazeboSimSystemInterface"> -->
+  <!-- <class
+    name="ign_ros2_control/IgnitionSystem"
+    type="ign_ros2_control::IgnitionSystem"
+    base_class_type="microros_ros2_control::DiffBotSystemHardware">
+    <description> -->
+      <!-- ros2_control hardware component to be loaded by the gazebo plugin.
+      For backward compatibility with old ign* plugin names. -->
+    <!-- </description> -->
+  <!-- </class> -->
+</library>
