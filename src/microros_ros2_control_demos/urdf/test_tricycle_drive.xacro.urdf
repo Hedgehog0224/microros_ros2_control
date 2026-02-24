@@ -150,9 +150,9 @@
     <axis xyz="0 0 1" />
   </joint>
 
-  <ros2_control name="DiffBotSystemHardware" type="system">
+  <ros2_control name="MicroRos2SystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
+      <plugin>microros_ros2_control/MicroRos2SystemHardware</plugin>
     </hardware>
     <joint name="steering_joint">
       <command_interface name="position" />

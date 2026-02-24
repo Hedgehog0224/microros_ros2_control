@@ -75,14 +75,14 @@
     <dynamics damping="0.1" friction="0.0"/>
   </joint>
 
-  <ros2_control name="DiffBotSystemHardware" type="system">
+  <ros2_control name="MicroRos2SystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
+      <plugin>microros_ros2_control/MicroRos2SystemHardware</plugin>
     </hardware>
     <joint name="slider_to_cart">
-      <command_interface name="effort">
-        <param name="min">-1000</param>
-        <param name="max">1000</param>
+      <command_interface name="position">
+        <param name="min">-15</param>
+        <param name="max">15</param>
       </command_interface>
       <state_interface name="position">
         <param name="initial_value">1.0</param>
@@ -102,7 +102,7 @@
 
   <!-- <gazebo>
     <plugin filename="microros_ros2_control-system" name="microros_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>$(find microros_ros2_control_demos)/config/cart_controller_effort.yaml</parameters>
+      <parameters>$(find microros_ros2_control_demos)/config/cart_controller_position.yaml</parameters>
     </plugin>
   </gazebo> -->
 </robot>

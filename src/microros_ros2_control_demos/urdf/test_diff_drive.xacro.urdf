@@ -146,9 +146,9 @@
     </inertial>
   </link>
 
-  <ros2_control name="DiffBotSystemHardware" type="system">
+  <ros2_control name="MicroRos2SystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
+      <plugin>microros_ros2_control/MicroRos2SystemHardware</plugin>
         <param name="example_param_hw_start_duration_sec">0</param>
         <param name="example_param_hw_stop_duration_sec">3.0</param>
     </hardware>

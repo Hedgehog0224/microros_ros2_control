@@ -32,9 +32,9 @@
 #include "rclcpp_lifecycle/state.hpp"
 
 namespace microros_ros2_control {
-class DiffBotSystemHardware : public hardware_interface::SystemInterface {
+class MicroRos2SystemHardware : public hardware_interface::SystemInterface {
 public:
-  RCLCPP_SHARED_PTR_DEFINITIONS(DiffBotSystemHardware);
+  RCLCPP_SHARED_PTR_DEFINITIONS(MicroRos2SystemHardware);
 
   hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo& info) override;
 

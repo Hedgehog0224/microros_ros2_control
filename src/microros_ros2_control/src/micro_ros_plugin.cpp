@@ -28,7 +28,7 @@
 #include "rclcpp/rclcpp.hpp"
 
 namespace microros_ros2_control {
-hardware_interface::CallbackReturn DiffBotSystemHardware::on_init(
+hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
     const hardware_interface::HardwareInfo& info) {
   if (hardware_interface::SystemInterface::on_init(info) !=
       hardware_interface::CallbackReturn::SUCCESS) {
@@ -87,7 +87,7 @@ hardware_interface::CallbackReturn DiffBotSystemHardware::on_init(
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
-std::vector<hardware_interface::StateInterface> DiffBotSystemHardware::export_state_interfaces() {
+std::vector<hardware_interface::StateInterface> MicroRos2SystemHardware::export_state_interfaces() {
   std::vector<hardware_interface::StateInterface> state_interfaces;
   for (auto i = 0u; i < info_.joints.size(); i++) {
     state_interfaces.emplace_back(hardware_interface::StateInterface(
@@ -100,7 +100,7 @@ std::vector<hardware_interface::StateInterface> DiffBotSystemHardware::export_st
 }
 
 std::vector<hardware_interface::CommandInterface>
-DiffBotSystemHardware::export_command_interfaces() {
+MicroRos2SystemHardware::export_command_interfaces() {
   std::vector<hardware_interface::CommandInterface> command_interfaces;
   for (auto i = 0u; i < info_.joints.size(); i++) {
     command_interfaces.emplace_back(hardware_interface::CommandInterface(
@@ -110,7 +110,7 @@ DiffBotSystemHardware::export_command_interfaces() {
   return command_interfaces;
 }
 
-hardware_interface::CallbackReturn DiffBotSystemHardware::on_activate(
+hardware_interface::CallbackReturn MicroRos2SystemHardware::on_activate(
     const rclcpp_lifecycle::State& /*previous_state*/) {
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   RCLCPP_INFO(get_logger(), "Activating ...please wait...");
@@ -135,7 +135,7 @@ hardware_interface::CallbackReturn DiffBotSystemHardware::on_activate(
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
-hardware_interface::CallbackReturn DiffBotSystemHardware::on_deactivate(
+hardware_interface::CallbackReturn MicroRos2SystemHardware::on_deactivate(
     const rclcpp_lifecycle::State& /*previous_state*/) {
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   RCLCPP_INFO(get_logger(), "Deactivating ...please wait...");
@@ -151,8 +151,8 @@ hardware_interface::CallbackReturn DiffBotSystemHardware::on_deactivate(
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
-hardware_interface::return_type DiffBotSystemHardware::read(const rclcpp::Time& /*time*/,
-                                                            const rclcpp::Duration& period) {
+hardware_interface::return_type MicroRos2SystemHardware::read(const rclcpp::Time& /*time*/,
+                                                              const rclcpp::Duration& period) {
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   std::stringstream ss;
   ss << "Reading states:";
@@ -174,7 +174,7 @@ hardware_interface::return_type DiffBotSystemHardware::read(const rclcpp::Time& 
   return hardware_interface::return_type::OK;
 }
 
-hardware_interface::return_type microros_ros2_control ::DiffBotSystemHardware::write(
+hardware_interface::return_type microros_ros2_control ::MicroRos2SystemHardware::write(
     const rclcpp::Time& /*time*/, const rclcpp::Duration& /*period*/) {
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   std::stringstream ss;
@@ -196,5 +196,5 @@ hardware_interface::return_type microros_ros2_control ::DiffBotSystemHardware::w
 }  // namespace microros_ros2_control
 
 #include "pluginlib/class_list_macros.hpp"
-PLUGINLIB_EXPORT_CLASS(microros_ros2_control::DiffBotSystemHardware,
+PLUGINLIB_EXPORT_CLASS(microros_ros2_control::MicroRos2SystemHardware,
                        hardware_interface::SystemInterface)

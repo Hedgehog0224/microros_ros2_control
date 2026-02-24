@@ -68,7 +68,7 @@
   </joint>
   <ros2_control name="GripperIgnition" type="system">
     <hardware>
-      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
+      <plugin>microros_ros2_control/MicroRos2SystemHardware</plugin>
     </hardware>
     <joint name="right_finger_joint">
       <command_interface name="position"/>

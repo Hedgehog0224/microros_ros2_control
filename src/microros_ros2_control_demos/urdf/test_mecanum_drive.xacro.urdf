@@ -218,9 +218,9 @@
   </gazebo> -->
 
   <!-- Define the vehicles hardware, command and state interfaces -->
-  <ros2_control name="DiffBotSystemHardware" type="system">
+  <ros2_control name="MicroRos2SystemHardware" type="system">
     <hardware>
-      <plugin>microros_ros2_control/DiffBotSystemHardware</plugin>
+      <plugin>microros_ros2_control/MicroRos2SystemHardware</plugin>
     </hardware>
     <joint name="front_left_wheel_joint">
       <command_interface name="velocity">
