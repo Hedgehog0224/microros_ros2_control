@@ -25,7 +25,7 @@
 
 #include "hardware_interface/lexical_casts.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
-#include "rclcpp/rclcpp.hpp"
+// #include "node_micro_ros.cpp"
 
 namespace microros_ros2_control {
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
@@ -36,7 +36,8 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
   }
   logger_ = std::make_shared<rclcpp::Logger>(
       rclcpp::get_logger("controller_manager.resource_manager.hardware_component.system.DiffBot"));
-  clock_ = std::make_shared<rclcpp::Clock>(rclcpp::Clock());
+  // create_subscription_ = std::make_shared<rclcpp::create_subscription>(rclcpp::Clock());
+  // clock_ = std::make_shared<rclcpp::Clock>(rclcpp::Clock());
 
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   hw_start_sec_ =
@@ -84,6 +85,47 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
     }
   }
 
+  // node_ = std::make_shared<rclcpp::Node>("pub");
+
+  // auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(1));
+  // qos_profile.best_effort();
+
+  // subscription_micro_ros2_ = node_->create_subscription<std_msgs::msg::Int16MultiArray>(
+  //     this->robot_state, qos_profile,
+  //     std::bind(&MicroRos2SystemHardware::micro_ros2_callback, this, std::placeholders::_1));
+  // publisher_micro_ros2_ =
+  //     node_->create_publisher<std_msgs::msg::Int16MultiArray>(this->wheel_speeds, 1);
+  // MicroRos2Node micro_node("MINI_PUB", info_.joints.size());
+
+  // Create a default context, if not already
+  if (!rclcpp::ok()) {
+    RCLCPP_DEBUG(get_logger(), "✓ Create default context");
+    std::vector<const char*> argv;
+    rclcpp::init(static_cast<int>(argv.size()), argv.data());
+  }
+  std::string ns = "/";
+  std::string node_name = "mini_node";
+  this->node_ = rclcpp::Node::make_shared(node_name, ns);
+  this->executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
+  this->executor_->add_node(this->node_);
+  auto spin = [this]() { this->executor_->spin(); };
+  this->thread_executor_spin_ = std::thread(spin);
+
+  RCLCPP_DEBUG(get_logger(), "✓ Create node %s", node_name);
+
+  auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(1));
+  qos_profile.best_effort();
+
+  subscription_micro_ros2_ = node_->create_subscription<std_msgs::msg::Int16MultiArray>(
+      this->robot_state, qos_profile,
+      std::bind(&MicroRos2SystemHardware::micro_ros2_callback, this, std::placeholders::_1));
+  publisher_micro_ros2_ =
+      node_->create_publisher<std_msgs::msg::Int16MultiArray>(this->wheel_speeds, 1);
+
+  std::vector<int16_t> placeholder(info_.joints.size(), 0);
+
+  message_microros_.data = placeholder;
+
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
@@ -129,10 +171,18 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_activate(
       hw_commands_[i] = 0;
     }
   }
-
   RCLCPP_INFO(get_logger(), "Successfully activated!");
 
   return hardware_interface::CallbackReturn::SUCCESS;
+}
+
+const void MicroRos2SystemHardware::micro_ros2_callback(const std_msgs::msg::Int16MultiArray& msg) {
+  for (int i = 0; i < this->hw_velocities_.size(); i++) {
+    this->hw_velocities_[i] = msg.data[i + 1] / MAX_SPEED;
+  }
+  // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "speeds received: %.3f, %.3f",
+  // msg.data[1],
+  //                      msg.data[2]);
 }
 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_deactivate(
@@ -155,20 +205,20 @@ hardware_interface::return_type MicroRos2SystemHardware::read(const rclcpp::Time
                                                               const rclcpp::Duration& period) {
   // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   std::stringstream ss;
-  ss << "Reading states:";
+  // ss << "Reading states:";
   for (std::size_t i = 0; i < hw_velocities_.size(); i++) {
     // Simulate DiffBot wheels's movement as a first-order system
     // Update the joint status: this is a revolute joint without any limit.
     // Simply integrates
     hw_positions_[i] = hw_positions_[i] + period.seconds() * hw_velocities_[i];
 
-    ss << std::fixed << std::setprecision(2) << std::endl
-       << "\t"
-          "position "
-       << hw_positions_[i] << " and velocity " << hw_velocities_[i] << " for '"
-       << info_.joints[i].name.c_str() << "'!";
+    // ss << std::fixed << std::setprecision(2) << std::endl
+    //    << "\t"
+    //       "position "
+    //    << hw_positions_[i] << " and velocity " << hw_velocities_[i] << " for '"
+    //    << info_.joints[i].name.c_str() << "'!";
   }
-  RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
+  // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
   // END: This part here is for exemplary purposes - Please do not copy to your production code
 
   return hardware_interface::return_type::OK;
@@ -176,19 +226,23 @@ hardware_interface::return_type MicroRos2SystemHardware::read(const rclcpp::Time
 
 hardware_interface::return_type microros_ros2_control ::MicroRos2SystemHardware::write(
     const rclcpp::Time& /*time*/, const rclcpp::Duration& /*period*/) {
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  std::stringstream ss;
-  ss << "Writing commands:";
+  // // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
+  // // ss << "Writing commands:";
   for (auto i = 0u; i < hw_commands_.size(); i++) {
-    // Simulate sending commands to the hardware
-    hw_velocities_[i] = hw_commands_[i];
+    this->message_microros_.data[i] = int(hw_commands_[i] * 2900);
+    //   ;
+    //   // Simulate sending commands to the hardware
+    //   // hw_commands_[i];
 
-    ss << std::fixed << std::setprecision(2) << std::endl
-       << "\t"
-       << "command " << hw_commands_[i] << " for '" << info_.joints[i].name.c_str() << "'!";
+    // hw_velocities_[i] = hw_commands_[i];
   }
-  RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
+  // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "speeds to send: %.3f, %.3f",
+  //                      hw_commands_[0], hw_commands_[1]);
+
+  this->publisher_micro_ros2_->publish(this->message_microros_);
+
+  // // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
+  // // END: This part here is for exemplary purposes - Please do not copy to your production code
 
   return hardware_interface::return_type::OK;
 }
