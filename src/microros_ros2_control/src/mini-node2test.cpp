@@ -1,3 +1,10 @@
+/***********************************************************************************************************************************
+Нода для эмулирования поведения stm'ки
+
+Разработчик: Лебедева Екатерина
+e.lebedeva@rtc.ru
+***********************************************************************************************************************************/
+
 #include <chrono>
 #include <iostream>
 #include <memory>
@@ -9,10 +16,6 @@
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;
-
-/* This example creates a subclass of Node and uses a fancy C++11 lambda
- * function to shorten the callback syntax, at the expense of making the
- * code somewhat more difficult to understand at first glance. */
 
 class MinimalPublisher : public rclcpp::Node {
 public:
@@ -34,8 +37,6 @@ public:
         "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this, _1));
     timer_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timer_callback, this));
     count_ = 0;
-    // timer_check_ = this->create_wall_timer(
-    //     200ms, std::bind(&MinimalPublisher::timer_callback_for_check, this));
   }
   void check() {
     std::string command;
@@ -53,10 +54,6 @@ public:
     }
   }
   void timer_callback() {
-    // this->count_++;
-    // if (count_ > 100) {
-    //   count_ = 0;
-    // }
     // == "/robot/robot_state" ==
     this->message.data[0] = 179;
     this->message.data[1] = right_wheel;
@@ -76,14 +73,12 @@ public:
   }
 
   const void topic_callback(const std_msgs::msg::Int16MultiArray& msg) {
-    // this->count_ = 0;
     this->right_wheel = msg.data[0];
     this->left_wheel = msg.data[1];
   }
 
 private:
   rclcpp::TimerBase::SharedPtr timer_;
-  // rclcpp::TimerBase::SharedPtr timer_check_;
   rclcpp::Publisher<std_msgs::msg::Int16MultiArray>::SharedPtr publisher_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_twist_;
   rclcpp::Subscription<std_msgs::msg::Int16MultiArray>::SharedPtr subscription_;
@@ -109,14 +104,3 @@ int main(int argc, char* argv[]) {
   spinner.join();
   return 0;
 }
-
-// int main(int argc, char* argv[]) {
-//   rclcpp::init(argc, argv);
-//   while (rclcpp::ok) {
-//     auto Node = std::make_shared<MinimalPublisher>();
-//     rclcpp::spin_some(Node);
-//     Node->check();
-//   }
-//   rclcpp::shutdown();
-//   return 0;
-// }

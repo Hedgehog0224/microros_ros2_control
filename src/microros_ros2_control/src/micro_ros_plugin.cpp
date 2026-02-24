@@ -1,17 +1,3 @@
-// Copyright 2021 ros2_control Development Team
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 #include "micro_ros_plugin.hpp"
 
 #include <chrono>
@@ -25,7 +11,6 @@
 
 #include "hardware_interface/lexical_casts.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
-// #include "node_micro_ros.cpp"
 
 namespace microros_ros2_control {
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
@@ -36,21 +21,15 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
   }
   logger_ = std::make_shared<rclcpp::Logger>(
       rclcpp::get_logger("controller_manager.resource_manager.hardware_component.system.DiffBot"));
-  // create_subscription_ = std::make_shared<rclcpp::create_subscription>(rclcpp::Clock());
-  // clock_ = std::make_shared<rclcpp::Clock>(rclcpp::Clock());
 
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  hw_start_sec_ =
-      hardware_interface::stod(info_.hardware_parameters["example_param_hw_start_duration_sec"]);
-  hw_stop_sec_ =
-      hardware_interface::stod(info_.hardware_parameters["example_param_hw_stop_duration_sec"]);
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
+  hw_start_sec_ = hardware_interface::stod(info_.hardware_parameters["hw_start_duration_sec"]);
+  hw_stop_sec_ = hardware_interface::stod(info_.hardware_parameters["hw_stop_duration_sec"]);
+
   hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
 
   for (const hardware_interface::ComponentInfo& joint : info_.joints) {
-    // DiffBotSystem has exactly two states and one command interface on each joint
     if (joint.command_interfaces.size() != 1) {
       RCLCPP_FATAL(get_logger(), "Joint '%s' has %zu command interfaces found. 1 expected.",
                    joint.name.c_str(), joint.command_interfaces.size());
@@ -85,19 +64,6 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
     }
   }
 
-  // node_ = std::make_shared<rclcpp::Node>("pub");
-
-  // auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(1));
-  // qos_profile.best_effort();
-
-  // subscription_micro_ros2_ = node_->create_subscription<std_msgs::msg::Int16MultiArray>(
-  //     this->robot_state, qos_profile,
-  //     std::bind(&MicroRos2SystemHardware::micro_ros2_callback, this, std::placeholders::_1));
-  // publisher_micro_ros2_ =
-  //     node_->create_publisher<std_msgs::msg::Int16MultiArray>(this->wheel_speeds, 1);
-  // MicroRos2Node micro_node("MINI_PUB", info_.joints.size());
-
-  // Create a default context, if not already
   if (!rclcpp::ok()) {
     RCLCPP_DEBUG(get_logger(), "✓ Create default context");
     std::vector<const char*> argv;
@@ -154,16 +120,13 @@ MicroRos2SystemHardware::export_command_interfaces() {
 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_activate(
     const rclcpp_lifecycle::State& /*previous_state*/) {
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   RCLCPP_INFO(get_logger(), "Activating ...please wait...");
 
   for (auto i = 0; i < hw_start_sec_; i++) {
     rclcpp::sleep_for(std::chrono::seconds(1));
     RCLCPP_INFO(get_logger(), "%.1f seconds left...", hw_start_sec_ - i);
   }
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
 
-  // set some default values
   for (auto i = 0u; i < hw_positions_.size(); i++) {
     if (std::isnan(hw_positions_[i])) {
       hw_positions_[i] = 0;
@@ -180,69 +143,34 @@ const void MicroRos2SystemHardware::micro_ros2_callback(const std_msgs::msg::Int
   for (int i = 0; i < this->hw_velocities_.size(); i++) {
     this->hw_velocities_[i] = msg.data[i + 1] / MAX_SPEED;
   }
-  // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "speeds received: %.3f, %.3f",
-  // msg.data[1],
-  //                      msg.data[2]);
 }
 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_deactivate(
     const rclcpp_lifecycle::State& /*previous_state*/) {
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
   RCLCPP_INFO(get_logger(), "Deactivating ...please wait...");
 
   for (auto i = 0; i < hw_stop_sec_; i++) {
     rclcpp::sleep_for(std::chrono::seconds(1));
     RCLCPP_INFO(get_logger(), "%.1f seconds left...", hw_stop_sec_ - i);
   }
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
-
   RCLCPP_INFO(get_logger(), "Successfully deactivated!");
-
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
 hardware_interface::return_type MicroRos2SystemHardware::read(const rclcpp::Time& /*time*/,
                                                               const rclcpp::Duration& period) {
-  // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  std::stringstream ss;
-  // ss << "Reading states:";
   for (std::size_t i = 0; i < hw_velocities_.size(); i++) {
-    // Simulate DiffBot wheels's movement as a first-order system
-    // Update the joint status: this is a revolute joint without any limit.
-    // Simply integrates
     hw_positions_[i] = hw_positions_[i] + period.seconds() * hw_velocities_[i];
-
-    // ss << std::fixed << std::setprecision(2) << std::endl
-    //    << "\t"
-    //       "position "
-    //    << hw_positions_[i] << " and velocity " << hw_velocities_[i] << " for '"
-    //    << info_.joints[i].name.c_str() << "'!";
   }
-  // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
-  // END: This part here is for exemplary purposes - Please do not copy to your production code
-
   return hardware_interface::return_type::OK;
 }
 
 hardware_interface::return_type microros_ros2_control ::MicroRos2SystemHardware::write(
     const rclcpp::Time& /*time*/, const rclcpp::Duration& /*period*/) {
-  // // BEGIN: This part here is for exemplary purposes - Please do not copy to your production code
-  // // ss << "Writing commands:";
   for (auto i = 0u; i < hw_commands_.size(); i++) {
     this->message_microros_.data[i] = int(hw_commands_[i] * 2900);
-    //   ;
-    //   // Simulate sending commands to the hardware
-    //   // hw_commands_[i];
-
-    // hw_velocities_[i] = hw_commands_[i];
   }
-  // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "speeds to send: %.3f, %.3f",
-  //                      hw_commands_[0], hw_commands_[1]);
-
   this->publisher_micro_ros2_->publish(this->message_microros_);
-
-  // // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 500, "%s", ss.str().c_str());
-  // // END: This part here is for exemplary purposes - Please do not copy to your production code
 
   return hardware_interface::return_type::OK;
 }
