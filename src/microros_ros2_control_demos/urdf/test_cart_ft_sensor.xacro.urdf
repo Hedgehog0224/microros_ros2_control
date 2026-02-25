@@ -97,15 +97,6 @@
     </visual>
   </gazebo>
 
-  <gazebo reference="slider_to_cart">
-      <sensor name="force_torque_sensor" type="force_torque">
-        <update_rate>10.0</update_rate>
-        <always_on>true</always_on>
-        <visualize>true</visualize>
-        <topic>force_torque_sensor</topic>
-      </sensor>
-  </gazebo>
-
  <gazebo>
     <plugin filename="microros_ros2_control-system" name="microros_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find microros_ros2_control_demos)/config/cart_controller_position.yaml</parameters>

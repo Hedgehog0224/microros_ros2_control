@@ -27,7 +27,7 @@
     {
       "label": "format-cpp",
       "type": "shell",
-      "command": "./format.sh && colcon build --cmake-args -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON && source install/setup.bash",
+      "command": "bash .vscode/ros-build.sh",
       "group": "none",
       "problemMatcher": []
     },

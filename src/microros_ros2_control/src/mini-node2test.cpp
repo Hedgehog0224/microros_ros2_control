@@ -62,14 +62,14 @@ public:
     this->message.data[4] = 50;
     this->publisher_->publish(this->message);
 
-    // == "/diff_drive_base_controller/cmd_vel_unstamped" ==
-    this->message_twist.linear.x = count_ / 100.0;
-    this->message_twist.linear.y = 0;
-    this->message_twist.linear.z = 0;
-    this->message_twist.angular.x = 0;
-    this->message_twist.angular.y = 0;
-    this->message_twist.angular.z = 0;
-    this->publisher_twist_->publish(this->message_twist);
+    // // == "/diff_drive_base_controller/cmd_vel_unstamped" ==
+    // this->message_twist.linear.x = count_;
+    // this->message_twist.linear.y = 0;
+    // this->message_twist.linear.z = 0;
+    // this->message_twist.angular.x = 0;
+    // this->message_twist.angular.y = 0;
+    // this->message_twist.angular.z = 0;
+    // this->publisher_twist_->publish(this->message_twist);
   }
 
   const void topic_callback(const std_msgs::msg::Int16MultiArray& msg) {

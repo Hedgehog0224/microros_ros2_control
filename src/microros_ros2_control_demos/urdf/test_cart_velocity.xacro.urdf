@@ -98,15 +98,6 @@
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
 
-  <!-- <gazebo reference="imu">
-    <sensor name="cart_imu_sensor" type="imu">
-      <always_on>1</always_on>
-      <update_rate>10.0</update_rate>
-      <visualize>true</visualize>
-      <topic>imu</topic>
-    </sensor>
-  </gazebo> -->
-
   <ros2_control name="MicroRos2SystemHardware" type="system">
     <hardware>
       <plugin>microros_ros2_control/MicroRos2SystemHardware</plugin>

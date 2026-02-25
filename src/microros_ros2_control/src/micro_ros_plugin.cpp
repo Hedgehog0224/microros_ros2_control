@@ -70,7 +70,7 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
     rclcpp::init(static_cast<int>(argv.size()), argv.data());
   }
   std::string ns = "/";
-  std::string node_name = "mini_node";
+  std::string node_name = "micro_ros2_system_hardware";
   this->node_ = rclcpp::Node::make_shared(node_name, ns);
   this->executor_ = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
   this->executor_->add_node(this->node_);
@@ -141,8 +141,11 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_activate(
 
 const void MicroRos2SystemHardware::micro_ros2_callback(const std_msgs::msg::Int16MultiArray& msg) {
   for (int i = 0; i < this->hw_velocities_.size(); i++) {
-    this->hw_velocities_[i] = msg.data[i + 1] / MAX_SPEED;
+    this->hw_velocities_[i] = msg.data[i + 1];
   }
+  // RCLCPP_INFO(get_logger(), "msg: %.3f, %.3f", msg.data[0], msg.data[1]);
+  // RCLCPP_INFO(get_logger(), "velocity: %.3f, %.3f", this->hw_velocities_[0],
+  //             this->hw_velocities_[1]);
 }
 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_deactivate(
@@ -168,7 +171,7 @@ hardware_interface::return_type MicroRos2SystemHardware::read(const rclcpp::Time
 hardware_interface::return_type microros_ros2_control ::MicroRos2SystemHardware::write(
     const rclcpp::Time& /*time*/, const rclcpp::Duration& /*period*/) {
   for (auto i = 0u; i < hw_commands_.size(); i++) {
-    this->message_microros_.data[i] = int(hw_commands_[i] * 2900);
+    this->message_microros_.data[i] = hw_commands_[i];
   }
   this->publisher_micro_ros2_->publish(this->message_microros_);
 
