@@ -1,0 +1,27 @@
+корпус - 272 х 632 х 232.58; толщина 3 мм
+колёса - d = 172, 70.5
+треугольник - 250, d=25, 25
+
+Корпус - АМг2М; 
+треугольник - АМг6; 
+колёса - полиуретан PR 777
+
+Triangle_1_Link
+Wheel_11_Link
+Wheel_12_Link
+Wheel_13_Link
+
+Triangle_2_Link
+Wheel_21_Link
+Wheel_22_Link
+Wheel_23_Link
+
+Triangle_3_Link
+Wheel_31_Link
+Wheel_32_Link
+Wheel_33_Link
+
+Triangle_4_Link
+Wheel_41_Link
+Wheel_42_Link
+Wheel_43_Link
