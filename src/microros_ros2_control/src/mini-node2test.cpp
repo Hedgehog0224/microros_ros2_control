@@ -36,13 +36,13 @@ public:
     subscription_ = this->create_subscription<std_msgs::msg::Int16MultiArray>(
         "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this, _1));
     timer_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timer_callback, this));
-    count_ = 0;
+    count_ = 0.0;
   }
   void check() {
     std::string command;
     std::cout << "ZHDU COMANDU... ";
     std::cin >> command;
-    this->count_ = std::stoi(command);
+    this->count_ = std::stod(command);
 
     if (command != "") {
       if ((this->right_wheel != 543) || (this->left_wheel != 2356)) {
@@ -62,14 +62,14 @@ public:
     this->message.data[4] = 50;
     this->publisher_->publish(this->message);
 
-    // // == "/diff_drive_base_controller/cmd_vel_unstamped" ==
-    // this->message_twist.linear.x = count_;
-    // this->message_twist.linear.y = 0;
-    // this->message_twist.linear.z = 0;
-    // this->message_twist.angular.x = 0;
-    // this->message_twist.angular.y = 0;
-    // this->message_twist.angular.z = 0;
-    // this->publisher_twist_->publish(this->message_twist);
+    // == "/diff_drive_base_controller/cmd_vel_unstamped" ==
+    this->message_twist.linear.x = count_;
+    this->message_twist.linear.y = 0;
+    this->message_twist.linear.z = 0;
+    this->message_twist.angular.x = 0;
+    this->message_twist.angular.y = 0;
+    this->message_twist.angular.z = 0;
+    this->publisher_twist_->publish(this->message_twist);
   }
 
   const void topic_callback(const std_msgs::msg::Int16MultiArray& msg) {
@@ -86,7 +86,7 @@ private:
   int left_wheel;
   std_msgs::msg::Int16MultiArray message;
   geometry_msgs::msg::Twist message_twist;
-  size_t count_;
+  double count_;
 };
 
 int main(int argc, char* argv[]) {
