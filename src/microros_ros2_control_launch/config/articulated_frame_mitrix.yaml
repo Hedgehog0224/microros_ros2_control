@@ -1,15 +1,26 @@
-test_articulated_frame_controller:
+/**/controller_manager:
   ros__parameters:
-    front_axle_names: ["left_wheels"]
-    rear_axle_names: ["right_wheels"]
+    update_rate: 20  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    articulated_frame_controller:
+      type: articulated_frame_controller/ArticulatedFrameController
+
+/**/articulated_frame_controller:
+  ros__parameters:
+    front_axle_names: ["Front_Axel_Link"]
+    rear_axle_names: ["Tail_Axel_Link"]
+    steering_joint_name: ["Tail_Link"]
     articulated_frame_connection_axis_name: ["right_wheels"]
     max_angle_of_frame: 0.5
     min_angle_of_frame: -0.5
-    wheel_separation: 0.40
+    front_wheel_separation: 1.02
+    rear_wheel_separation: 0.58
     wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
-    wheel_radius: 0.02
+    wheel_radius: 0.42
 
-    wheel_separation_multiplier: 1.0
     front_wheel_radius_multiplier: 1.0
     rear_wheel_radius_multiplier: 1.0
 

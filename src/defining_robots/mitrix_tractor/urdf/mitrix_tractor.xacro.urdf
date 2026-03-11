@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <robot name="mitrix_tractor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="namespace" default="" />
+  <!-- base_link -->
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.00106886386920223 1.15183202602706 1.39325704365838"
+        rpy="0 0 0" />
+      <mass
+        value="1087.55484145601" />
+      <inertia
+        ixx="489.228096180784"
+        ixy="-0.479324718827124"
+        ixz="-2.00027402850368"
+        iyy="363.764154253284"
+        iyz="-161.474153960171"
+        izz="309.306200783303" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  
+  </link>
+  <!-- Front_Link -->
+  <link
+    name="Front_Link">
+    <inertial>
+      <origin
+        xyz="-0.00106886386920221 -0.00126572552513649 -0.00212424444091286"
+        rpy="0 0 0" />
+      <mass
+        value="1087.55484145601" />
+      <inertia
+        ixx="489.228096180784"
+        ixy="-2.00027402850368"
+        ixz="0.479324718827125"
+        iyy="309.306200783303"
+        iyz="161.474153960171"
+        izz="363.764154253284" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Front_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Front_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- Front -->
+  <joint
+    name="Front"
+    type="fixed">
+    <origin
+      xyz="0 1.14970778158614 1.39452276918352"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Front_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <!-- Front_Axel_Link -->
+  <link
+    name="Front_Axel_Link">
+    <inertial>
+      <origin
+        xyz="-4.36969277349066E-06 4.2643744091464E-08 -4.46162003428859E-07"
+        rpy="0 0 0" />
+      <mass
+        value="82.3921622749131" />
+      <inertia
+        ixx="9.58914281082636"
+        ixy="-6.41504227471085E-07"
+        ixz="-3.9156564981539E-06"
+        iyy="5.32521262628635"
+        iyz="5.7111359138157E-05"
+        izz="5.32519978332462" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Front_Axel_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Front_Axel_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- Front_Axel -->
+  <joint
+    name="Front_Axel"
+    type="continuous">
+    <origin
+      xyz="0 -0.978538244813555 1.14970778158614"
+      rpy="0 0 0" />
+    <parent
+      link="Front_Link" />
+    <child
+      link="Front_Axel_Link" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <!-- Tail_Link -->
+  <link
+    name="Tail_Link">
+    <inertial>
+      <origin
+        xyz="-0.000327038141281997 0.543854990765954 -1.14252556702687"
+        rpy="0 0 0" />
+      <mass
+        value="712.268472572154" />
+      <inertia
+        ixx="175.337542160714"
+        ixy="0.141308523900736"
+        ixz="-0.0958623319072475"
+        iyy="179.552494700682"
+        iyz="30.8542165405477"
+        izz="111.506544664362" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Tail_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Tail_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- Tail -->
+  <joint
+    name="Tail"
+    type="revolute">
+    <origin
+      xyz="0.00457389022121065 1.01753781980835 0.305974036793424"
+      rpy="1.5707963267949 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Tail_Link" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.5"
+      upper="0.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <!-- Tail_Axel_Link -->
+  <link
+    name="Tail_Axel_Link">
+    <inertial>
+      <origin
+        xyz="-0.000330781791365959 -1.66668638551526E-06 2.00350268309002E-06"
+        rpy="0 0 0" />
+      <mass
+        value="82.3920304456165" />
+      <inertia
+        ixx="9.58914160993293"
+        ixy="1.28677641446957E-06"
+        ixz="5.26971000195874E-07"
+        iyy="5.32520255262535"
+        iyz="3.97200832849845E-07"
+        izz="5.32520912757228" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Tail_Axel_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://mitrix_tractor/meshes/Tail_Axel_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <!-- Tail_Axel -->
+  <joint
+    name="Tail_Axel"
+    type="continuous">
+    <origin
+      xyz="0 0.11668 -0.579953773966366"
+      rpy="0 0 0" />
+    <parent
+      link="Tail_Link" />
+    <child
+      link="Tail_Axel_Link" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  
+  <ros2_control name="MicroRos2SystemHardware" type="system">
+  <hardware>
+    <plugin>microros_ros2_control/MicroRos2SystemHardware</plugin>
+      <param name="hw_start_duration_sec">0</param>
+      <param name="hw_stop_duration_sec">3.0</param>
+  </hardware>
+
+
+  <joint name="Tail_Axel_Link">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+  <joint name="Front_Axel_Link">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+  <joint name="Tail_Link">
+      <command_interface name="position">
+        <param name="min">-0.5</param>
+        <param name="max">0.5</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <!-- <state_interface name="velocity"/> -->
+    </joint>
+
+
+  </ros2_control>
+
+</robot>

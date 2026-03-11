@@ -20,7 +20,8 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
     return hardware_interface::CallbackReturn::ERROR;
   }
   logger_ = std::make_shared<rclcpp::Logger>(
-      rclcpp::get_logger("controller_manager.resource_manager.hardware_component.system.DiffBot"));
+      rclcpp::get_logger("controller_manager.resource_manager.hardware_component.system"));
+  RCLCPP_ERROR(get_logger(), "[MicroRos2SystemHardware] ***** on_init *****");
 
   hw_start_sec_ = hardware_interface::stod(info_.hardware_parameters["hw_start_duration_sec"]);
   hw_stop_sec_ = hardware_interface::stod(info_.hardware_parameters["hw_stop_duration_sec"]);
@@ -28,41 +29,46 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
   hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
+  // joints_command_interfaces.resize(info_.joints.size());
 
-  for (const hardware_interface::ComponentInfo& joint : info_.joints) {
-    if (joint.command_interfaces.size() != 1) {
-      RCLCPP_FATAL(get_logger(), "Joint '%s' has %zu command interfaces found. 1 expected.",
-                   joint.name.c_str(), joint.command_interfaces.size());
-      return hardware_interface::CallbackReturn::ERROR;
-    }
+  // for (const hardware_interface::ComponentInfo& joint : info_.joints) {
+  //   if (joint.command_interfaces.size() != 1) {
+  //     RCLCPP_FATAL(get_logger(), "Joint '%s' has %zu command interfaces found. 1 expected.",
+  //                  joint.name.c_str(), joint.command_interfaces.size());
+  //     return hardware_interface::CallbackReturn::ERROR;
+  //   }
 
-    if (joint.command_interfaces[0].name != hardware_interface::HW_IF_VELOCITY) {
-      RCLCPP_FATAL(get_logger(), "Joint '%s' have %s command interfaces found. '%s' expected.",
-                   joint.name.c_str(), joint.command_interfaces[0].name.c_str(),
-                   hardware_interface::HW_IF_VELOCITY);
-      return hardware_interface::CallbackReturn::ERROR;
-    }
+  //   if ((joint.command_interfaces[0].name != hardware_interface::HW_IF_VELOCITY) &&
+  //       (joint.command_interfaces[0].name != hardware_interface::HW_IF_POSITION)) {
+  //     RCLCPP_FATAL(get_logger(), "Joint '%s' have %s command interfaces found. '%s' expected.",
+  //                  joint.name.c_str(), joint.command_interfaces[0].name.c_str(),
+  //                  hardware_interface::HW_IF_VELOCITY);
+  //     return hardware_interface::CallbackReturn::ERROR;
+  //   } else {
+  //     // joints_command_interfaces[0] = hardware_interface::HW_IF_POSITION;
+  //   }
 
-    if (joint.state_interfaces.size() != 2) {
-      RCLCPP_FATAL(get_logger(), "Joint '%s' has %zu state interface. 2 expected.",
-                   joint.name.c_str(), joint.state_interfaces.size());
-      return hardware_interface::CallbackReturn::ERROR;
-    }
+  //   // if (joint.state_interfaces.size() != 2) {
+  //   //   RCLCPP_FATAL(get_logger(), "Joint '%s' has %zu state interface. 2 expected.",
+  //   //                joint.name.c_str(), joint.state_interfaces.size());
+  //   //   return hardware_interface::CallbackReturn::ERROR;
+  //   // }
 
-    if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-      RCLCPP_FATAL(get_logger(), "Joint '%s' have '%s' as first state interface. '%s' expected.",
-                   joint.name.c_str(), joint.state_interfaces[0].name.c_str(),
-                   hardware_interface::HW_IF_POSITION);
-      return hardware_interface::CallbackReturn::ERROR;
-    }
+  //   if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
+  //     RCLCPP_FATAL(get_logger(), "Joint '%s' have '%s' as first state interface. '%s' expected.",
+  //                  joint.name.c_str(), joint.state_interfaces[0].name.c_str(),
+  //                  hardware_interface::HW_IF_POSITION);
+  //     return hardware_interface::CallbackReturn::ERROR;
+  //   }
 
-    if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY) {
-      RCLCPP_FATAL(get_logger(), "Joint '%s' have '%s' as second state interface. '%s' expected.",
-                   joint.name.c_str(), joint.state_interfaces[1].name.c_str(),
-                   hardware_interface::HW_IF_VELOCITY);
-      return hardware_interface::CallbackReturn::ERROR;
-    }
-  }
+  //   if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY) {
+  //     RCLCPP_FATAL(get_logger(), "Joint '%s' have '%s' as second state interface. '%s'
+  //     expected.",
+  //                  joint.name.c_str(), joint.state_interfaces[1].name.c_str(),
+  //                  hardware_interface::HW_IF_VELOCITY);
+  //     return hardware_interface::CallbackReturn::ERROR;
+  //   }
+  // }
 
   if (!rclcpp::ok()) {
     RCLCPP_DEBUG(get_logger(), "✓ Create default context");
@@ -112,11 +118,23 @@ MicroRos2SystemHardware::export_command_interfaces() {
   std::vector<hardware_interface::CommandInterface> command_interfaces;
   for (auto i = 0u; i < info_.joints.size(); i++) {
     command_interfaces.emplace_back(hardware_interface::CommandInterface(
-        info_.joints[i].name, hardware_interface::HW_IF_VELOCITY, &hw_commands_[i]));
+        info_.joints[i].name, info_.joints[i].command_interfaces[0].name, &hw_commands_[i]));
+    RCLCPP_DEBUG(get_logger(), "info_.joints[%d].name: %s info_.joints[%d].type: %s",
+                i, info_.joints[i].name.c_str(), i, info_.joints[i].command_interfaces[0].name.c_str());
   }
 
   return command_interfaces;
 }
+// std::vector<hardware_interface::CommandInterface>
+// MicroRos2SystemHardware::export_command_interfaces() {
+//   std::vector<hardware_interface::CommandInterface> command_interfaces;
+//   for (auto i = 0u; i < info_.joints.size(); i++) {
+//     command_interfaces.emplace_back(
+//         info_.joints[i].name,
+//         command_interface_types_[i],          // используем сохранённый тип
+//         &hw_commands_[i]);
+//   }
+//   return command_interfaces;
 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_activate(
     const rclcpp_lifecycle::State& /*previous_state*/) {
