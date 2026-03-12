@@ -6,6 +6,7 @@ e.lebedeva@rtc.ru
 ***********************************************************************************************************************************/
 
 #include <chrono>
+#include <geometry_msgs/msg/twist_stamped.hpp>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -32,17 +33,19 @@ public:
 
     publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(
         "/diff_drive_base_controller/cmd_vel_unstamped", 1);
+    publisher_twist_stam_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(
+        "/articulated_frame_controller/cmd_vel", 1);
     publisher_ = this->create_publisher<std_msgs::msg::Int16MultiArray>("/robot/robot_state", 1);
     subscription_ = this->create_subscription<std_msgs::msg::Int16MultiArray>(
         "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this, _1));
     timer_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timer_callback, this));
-    count_ = 0.0;
+    count_[0] = 0.0;
+    count_[1] = 0.0;
   }
   void check() {
     std::string command;
     std::cout << "ZHDU COMANDU... ";
-    std::cin >> command;
-    this->count_ = std::stod(command);
+    std::cin >> this->count_[0] >> this->count_[1];
 
     if (command != "") {
       if ((this->right_wheel != 543) || (this->left_wheel != 2356)) {
@@ -54,6 +57,19 @@ public:
     }
   }
   void timer_callback() {
+    auto message = geometry_msgs::msg::TwistStamped();
+
+    message.header.stamp = this->get_clock()->now();
+    message.header.frame_id = "base_link";
+    message.twist.linear.x = this->count_[0];
+    message.twist.linear.y = 0.0;
+    message.twist.linear.z = 0.0;
+
+    message.twist.angular.x = 0.0;
+    message.twist.angular.y = 0.0;
+    message.twist.angular.z = this->count_[1];
+    publisher_twist_stam_->publish(message);
+
     // == "/robot/robot_state" ==
     this->message.data[0] = 179;
     this->message.data[1] = right_wheel;
@@ -63,12 +79,12 @@ public:
     this->publisher_->publish(this->message);
 
     // == "/diff_drive_base_controller/cmd_vel_unstamped" ==
-    this->message_twist.linear.x = count_;
+    this->message_twist.linear.x = count_[0];
     this->message_twist.linear.y = 0;
     this->message_twist.linear.z = 0;
     this->message_twist.angular.x = 0;
     this->message_twist.angular.y = 0;
-    this->message_twist.angular.z = 0;
+    this->message_twist.angular.z = count_[1];
     this->publisher_twist_->publish(this->message_twist);
   }
 
@@ -81,12 +97,13 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::Int16MultiArray>::SharedPtr publisher_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_twist_;
+  rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr publisher_twist_stam_;
   rclcpp::Subscription<std_msgs::msg::Int16MultiArray>::SharedPtr subscription_;
   int right_wheel;
   int left_wheel;
   std_msgs::msg::Int16MultiArray message;
   geometry_msgs::msg::Twist message_twist;
-  double count_;
+  double count_[2];
 };
 
 int main(int argc, char* argv[]) {
