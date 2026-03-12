@@ -28,46 +28,6 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
   hw_positions_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_velocities_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
   hw_commands_.resize(info_.joints.size(), std::numeric_limits<double>::quiet_NaN());
-  // joints_command_interfaces.resize(info_.joints.size());
-
-  // for (const hardware_interface::ComponentInfo& joint : info_.joints) {
-  //   if (joint.command_interfaces.size() != 1) {
-  //     RCLCPP_FATAL(get_logger(), "Joint '%s' has %zu command interfaces found. 1 expected.",
-  //                  joint.name.c_str(), joint.command_interfaces.size());
-  //     return hardware_interface::CallbackReturn::ERROR;
-  //   }
-
-  //   if ((joint.command_interfaces[0].name != hardware_interface::HW_IF_VELOCITY) &&
-  //       (joint.command_interfaces[0].name != hardware_interface::HW_IF_POSITION)) {
-  //     RCLCPP_FATAL(get_logger(), "Joint '%s' have %s command interfaces found. '%s' expected.",
-  //                  joint.name.c_str(), joint.command_interfaces[0].name.c_str(),
-  //                  hardware_interface::HW_IF_VELOCITY);
-  //     return hardware_interface::CallbackReturn::ERROR;
-  //   } else {
-  //     // joints_command_interfaces[0] = hardware_interface::HW_IF_POSITION;
-  //   }
-
-  //   // if (joint.state_interfaces.size() != 2) {
-  //   //   RCLCPP_FATAL(get_logger(), "Joint '%s' has %zu state interface. 2 expected.",
-  //   //                joint.name.c_str(), joint.state_interfaces.size());
-  //   //   return hardware_interface::CallbackReturn::ERROR;
-  //   // }
-
-  //   if (joint.state_interfaces[0].name != hardware_interface::HW_IF_POSITION) {
-  //     RCLCPP_FATAL(get_logger(), "Joint '%s' have '%s' as first state interface. '%s' expected.",
-  //                  joint.name.c_str(), joint.state_interfaces[0].name.c_str(),
-  //                  hardware_interface::HW_IF_POSITION);
-  //     return hardware_interface::CallbackReturn::ERROR;
-  //   }
-
-  //   if (joint.state_interfaces[1].name != hardware_interface::HW_IF_VELOCITY) {
-  //     RCLCPP_FATAL(get_logger(), "Joint '%s' have '%s' as second state interface. '%s'
-  //     expected.",
-  //                  joint.name.c_str(), joint.state_interfaces[1].name.c_str(),
-  //                  hardware_interface::HW_IF_VELOCITY);
-  //     return hardware_interface::CallbackReturn::ERROR;
-  //   }
-  // }
 
   if (!rclcpp::ok()) {
     RCLCPP_DEBUG(get_logger(), "✓ Create default context");
@@ -118,23 +78,13 @@ MicroRos2SystemHardware::export_command_interfaces() {
   for (auto i = 0u; i < info_.joints.size(); i++) {
     command_interfaces.emplace_back(hardware_interface::CommandInterface(
         info_.joints[i].name, info_.joints[i].command_interfaces[0].name, &hw_commands_[i]));
-    RCLCPP_INFO(get_logger(), "info_.joints[%d].name: %s info_.joints[%d].type: %s", i,
+    RCLCPP_DEBUG(get_logger(), "info_.joints[%d].name: %s info_.joints[%d].type: %s", i,
                 info_.joints[i].name.c_str(), i,
                 info_.joints[i].command_interfaces[0].name.c_str());
   }
 
   return command_interfaces;
 }
-// std::vector<hardware_interface::CommandInterface>
-// MicroRos2SystemHardware::export_command_interfaces() {
-//   std::vector<hardware_interface::CommandInterface> command_interfaces;
-//   for (auto i = 0u; i < info_.joints.size(); i++) {
-//     command_interfaces.emplace_back(
-//         info_.joints[i].name,
-//         command_interface_types_[i],          // используем сохранённый тип
-//         &hw_commands_[i]);
-//   }
-//   return command_interfaces;
 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_activate(
     const rclcpp_lifecycle::State& /*previous_state*/) {
@@ -161,9 +111,6 @@ const void MicroRos2SystemHardware::micro_ros2_callback(const std_msgs::msg::Int
   for (int i = 0; i < this->hw_velocities_.size(); i++) {
     this->hw_velocities_[i] = msg.data[i + 1];
   }
-  // RCLCPP_INFO(get_logger(), "msg: %.3f, %.3f", msg.data[0], msg.data[1]);
-  // RCLCPP_INFO(get_logger(), "velocity: %.3f, %.3f", this->hw_velocities_[0],
-  //             this->hw_velocities_[1]);
 }
 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_deactivate(
