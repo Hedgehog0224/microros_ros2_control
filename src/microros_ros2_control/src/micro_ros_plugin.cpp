@@ -21,7 +21,6 @@ hardware_interface::CallbackReturn MicroRos2SystemHardware::on_init(
   }
   logger_ = std::make_shared<rclcpp::Logger>(
       rclcpp::get_logger("controller_manager.resource_manager.hardware_component.system"));
-  RCLCPP_ERROR(get_logger(), "[MicroRos2SystemHardware] ***** on_init *****");
 
   hw_start_sec_ = hardware_interface::stod(info_.hardware_parameters["hw_start_duration_sec"]);
   hw_stop_sec_ = hardware_interface::stod(info_.hardware_parameters["hw_stop_duration_sec"]);
@@ -119,8 +118,9 @@ MicroRos2SystemHardware::export_command_interfaces() {
   for (auto i = 0u; i < info_.joints.size(); i++) {
     command_interfaces.emplace_back(hardware_interface::CommandInterface(
         info_.joints[i].name, info_.joints[i].command_interfaces[0].name, &hw_commands_[i]));
-    RCLCPP_DEBUG(get_logger(), "info_.joints[%d].name: %s info_.joints[%d].type: %s",
-                i, info_.joints[i].name.c_str(), i, info_.joints[i].command_interfaces[0].name.c_str());
+    RCLCPP_INFO(get_logger(), "info_.joints[%d].name: %s info_.joints[%d].type: %s", i,
+                info_.joints[i].name.c_str(), i,
+                info_.joints[i].command_interfaces[0].name.c_str());
   }
 
   return command_interfaces;
