@@ -79,8 +79,8 @@ MicroRos2SystemHardware::export_command_interfaces() {
     command_interfaces.emplace_back(hardware_interface::CommandInterface(
         info_.joints[i].name, info_.joints[i].command_interfaces[0].name, &hw_commands_[i]));
     RCLCPP_DEBUG(get_logger(), "info_.joints[%d].name: %s info_.joints[%d].type: %s", i,
-                info_.joints[i].name.c_str(), i,
-                info_.joints[i].command_interfaces[0].name.c_str());
+                 info_.joints[i].name.c_str(), i,
+                 info_.joints[i].command_interfaces[0].name.c_str());
   }
 
   return command_interfaces;
