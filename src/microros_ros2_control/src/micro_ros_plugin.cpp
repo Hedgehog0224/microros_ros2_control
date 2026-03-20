@@ -112,7 +112,7 @@ const void MicroRos2SystemHardware::micro_ros2_callback(const std_msgs::msg::Int
     this->hw_velocities_[i] = msg.data[i + 1];
   }
 }
-
+ 
 hardware_interface::CallbackReturn MicroRos2SystemHardware::on_deactivate(
     const rclcpp_lifecycle::State& /*previous_state*/) {
   RCLCPP_INFO(get_logger(), "Deactivating ...please wait...");

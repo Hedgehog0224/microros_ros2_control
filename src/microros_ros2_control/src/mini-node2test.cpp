@@ -30,66 +30,84 @@ public:
     auto message = std_msgs::msg::Int16MultiArray();
     std::vector<int16_t> placeholder(5, 0);
     this->message.data = placeholder;
+    this->config();
 
-    publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(
-        "/diff_drive_base_controller/cmd_vel_unstamped", 1);
-    publisher_twist_stam_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(
-        "/articulated_frame_controller/cmd_vel", 1);
-    publisher_twist_stam_acer_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(
-        "/ackermann_steering_controller/reference", 1);
-    publisher_ = this->create_publisher<std_msgs::msg::Int16MultiArray>("/robot/robot_state", 1);
-    // subscription_ = this->create_subscription<std_msgs::msg::Int16MultiArray>(
-    //     "/robot/wheel_speeds", qos_profile, std::bind(&MinimalPublisher::topic_callback, this,
-    //     _1));
+    if (mode_ == 1){
+      publisher_twist_ = this->create_publisher<geometry_msgs::msg::Twist>(
+          "/diff_drive_base_controller/cmd_vel_unstamped", 1);}
+
+    if ((mode_ == 2) || (mode_ == 3)){
+      publisher_twist_stam_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(
+          "/articulated_frame_controller/cmd_vel", 1);}
+
+    if (mode_ == 4){
+      publisher_twist_stam_acer_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(
+        "/ackermann_steering_controller/reference", 1);}
+
+    if ((mode_ == 1) || (mode_ == 2)){
+      publisher_ = this->create_publisher<std_msgs::msg::Int16MultiArray>("/robot/robot_state", 1);}
+
     timer_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timer_callback, this));
     count_[0] = 0.0;
     count_[1] = 0.0;
+    count_[2] = 0.0;
+  }
+  int config() {
+    std::cout << "REZHIM (1 - dif (x,z); 2 - artic-micro (Vf, Vt, w); 3 - aric-gz (V, w)); 4 - ackermann: ";
+    std::cin >> mode_;
   }
   void check() {
     // std::string command;
     std::cout << "ZHDU COMANDU... ";
-    std::cin >> this->count_[0] >> this->count_[1] >> this->count_[2];
-
-    // if (command != "") {
-    //   if ((this->right_wheel != 543) || (this->left_wheel != 2356)) {
-    //     RCLCPP_INFO(this->get_logger(), "PYPYPY NE WORCKAET.. %d, %d", this->right_wheel,
-    //                 this->left_wheel, this->angle);
-    //   } else {
-    //     RCLCPP_INFO(this->get_logger(), "OLL WORCKAET KAK CHAS'S");
-    //   }
-    // }
+    if (mode_ != 2)
+    {
+      std::cin >> this->count_[0] >> this->count_[1];
+      this->count_[2] = 42;
+    }
+    else
+    {
+      std::cin >> this->count_[0] >> this->count_[1] >> this->count_[2];
+    }
   }
   void timer_callback() {
-    auto message = geometry_msgs::msg::TwistStamped();
+    if (mode_ != 1){
+      auto message = geometry_msgs::msg::TwistStamped();
+      message.header.stamp = this->get_clock()->now();
+      message.header.frame_id = "base_link";
+      message.twist.linear.x = this->count_[0];
+      message.twist.linear.y = 0.0;
+      message.twist.linear.z = 0.0;
 
-    message.header.stamp = this->get_clock()->now();
-    message.header.frame_id = "base_link";
-    message.twist.linear.x = this->count_[0];
-    message.twist.linear.y = 0.0;
-    message.twist.linear.z = 0.0;
+      message.twist.angular.x = 0.0;
+      message.twist.angular.y = 0.0;
+      message.twist.angular.z = this->count_[1];
 
-    message.twist.angular.x = 0.0;
-    message.twist.angular.y = 0.0;
-    message.twist.angular.z = this->count_[1];
-    publisher_twist_stam_->publish(message);
-    publisher_twist_stam_acer_->publish(message);
+      if (mode_ == 4) {
+      publisher_twist_stam_acer_->publish(message);}
+      else{
+      publisher_twist_stam_->publish(message);}
+    }
 
     // == "/robot/robot_state" ==
-    this->message.data[0] = 179;
-    this->message.data[1] = this->count_[0];
-    this->message.data[2] = this->count_[1];
-    this->message.data[3] = this->count_[2];
-    this->message.data[4] = 50;
-    this->publisher_->publish(this->message);
+    if ((mode_ == 1) || (mode_ == 2)){
+      this->message.data[0] = 179;
+      this->message.data[1] = this->count_[0];
+      this->message.data[2] = this->count_[1];
+      this->message.data[3] = this->count_[2];
+      this->message.data[4] = 42;
+      this->publisher_->publish(this->message);
+    }
 
     // == "/diff_drive_base_controller/cmd_vel_unstamped" ==
-    this->message_twist.linear.x = count_[0];
-    this->message_twist.linear.y = 0;
-    this->message_twist.linear.z = 0;
-    this->message_twist.angular.x = 0;
-    this->message_twist.angular.y = 0;
-    this->message_twist.angular.z = count_[1];
-    this->publisher_twist_->publish(this->message_twist);
+    if (mode_ == 1){
+      this->message_twist.linear.x = count_[0];
+      this->message_twist.linear.y = 0;
+      this->message_twist.linear.z = 0;
+      this->message_twist.angular.x = 0;
+      this->message_twist.angular.y = 0;
+      this->message_twist.angular.z = count_[1];
+      this->publisher_twist_->publish(this->message_twist);
+    }
   }
 
   // const void topic_callback(const std_msgs::msg::Int16MultiArray& msg) {
@@ -109,6 +127,7 @@ private:
   // int angle;
   std_msgs::msg::Int16MultiArray message;
   geometry_msgs::msg::Twist message_twist;
+  int mode_;
   double count_[3];
 };
 
