@@ -24,7 +24,6 @@ e.lebedeva@rtc.ru
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
-
 #include "std_msgs/msg/int16_multi_array.hpp"
 
 namespace microros_ros2_control {
